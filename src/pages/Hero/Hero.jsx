@@ -206,7 +206,7 @@ const Hero = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     observer.observe(ref.current);
@@ -300,7 +300,7 @@ const Hero = () => {
                           ?.replace(/^"(.*)"$/, "$1")
                           ?.slice(0, 500)
                           .trim(),
-                        options
+                        options,
                       )}{" "}
                       {"..."}
                     </p>
@@ -436,7 +436,7 @@ const Hero = () => {
                     latestCampaigns?.data?.data?.latestCampaigns?.[1]?.description
                       ?.replace(/\\n/g, "")
                       ?.replace(/^"(.*)"$/, "$1"),
-                    options
+                    options,
                   )}
                   campaignName={
                     latestCampaigns?.data?.data?.latestCampaigns?.[1]
@@ -455,7 +455,7 @@ const Hero = () => {
                     latestCampaigns?.data?.data?.latestCampaigns?.[2]?.description
                       .replace(/\\n/g, "")
                       ?.replace(/^"(.*)"$/, "$1"),
-                    options
+                    options,
                   )}
                   campaignName={
                     latestCampaigns?.data?.data?.latestCampaigns?.[2]
@@ -628,7 +628,7 @@ const Hero = () => {
                           articleItem={item}
                         />
                       );
-                    }
+                    },
                   )}
             </div>
           </div>
@@ -652,9 +652,19 @@ const Hero = () => {
         <div>
           <h2>Blimp has your back.</h2>
           <p>
-            Backed by careful safety measures and straightforward pricing, we're
-            here to help you raise funds or give with confidence and peace of
-            mind.
+            Fundraising on Blimp is simple, secure, and built on trust. Whether
+            you're raising money for yourself, friends, family, or a cause close
+            to your heart, Blimp provides everything you need to succeed.
+          </p>
+          <p>
+            With transparent pricing, reliable safety checks, and an easy-to-use
+            platform, Blimp removes the stress from fundraising and giving. From
+            personal emergencies to community initiatives, we're here to help
+            you raise funds or contribute with confidence and peace of mind.
+          </p>
+          <p>
+            Need help along the way? Our support resources are always available
+            to guide you through every step of your journey.
           </p>
         </div>
       </section>

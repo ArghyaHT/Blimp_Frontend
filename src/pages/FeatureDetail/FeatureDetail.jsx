@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./FeatureDetail.module.css";
 import {
   FacebookIcon,
@@ -25,8 +25,6 @@ const FeatureDetail = () => {
 
   const location = useLocation();
   const featureItem = location.state;
-
-  // console.log("Feature Item ", featureItem);
 
   const [featureItemDetail, setFeatureItemDetail] = useState({
     loading: false,
@@ -147,7 +145,6 @@ const FeatureDetail = () => {
   }, [page, featureItem?.id]);
 
   const options = {
-    // wordwrap: 130,
     wordwrap: false,
     selectors: [
       { selector: "h1", format: "block" },
@@ -156,17 +153,34 @@ const FeatureDetail = () => {
     // ...
   };
 
+  const [showStickyDonate, setShowStickyDonate] = useState(false);
+  const donateTriggerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!donateTriggerRef.current) return;
+
+      const triggerPoint =
+        donateTriggerRef.current.getBoundingClientRect().bottom;
+
+      // Show sticky button once original donate button scrolls out
+      if (triggerPoint < 0 && window.innerWidth <= 768) {
+        setShowStickyDonate(true);
+      } else {
+        setShowStickyDonate(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <main>
       <section className={style.featureDetailContainer}>
         <div>
           {featureItemDetail?.loading ? (
-            <Skeleton
-              variant="rectangular"
-              width={"100%"}
-              height={"4rem"}
-              // sx={{ bgcolor: "black" }}
-            />
+            <Skeleton variant="rectangular" width={"100%"} height={"4rem"} />
           ) : (
             <h2>{featureItemDetail?.data?.data?.campaign_name}</h2>
           )}
@@ -179,12 +193,7 @@ const FeatureDetail = () => {
 
           <div className={style.donationContainer}>
             {featureItemDetail?.loading ? (
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={"4rem"}
-                // sx={{ bgcolor: "black" }}
-              />
+              <Skeleton variant="rectangular" width={"100%"} height={"4rem"} />
             ) : (
               <p>
                 Published by:{" "}
@@ -193,12 +202,7 @@ const FeatureDetail = () => {
             )}
 
             {featureItemDetail?.loading ? (
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={"10rem"}
-                // sx={{ bgcolor: "black" }}
-              />
+              <Skeleton variant="rectangular" width={"100%"} height={"10rem"} />
             ) : (
               <>
                 <ProgressBar
@@ -234,9 +238,20 @@ const FeatureDetail = () => {
                     onClick={() => {
                       navigate("/checkout");
                     }}
+                    ref={donateTriggerRef}
                   >
                     donate
                   </button>
+
+                  {/* <div ref={donateTriggerRef}>
+                    <button
+                      onClick={() => {
+                        navigate("/checkout");
+                      }}
+                    >
+                      donate
+                    </button>
+                  </div> */}
                 </div>
               </>
             )}
@@ -244,12 +259,7 @@ const FeatureDetail = () => {
 
           <div>
             {featureItemDetail?.loading ? (
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={"10rem"}
-                // sx={{ bgcolor: "black" }}
-              />
+              <Skeleton variant="rectangular" width={"100%"} height={"10rem"} />
             ) : (
               <>
                 <h2>Campaign Details</h2>
@@ -277,13 +287,13 @@ const FeatureDetail = () => {
                     featureItem?.description
                       .replace(/\\n/g, "")
                       ?.replace(/^"(.*)"$/, "$1"),
-                    options
+                    options,
                   )}
                 </p>
               </>
             )}
           </div>
-
+          
           <div className={style.addGalleryContainer}>
             {featureItemDetail?.loading ? (
               <Skeleton
@@ -296,7 +306,7 @@ const FeatureDetail = () => {
               featureItemDetail?.data?.data?.campaignsImages?.map(
                 (item, index) => {
                   return <img key={item.id} src={item.image} alt="" />;
-                }
+                },
               )
             )}
           </div>
@@ -333,7 +343,7 @@ const FeatureDetail = () => {
                                 ? "A"
                                 : `${item?.first_name?.slice(
                                     0,
-                                    1
+                                    1,
                                   )}${item?.last_name?.slice(0, 1)}`}
                             </h2>
                           </div>
@@ -362,7 +372,7 @@ const FeatureDetail = () => {
                         </div>
                       </div>
                     );
-                  }
+                  },
                 )}
 
                 <div className={style.supporterPaginationContainer}>
@@ -432,6 +442,17 @@ const FeatureDetail = () => {
           <button>more news</button>
         </div>
       </section>
+
+      {showStickyDonate && (
+        <div className={style.stickyDonateWrapper}>
+          <button
+            className={style.stickyDonateButton}
+            onClick={() => navigate("/checkout")}
+          >
+            Donate Now
+          </button>
+        </div>
+      )}
     </main>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./AboutUs.module.css";
 import WorkCard from "../../components/WorkCard/WorkCard";
 import FocusCard from "../../components/FocusCard/FocusCard";
@@ -78,6 +78,28 @@ const AboutUs = () => {
     },
   ];
 
+  const [showStickyDonate, setShowStickyDonate] = useState(false);
+  const donateTriggerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!donateTriggerRef.current) return;
+
+      const triggerPoint =
+        donateTriggerRef.current.getBoundingClientRect().bottom;
+
+      // Show sticky button once original donate button scrolls out
+      if (triggerPoint < 0 && window.innerWidth <= 768) {
+        setShowStickyDonate(true);
+      } else {
+        setShowStickyDonate(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <main className={style.about_wrapper_container}>
       <div className={style.about_wrapper_content_container}>
@@ -141,6 +163,7 @@ const AboutUs = () => {
                 onClick={() => {
                   navigate("/checkout");
                 }}
+                ref={donateTriggerRef}
               >
                 <p>donate</p>
               </button>
@@ -195,6 +218,17 @@ const AboutUs = () => {
           <button>more news</button>
         </section>
       </div>
+
+      {showStickyDonate && (
+        <div className={style.stickyDonateWrapper}>
+          <button
+            className={style.stickyDonateButton}
+            onClick={() => navigate("/checkout")}
+          >
+            Donate Now
+          </button>
+        </div>
+      )}
     </main>
   );
 };

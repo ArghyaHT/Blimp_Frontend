@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./NewsDetail.module.css";
 import BlogCard from "../../components/BlogCard/BlogCard";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -64,6 +64,28 @@ const NewsDetail = () => {
     fetchLatestArticles();
   }, []);
 
+  const [showStickyDonate, setShowStickyDonate] = useState(false);
+  const donateTriggerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!donateTriggerRef.current) return;
+
+      const triggerPoint =
+        donateTriggerRef.current.getBoundingClientRect().bottom;
+
+      // Show sticky button once original donate button scrolls out
+      if (triggerPoint < 0 && window.innerWidth <= 768) {
+        setShowStickyDonate(true);
+      } else {
+        setShowStickyDonate(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <main>
       <section className={style.newsDetailContainer}>
@@ -85,7 +107,9 @@ const NewsDetail = () => {
             <p>{newsDetailItem?.data?.data?.description}</p>
           </div>
 
-          <button>donate now</button>
+          <button ref={donateTriggerRef} onClick={() => navigate("/checkout")}>
+            donate now
+          </button>
 
           <div className={style.addsContainer}>
             <h2>Run Ads / Causes section</h2>
@@ -141,6 +165,17 @@ const NewsDetail = () => {
           <button>more news</button>
         </div>
       </section>
+
+      {showStickyDonate && (
+        <div className={style.stickyDonateWrapper}>
+          <button
+            className={style.stickyDonateButton}
+            onClick={() => navigate("/checkout")}
+          >
+            Donate Now
+          </button>
+        </div>
+      )}
     </main>
   );
 };
