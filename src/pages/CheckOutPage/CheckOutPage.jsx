@@ -28,14 +28,13 @@ const CheckOutPage = () => {
 
   const [value, setValue] = useState([0, 50]);
 
-  console.log(value);
   return (
     <main>
       <section className={style.checkoutSectionContainer}>
         <div>
           <div>
             <p>Reduce Homelessness</p>
-            <p>Still $8271 to go. Help us build momemtum</p>
+            <p>Still $8271 to go. Help us amplify</p>
           </div>
           <div>
             {/* <img
@@ -86,10 +85,12 @@ const CheckOutPage = () => {
                       }}
                       style={{
                         backgroundColor:
-                          selectedTab === item ? "#274A34" : "#fff",
+                          selectedTab === item
+                            ? "var(--btn-base-color)"
+                            : "#fff",
                         color:
                           selectedTab === item
-                            ? "#CBF78D"
+                            ? "#000"
                             : "var(--text-primary)",
                       }}
                     >
@@ -161,7 +162,7 @@ const CheckOutPage = () => {
                     transition: "left 0s linear",
                   }}
                 >
-                  {value[1]}
+                  {value[1]}%
                 </div>
 
                 {/* Slider */}
