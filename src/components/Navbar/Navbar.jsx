@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "./Navbar.module.css";
-import blimpLogoBlack from "../../assets/blimpLogoBlack.svg";
+import blimpLogoBlack from "../../assets/BlimpLogo1.png";
 import { AccountIcon, MenuIcon, ProfileIcon, SearchIcon } from "../../icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -50,9 +50,8 @@ const Navbar = () => {
                 <li key={item.name}>
                   <a
                     href={item.url}
-                    className={`${style.navLink} ${
-                      location.pathname === item.url ? style.navLinkActive : ""
-                    }`}
+                    className={`${style.navLink} ${location.pathname === item.url ? style.navLinkActive : ""
+                      }`}
                   >
                     {item.name}
                   </a>

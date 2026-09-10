@@ -349,8 +349,9 @@ const Hero = () => {
 
                     <button
                       onClick={() => {
+
                         window.scrollTo(0, 0);
-                        navigate("/checkout");
+                        navigate("/checkout", { state: latestCampaigns?.data?.data?.latestCampaigns?.[0] });
                       }}
                     >
                       Donate

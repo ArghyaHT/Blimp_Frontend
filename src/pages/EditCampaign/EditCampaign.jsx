@@ -48,10 +48,10 @@ const EditCampaign = () => {
       id: 7,
       name: "Story",
     },
-    {
-      id: 8,
-      name: "Payment",
-    },
+    // {
+    //   id: 8,
+    //   name: "Payment",
+    // },
   ]);
   const [selectedStep, setSelectedStep] = useState(1);
 
@@ -144,6 +144,24 @@ const EditCampaign = () => {
 
   const [beneficiaryDetail, setBeneficiaryDetail] = useState(
     edit_campaign_item?.team_memeber_name
+  );
+  const [bankName, setBankName] = useState(
+    edit_campaign_item?.bank_name || JSON.parse(localStorage.getItem("bankName") || "\"\"")
+  );
+  const [bankAddress, setBankAddress] = useState(
+    edit_campaign_item?.bank_address || JSON.parse(localStorage.getItem("bankAddress") || "\"\"")
+  );
+  const [accountHolderName, setAccountHolderName] = useState(
+    edit_campaign_item?.account_holder_name ||
+      JSON.parse(localStorage.getItem("accountHolderName") || "\"\"") ||
+      user?.fullname ||
+      ""
+  );
+  const [accountNumber, setAccountNumber] = useState(
+    edit_campaign_item?.account_number || JSON.parse(localStorage.getItem("accountNumber") || "\"\"")
+  );
+  const [bankIfsc, setBankIfsc] = useState(
+    edit_campaign_item?.bank_ifsc || JSON.parse(localStorage.getItem("bankIfsc") || "\"\"")
   );
   const [selectedCampaignImages, setSelectedCampaignImages] = useState(
     edit_campaign_item?.campaignsImages
@@ -320,6 +338,13 @@ const EditCampaign = () => {
       });
     }
 
+    // if (!bankName.trim() || !accountHolderName.trim() || !accountNumber.trim() || !bankIfsc.trim()) {
+    //   return toast.error("Please complete your payment details", {
+    //     duration: 3000,
+    //     style: toastStyle,
+    //   });
+    // }
+
     try {
       const formData = new FormData();
 
@@ -337,6 +362,14 @@ const EditCampaign = () => {
       formData.append("request_for_donor", 1);
       formData.append("team_memeber_name", beneficiaryDetail);
       formData.append("is_draft", 0);
+      formData.append("bank_name", bankName);
+      formData.append("bank_address", bankAddress);
+      formData.append("account_holder_name", accountHolderName);
+      formData.append("account_number", accountNumber);
+      formData.append("bank_ifsc", bankIfsc);
+      formData.append("bank_account_name", accountHolderName);
+      formData.append("bank_account_number", accountNumber);
+      formData.append("ifsc_code", bankIfsc);
 
       // ✅ Append single file
       if (bannerImage?.file) {
@@ -399,8 +432,8 @@ const EditCampaign = () => {
 
             {selectedStep === 7 && "What’s the purpose of your fundraiser?"}
 
-            {selectedStep === 8 &&
-              "Congratulations! Your campaign has been successfully created."}
+            {/* {selectedStep === 8 &&
+              "Congratulations! Your campaign has been successfully created."} */}
           </h2>
           <p>
             {selectedStep === 1 &&
@@ -424,8 +457,8 @@ const EditCampaign = () => {
             {selectedStep === 7 &&
               "Share the story behind your campaign. Include details like the background of the issue, who you are, what you're working on, and why it matters to you. Let donors know how the funds will be used.Aim for about 500 words (roughly 2,500 characters) for the most effective description. And don't worry—you can update it anytime."}
 
-            {selectedStep === 8 &&
-              "No worries if it's not perfect yet—you can keep editing it before you launch."}
+            {/* {selectedStep === 8 &&
+              "No worries if it's not perfect yet—you can keep editing it before you launch."} */}
           </p>
         </div>
 
@@ -964,25 +997,84 @@ const EditCampaign = () => {
               onClick={() => {
                 if (
                   !selectedCampaingDescription ||
-                  selectedCampaignImages.length === 0 ||
-                  !beneficiaryDetail
+                  selectedCampaignImages.length === 0
                 ) {
                   return;
                 }
 
-                setSelectedStep(8);
+                edit_campaign_handler();
               }}
+              disabled={editCampaign.loading}
+              className={styles.submitPaymentBtn}
             >
-              Continue
+              {editCampaign.loading ? (
+                <ClipLoader
+                  size="3rem"
+                  aria-label="Loading Spinner"
+                  data-testid="loader"
+                  color="#fff"
+                />
+              ) : (
+                "Save"
+              )}
             </button>
           </div>
         )}
 
-        {selectedStep === 8 && (
+        {/* {selectedStep === 8 && (
           <div className={styles.stepperPaymentContainer}>
+            <div className={styles.paymentFormGroup}>
+              <div>
+                <label>Bank Name *</label>
+                <input
+                  type="text"
+                  value={bankName}
+                  onChange={(e) => setBankName(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label>Bank Address</label>
+                <input
+                  type="text"
+                  value={bankAddress}
+                  onChange={(e) => setBankAddress(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label>Account Holder Name *</label>
+                <input
+                  type="text"
+                  value={accountHolderName}
+                  onChange={(e) => setAccountHolderName(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label>Account Number *</label>
+                <input
+                  type="text"
+                  value={accountNumber}
+                  onChange={(e) => setAccountNumber(e.target.value.replace(/[^0-9]/g, ""))}
+                />
+              </div>
+
+              <div>
+                <label>Bank IFSC / SWIFT Code *</label>
+                <input
+                  type="text"
+                  value={bankIfsc}
+                  onChange={(e) => setBankIfsc(e.target.value.toUpperCase())}
+                />
+              </div>
+            </div>
+
             <button
               onClick={edit_campaign_handler}
               disabled={editCampaign.loading}
+              className={styles.submitPaymentBtn}
+              
             >
               {editCampaign.loading ? (
                 <ClipLoader
@@ -992,11 +1084,11 @@ const EditCampaign = () => {
                   color="#fff"
                 />
               ) : (
-                "Setup Payment"
+                "Edit Payment & Continue"
               )}
             </button>
           </div>
-        )}
+        )} */}
       </div>
     </section>
   );

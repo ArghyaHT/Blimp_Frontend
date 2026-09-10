@@ -31,6 +31,16 @@ const StartCampaign = () => {
     JSON.parse(localStorage.getItem("beneficiaryDetail")) || "";
   const parseSelectedCampaingDescription =
     JSON.parse(localStorage.getItem("selectedCampaingDescription")) || "";
+  const parseBankName =
+    JSON.parse(localStorage.getItem("bankName")) || "";
+  const parseBankAddress =
+    JSON.parse(localStorage.getItem("bankAddress")) || "";
+  const parseAccountHolderName =
+    JSON.parse(localStorage.getItem("accountHolderName")) || "";
+  const parseAccountNumber =
+    JSON.parse(localStorage.getItem("accountNumber")) || "";
+  const parseBankIfsc =
+    JSON.parse(localStorage.getItem("bankIfsc")) || "";
 
   useEffect(() => {
     const fetch_banner_image = async () => {
@@ -206,6 +216,13 @@ const StartCampaign = () => {
   const [beneficiaryDetail, setBeneficiaryDetail] = useState(
     parseBeneficiaryDetail
   );
+  const [bankName, setBankName] = useState(parseBankName);
+  const [bankAddress, setBankAddress] = useState(parseBankAddress);
+  const [accountHolderName, setAccountHolderName] = useState(
+    parseAccountHolderName || user?.fullname || ""
+  );
+  const [accountNumber, setAccountNumber] = useState(parseAccountNumber);
+  const [bankIfsc, setBankIfsc] = useState(parseBankIfsc);
   const [selectedCampaignImages, setSelectedCampaignImages] = useState([]);
   const [bannerImage, setBannerImage] = useState("");
 
@@ -382,6 +399,34 @@ const StartCampaign = () => {
       });
     }
 
+    if (!bankName.trim()) {
+      return toast.error("Bank name is required", {
+        duration: 3000,
+        style: toastStyle,
+      });
+    }
+
+    if (!accountHolderName.trim()) {
+      return toast.error("Account holder name is required", {
+        duration: 3000,
+        style: toastStyle,
+      });
+    }
+
+    if (!accountNumber.toString().trim()) {
+      return toast.error("Account number is required", {
+        duration: 3000,
+        style: toastStyle,
+      });
+    }
+
+    if (!bankIfsc.trim()) {
+      return toast.error("Bank IFSC / SWIFT code is required", {
+        duration: 3000,
+        style: toastStyle,
+      });
+    }
+
     try {
       const formData = new FormData();
 
@@ -402,6 +447,14 @@ const StartCampaign = () => {
       formData.append("request_for_donor", 1);
       formData.append("team_memeber_name", beneficiaryDetail);
       formData.append("is_draft", 0);
+      formData.append("bank_name", bankName);
+      formData.append("bank_address", bankAddress);
+      formData.append("account_holder_name", accountHolderName);
+      formData.append("account_number", accountNumber);
+      formData.append("bank_ifsc", bankIfsc);
+      formData.append("bank_account_name", accountHolderName);
+      formData.append("bank_account_number", accountNumber);
+      formData.append("ifsc_code", bankIfsc);
 
       // ✅ Append single file
       if (bannerImage?.file) {
@@ -434,6 +487,11 @@ const StartCampaign = () => {
           "targetedAmount",
           "userEmail",
           "userFullname",
+          "bankName",
+          "bankAddress",
+          "accountHolderName",
+          "accountNumber",
+          "bankIfsc",
         ];
 
         keysToRemove.forEach((key) => localStorage.removeItem(key));
@@ -1504,10 +1562,81 @@ const StartCampaign = () => {
         )}
 
         {selectedStep === 8 && (
+          
           <div className={styles.stepperPaymentContainer}>
+            <div className={styles.paymentFormGroup}>
+              <div>
+                <label>Bank Name *</label>
+                <input
+                  type="text"
+                  placeholder="e.g. HDFC Bank, Chase, Barclays"
+                  value={bankName}
+                  onChange={(e) => {
+                    setBankName(e.target.value);
+                    localStorage.setItem("bankName", JSON.stringify(e.target.value));
+                  }}
+                />
+              </div>
+
+              <div>
+                <label>Bank Branch / Address</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Downtown Branch, New York"
+                  value={bankAddress}
+                  onChange={(e) => {
+                    setBankAddress(e.target.value);
+                    localStorage.setItem("bankAddress", JSON.stringify(e.target.value));
+                  }}
+                />
+              </div>
+
+              <div>
+                <label>Account Holder Name *</label>
+                <input
+                  type="text"
+                  placeholder="Full name as on bank account"
+                  value={accountHolderName}
+                  onChange={(e) => {
+                    setAccountHolderName(e.target.value);
+                    localStorage.setItem("accountHolderName", JSON.stringify(e.target.value));
+                  }}
+                />
+              </div>
+
+              <div>
+                <label>Account Number *</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 1234567890"
+                  value={accountNumber}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/[^0-9]/g, "");
+                    setAccountNumber(val);
+                    localStorage.setItem("accountNumber", JSON.stringify(val));
+                  }}
+                />
+              </div>
+
+              <div>
+                <label>Bank IFSC / SWIFT Code *</label>
+                <input
+                  type="text"
+                  placeholder="e.g. HDFC0001234 / CHASUS33"
+                  value={bankIfsc}
+                  onChange={(e) => {
+                    const val = e.target.value.toUpperCase();
+                    setBankIfsc(val);
+                    localStorage.setItem("bankIfsc", JSON.stringify(val));
+                  }}
+                />
+              </div>
+            </div>
+
             <button
               onClick={start_campaign_handler}
               disabled={startCampaign.loading}
+              className={styles.submitPaymentBtn}
             >
               {startCampaign.loading ? (
                 <ClipLoader
@@ -1517,7 +1646,7 @@ const StartCampaign = () => {
                   color="#fff"
                 />
               ) : (
-                "Setup Payment"
+                "Save Payment & Launch Campaign"
               )}
             </button>
           </div>

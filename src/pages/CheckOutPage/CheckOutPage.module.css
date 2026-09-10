@@ -1,7 +1,9 @@
 .checkoutSectionContainer {
-  padding: 0rem 7.5rem 7.5rem 7.5rem;
-  background-color: #f5f5f5;
   padding: 2rem;
+  background-color: #f5f5f5;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
 
   & > div {
     display: flex;
@@ -13,6 +15,7 @@
     padding: 2rem;
     border-radius: 1rem;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    box-sizing: border-box;
 
     & > div:nth-child(1) {
       display: flex;
@@ -27,7 +30,6 @@
 
       & > p:nth-child(2) {
         font-size: 1.6rem;
-        /* font-weight: bold; */
         text-align: center;
       }
     }
@@ -36,6 +38,7 @@
       & > img {
         height: 60vh;
         width: 100%;
+        object-fit: cover;
       }
 
       .donationContainer {
@@ -51,10 +54,6 @@
         & > div:nth-child(2) {
           padding: 1rem;
           border-radius: 0.8rem;
-          -webkit-border-radius: 0.8rem;
-          -moz-border-radius: 0.8rem;
-          -ms-border-radius: 0.8rem;
-          -o-border-radius: 0.8rem;
           border: 0.1rem solid rgba(142, 142, 142, 1);
           display: flex;
           flex-direction: row;
@@ -82,10 +81,6 @@
             width: 5.5rem;
             height: 5.5rem;
             border-radius: 50%;
-            -webkit-border-radius: 50%;
-            -moz-border-radius: 50%;
-            -ms-border-radius: 50%;
-            -o-border-radius: 50%;
             background-color: rgba(108, 235, 40, 1);
             padding: 0.4rem;
 
@@ -93,10 +88,6 @@
               width: 100%;
               height: 100%;
               border-radius: 50%;
-              -webkit-border-radius: 50%;
-              -moz-border-radius: 50%;
-              -ms-border-radius: 50%;
-              -o-border-radius: 50%;
               background-color: var(--bg-primary);
               display: flex;
               justify-content: center;
@@ -127,18 +118,13 @@
             width: 4rem;
             height: 4rem;
             border-radius: 50%;
-            background-color: transparent;
+            background-color: rgba(10, 132, 255, 1);
             border: 0.2rem solid rgba(255, 255, 255, 1);
             display: grid;
             place-items: center;
             color: #ffffff;
             padding: 0.5rem;
             cursor: pointer;
-            -webkit-border-radius: 50%;
-            -moz-border-radius: 50%;
-            -ms-border-radius: 50%;
-            -o-border-radius: 50%;
-            background-color: rgba(10, 132, 255, 1);
           }
         }
       }
@@ -147,6 +133,7 @@
         display: flex;
         flex-direction: column;
         gap: 2rem;
+        width: 100%;
 
         .donationTabContainer {
           height: 6.8rem;
@@ -157,6 +144,7 @@
           align-items: center;
           justify-content: space-between;
           gap: 2rem;
+          box-sizing: border-box;
 
           & > button {
             height: 100%;
@@ -166,6 +154,7 @@
             cursor: pointer;
             font-size: 1.4rem;
             font-weight: 600;
+            transition: 0.2s ease;
           }
         }
 
@@ -173,13 +162,19 @@
           font-size: 1.4rem;
           color: gray;
           text-align: center;
+          margin: 0;
         }
+
+        /* ------------------------------------
+           DONATION AMOUNTS
+        ------------------------------------ */
 
         & > div:nth-child(3) {
           display: flex;
           align-items: center;
           gap: 2rem;
           justify-content: space-between;
+          width: 100%;
 
           & > div {
             width: calc(100% / 5);
@@ -189,12 +184,25 @@
             justify-content: center;
             align-items: center;
             border-radius: 0.5rem;
+            transition: 0.2s ease;
+            box-sizing: border-box;
+            user-select: none;
+
+            &:hover {
+              transform: translateY(-1px);
+              box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            }
 
             & > p {
               font-weight: 600;
+              margin: 0;
             }
           }
         }
+
+        /* ------------------------------------
+           SELECTED AMOUNT
+        ------------------------------------ */
 
         & > div:nth-child(4) {
           border: 1px solid var(--text-primary);
@@ -204,12 +212,23 @@
           align-items: center;
           border-radius: 0.5rem;
           padding: 1.5rem 2rem;
+          box-sizing: border-box;
 
           & > p {
             font-size: 2.8rem;
             font-weight: 600;
+            margin: 0;
+          }
+
+          & > p:last-child {
+            margin-left: auto;
+            text-align: right;
           }
         }
+
+        /* ------------------------------------
+           TIP DESCRIPTION
+        ------------------------------------ */
 
         & > div:nth-child(5) {
           display: flex;
@@ -223,18 +242,24 @@
 
           & > p {
             font-size: 1.4rem;
+            line-height: 1.6;
           }
         }
+
+        /* ------------------------------------
+           CUSTOM TIP BUTTON
+        ------------------------------------ */
 
         & > button:nth-child(7) {
           background-color: transparent;
           width: max-content;
+          max-width: 100%;
           font-size: 1.4rem;
           border: none;
           outline: none;
           cursor: pointer;
-          border-bottom: 0.1rem solid var(--text-primary);
-          border-bottom-style: dotted;
+          border-bottom: 0.1rem dotted var(--text-primary);
+          padding: 0;
         }
 
         .custom_input {
@@ -247,18 +272,30 @@
           border-radius: 0.5rem;
           padding-inline: 2rem;
           font-size: 1.6rem;
+          box-sizing: border-box;
+          outline: none;
+
+          &:focus {
+            border-color: var(--btn-hover-color);
+          }
         }
+
+        /* ------------------------------------
+           TIP CONTAINER
+        ------------------------------------ */
 
         .tip_container {
           background-color: rgba(10, 132, 255, 0.2);
           border-radius: 1rem;
           padding: 2rem;
           display: flex;
-          /* flex-direction: column; */
-          gap: 10rem;
+          flex-direction: column;
+          gap: 2rem;
+          box-sizing: border-box;
 
           & > p:nth-child(1) {
             font-size: 1.4rem;
+            margin: 0;
           }
 
           & > div:nth-child(2) {
@@ -279,10 +316,17 @@
                 justify-content: center;
                 border: 0.1rem solid var(--text-primary);
                 border-radius: 3rem;
+                transition: 0.2s ease;
+                box-sizing: border-box;
+
+                &:hover {
+                  transform: translateY(-1px);
+                }
 
                 & > p {
                   font-size: 1.4rem;
                   font-weight: 600;
+                  margin: 0;
                 }
               }
             }
@@ -290,9 +334,28 @@
             & > p {
               font-size: 1.2rem;
               text-align: end;
+              margin: 0;
+            }
+          }
+
+          .selectedTip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 1rem;
+
+            & > p {
+              margin: 0;
+              font-size: 1.4rem;
+              font-weight: 600;
             }
           }
         }
+
+        /* ------------------------------------
+           ANONYMOUS DONATION
+        ------------------------------------ */
 
         .donation_header {
           display: flex;
@@ -307,13 +370,19 @@
             & > p {
               font-size: 1.8rem;
               font-weight: 600;
+              margin: 0;
             }
           }
 
           & > p {
             font-size: 1.4rem;
+            margin: 0;
           }
         }
+
+        /* ------------------------------------
+           PERSONAL INFORMATION
+        ------------------------------------ */
 
         .personal_info_container {
           display: flex;
@@ -323,6 +392,7 @@
           & > p {
             font-weight: 600;
             font-size: 2rem;
+            margin: 0;
           }
 
           & > div {
@@ -350,6 +420,7 @@
               color: #1f2937;
               letter-spacing: 0.3px;
               outline: none;
+              box-sizing: border-box;
 
               &:hover {
                 border-color: #cbd5e1;
@@ -368,6 +439,10 @@
           }
         }
 
+        /* ------------------------------------
+           DONATION SUMMARY
+        ------------------------------------ */
+
         .your_donation_container {
           display: flex;
           flex-direction: column;
@@ -376,15 +451,19 @@
           & > p:nth-child(1) {
             font-size: var(--font-medium);
             font-weight: 500;
+            margin: 0;
           }
 
           & > div {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 2rem;
 
             & > p {
               color: gray;
+              margin: 0;
+              font-size: 1.4rem;
             }
           }
 
@@ -403,8 +482,13 @@
 
           & > p:nth-last-child(1) {
             font-size: 1.4rem;
+            line-height: 1.6;
           }
         }
+
+        /* ------------------------------------
+           DONATE BUTTON
+        ------------------------------------ */
 
         .donate_btn {
           height: 5rem;
@@ -422,47 +506,85 @@
           &:hover {
             background-color: var(--btn-hover-color);
           }
+
+          &:active {
+            transform: scale(0.99);
+          }
         }
+
+        & > div:nth-child(4) {
+  border: 1px solid var(--text-primary);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 1.5rem 2rem;
+
+  & > p {
+    font-size: 2.8rem;
+    font-weight: 600;
+  }
+
+& > input {
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: right;
+  font-size: 2.8rem;
+  font-weight: 600;
+  background: transparent;
+}
+
+/* Chrome, Safari, Edge */
+& > input::-webkit-outer-spin-button,
+& > input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+& > input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+}
       }
     }
   }
 }
 
-@media screen and (min-width: 0px) and (max-width: 430px) {
+/* =========================================
+   TABLET
+========================================= */
+
+@media screen and (min-width: 577px) and (max-width: 900px) {
   .checkoutSectionContainer {
-    padding: 1rem;
+    padding: 1.5rem;
 
     & > div {
+      width: min(100%, 60rem);
+      padding: 1.8rem;
+
       & > div {
         .donationFormContainer {
           & > div:nth-child(3) {
-            /* flex-wrap: wrap; */
-            /* justify-content: flex-start; */
-            /* gap: 1rem; */
-            gap: 0rem;
+            gap: 1rem;
 
             & > div {
-              width: max-content;
-              padding-inline: 0.8rem;
-              height: 3rem;
+              height: 4.5rem;
+
               & > p {
                 font-size: 1.4rem;
               }
-              /* height: 4rem; */
             }
           }
 
-          .tip_container {
-            flex-direction: column;
-            gap: 2rem;
-            & > p {
-              text-align: center;
-            }
+          & > div:nth-child(4) {
+            padding: 1.2rem 1.5rem;
 
-            & > div:nth-child(2) {
-              justify-content: center;
-              align-items: center;
-              gap: 2rem;
+            & > p {
+              font-size: 2.4rem;
             }
           }
         }
@@ -470,29 +592,80 @@
     }
   }
 }
+
+/* =========================================
+   MOBILE
+========================================= */
 
 @media screen and (min-width: 431px) and (max-width: 576px) {
   .checkoutSectionContainer {
     padding: 1rem;
 
     & > div {
+      padding: 1.5rem;
+      gap: 2.5rem;
+
+      & > div:nth-child(1) {
+        & > p:nth-child(1) {
+          font-size: 1.8rem;
+        }
+
+        & > p:nth-child(2) {
+          font-size: 1.4rem;
+        }
+      }
+
       & > div {
         .donationFormContainer {
+          gap: 1.5rem;
+
+          .donationTabContainer {
+            height: 5.5rem;
+            padding: 0.7rem;
+            gap: 0.7rem;
+
+            & > button {
+              font-size: 1.3rem;
+            }
+          }
+
           & > div:nth-child(3) {
             flex-wrap: wrap;
             justify-content: flex-start;
             gap: 1rem;
 
             & > div {
-              width: max-content;
-              padding-inline: 1rem;
-              height: 4rem;
+              width: calc((100% - 1rem) / 2);
+              height: 4.2rem;
+            }
+
+            & > div:last-child {
+              width: 100%;
+            }
+          }
+
+          & > div:nth-child(4) {
+            padding: 1.2rem 1.5rem;
+
+            & > p {
+              font-size: 2.2rem;
+            }
+          }
+
+          & > div:nth-child(5) {
+            & > p:nth-child(1) {
+              font-size: 1.9rem;
+            }
+
+            & > p:nth-child(2) {
+              font-size: 1.3rem;
             }
           }
 
           .tip_container {
-            flex-direction: column;
-            gap: 2rem;
+            padding: 1.5rem;
+            gap: 1.5rem;
+
             & > p {
               text-align: center;
             }
@@ -500,8 +673,314 @@
             & > div:nth-child(2) {
               justify-content: center;
               align-items: center;
-              gap: 2rem;
+              gap: 1.5rem;
+
+              & > div:nth-child(1) {
+                justify-content: center;
+              }
             }
+          }
+
+          .donation_header {
+            & > div {
+              & > p {
+                font-size: 1.6rem;
+              }
+            }
+
+            & > p {
+              font-size: 1.3rem;
+            }
+          }
+
+          .personal_info_container {
+            gap: 1.5rem;
+
+            & > p {
+              font-size: 1.8rem;
+            }
+
+            & > div {
+              & > label {
+                font-size: 1.4rem;
+              }
+
+              & > input {
+                font-size: 1.4rem;
+              }
+            }
+          }
+
+          .your_donation_container {
+            gap: 1.2rem;
+
+            & > div {
+              & > p {
+                font-size: 1.3rem;
+              }
+            }
+
+            & > p:nth-last-child(1) {
+              font-size: 1.2rem;
+            }
+          }
+
+          .donate_btn {
+            font-size: 1.6rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media screen and (min-width: 0px) and (max-width: 430px) {
+  .checkoutSectionContainer {
+    padding: 0.7rem;
+
+    & > div {
+      padding: 1.2rem;
+      gap: 2rem;
+
+      & > div:nth-child(1) {
+        gap: 0.7rem;
+
+        & > p:nth-child(1) {
+          font-size: 1.7rem;
+        }
+
+        & > p:nth-child(2) {
+          font-size: 1.3rem;
+        }
+      }
+
+      & > div {
+        .donationFormContainer {
+          gap: 1.5rem;
+
+          .donationTabContainer {
+            height: 5.2rem;
+            padding: 0.6rem;
+            gap: 0.5rem;
+
+            & > button {
+              font-size: 1.2rem;
+            }
+          }
+
+          & > div:nth-child(3) {
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 0.8rem;
+
+            & > div {
+              width: calc((100% - 0.8rem) / 2);
+              height: 4rem;
+            }
+
+            & > div:last-child {
+              width: 100%;
+            }
+
+            & > div > p {
+              font-size: 1.3rem;
+            }
+          }
+
+          & > div:nth-child(4) {
+            padding: 1rem 1.2rem;
+            min-height: 5rem;
+
+            & > p {
+              font-size: 2rem;
+            }
+          }
+
+          & > div:nth-child(5) {
+            gap: 0.8rem;
+
+            & > p:nth-child(1) {
+              font-size: 1.7rem;
+            }
+
+            & > p:nth-child(2) {
+              font-size: 1.2rem;
+            }
+          }
+
+          & > button:nth-child(7) {
+            font-size: 1.3rem;
+          }
+
+          .custom_input {
+            height: 4.5rem;
+            padding-inline: 1.2rem;
+            font-size: 1.4rem;
+          }
+
+          .tip_container {
+            padding: 1.2rem;
+            gap: 1.5rem;
+
+            & > p:nth-child(1) {
+              font-size: 1.3rem;
+              text-align: center;
+            }
+
+            & > div:nth-child(2) {
+              align-items: center;
+              gap: 1rem;
+
+              & > div:nth-child(1) {
+                gap: 0.6rem;
+
+                & > div {
+                  padding-inline: 0.8rem;
+                  height: 3rem;
+
+                  & > p {
+                    font-size: 1.2rem;
+                  }
+                }
+              }
+
+              & > p {
+                font-size: 1.1rem;
+                text-align: center;
+              }
+            }
+
+            .selectedTip {
+              & > p {
+                font-size: 1.2rem;
+              }
+            }
+          }
+
+          .donation_header {
+            gap: 0.8rem;
+
+            & > div {
+              gap: 0.8rem;
+
+              & > p {
+                font-size: 1.5rem;
+              }
+            }
+
+            & > p {
+              font-size: 1.2rem;
+              line-height: 1.5;
+            }
+          }
+
+          .personal_info_container {
+            gap: 1.5rem;
+
+            & > p {
+              font-size: 1.7rem;
+            }
+
+            & > div {
+              gap: 0.8rem;
+
+              & > label {
+                font-size: 1.3rem;
+              }
+
+              & > input {
+                height: 4.5rem;
+                padding-inline: 1.2rem;
+                font-size: 1.3rem;
+              }
+            }
+          }
+
+          .your_donation_container {
+            gap: 1rem;
+
+            & > p:nth-child(1) {
+              font-size: 1.5rem;
+            }
+
+            & > div {
+              gap: 1rem;
+
+              & > p {
+                font-size: 1.2rem;
+              }
+            }
+
+            & > div:nth-last-child(2) {
+              & > p {
+                font-size: 1.3rem;
+              }
+            }
+
+            & > p:nth-last-child(1) {
+              font-size: 1.1rem;
+              line-height: 1.5;
+            }
+          }
+
+          .donate_btn {
+            height: 4.7rem;
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* =========================================
+   EXTRA SMALL DEVICES
+========================================= */
+
+@media screen and (max-width: 350px) {
+  .checkoutSectionContainer {
+    padding: 0.5rem;
+
+    & > div {
+      padding: 1rem;
+
+      & > div {
+        .donationFormContainer {
+          .donationTabContainer {
+            height: 4.8rem;
+
+            & > button {
+              font-size: 1.1rem;
+            }
+          }
+
+          & > div:nth-child(3) {
+            gap: 0.6rem;
+
+            & > div {
+              width: calc((100% - 0.6rem) / 2);
+              height: 3.8rem;
+            }
+
+            & > div:last-child {
+              width: 100%;
+            }
+          }
+
+          & > div:nth-child(4) {
+            padding: 0.8rem 1rem;
+
+            & > p {
+              font-size: 1.8rem;
+            }
+          }
+
+          .tip_container {
+            padding: 1rem;
           }
         }
       }

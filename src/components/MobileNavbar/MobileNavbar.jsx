@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import style from "./MobileNavbar.module.css";
-import blimpLogoBlack from "../../assets/blimpLogoBlack.svg";
+import blimpLogoBlack from "../../assets/BlimpLogo1.png";
 import {
   CrossIcon,
   LeftIcon,

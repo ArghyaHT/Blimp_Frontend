@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Footer.module.css";
-import blimpLogo from "../../assets/blimpLogo.svg";
+import blimpLogo from "../../assets/BlimpLogo1.png";
 import { FacebookIcon, InstagramIcon, TwitterXIcon } from "../../icons";
 import toast from "react-hot-toast";
 import { toastStyle } from "../../utils/toastStyles";
@@ -11,23 +11,23 @@ const Footer = () => {
   const menus = [
     {
       name: "How it Works",
-      link: "/works"
+      link: "/works",
     },
     {
       name: "Team",
-      link: "/aboutus"
+      link: "/aboutus",
     },
     {
       name: "Privacy Policy",
-      link: "#"
+      link: "#",
     },
     {
       name: "FAQ",
-      link: "/contact-us"
+      link: "/contact-us",
     },
     {
       name: "Terms & Conditions",
-      link: "#"
+      link: "#",
     },
   ];
 
@@ -47,7 +47,7 @@ const Footer = () => {
         style: toastStyle,
       });
       return;
-    }else if (!emailRegex.test(subscribeEmail)) {
+    } else if (!emailRegex.test(subscribeEmail)) {
       toast.error("Please enter a valid email", {
         duration: 3000,
         style: toastStyle,
@@ -144,10 +144,12 @@ const Footer = () => {
             </div>
           </div>
 
-          <i style={{
-            color: "#fff",
-            fontSize: "var(--font-vsmall)"
-          }}>
+          <i
+            style={{
+              color: "#fff",
+              fontSize: "var(--font-vsmall)",
+            }}
+          >
             By signing up, you agree to the <span>Terms of Use</span> and{" "}
             <span>Privacy Policy</span> & to receive electronic communications
             from VICE Media Group, which may include marketing promotions,
@@ -155,7 +157,7 @@ const Footer = () => {
           </i>
 
           <div>
-            <img src={blimpLogo} alt="Blimp Company Logo" width={60}/>
+            <img src={blimpLogo} alt="Blimp Company Logo" width={100} />
           </div>
 
           <div className={styles.menuContainer}>

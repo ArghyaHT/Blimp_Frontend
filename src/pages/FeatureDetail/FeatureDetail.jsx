@@ -47,6 +47,7 @@ const FeatureDetail = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [totalSupporterData, setTotalSupporterData] = useState(0);
+  const campaign = featureItemDetail?.data?.data || featureItem;
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -236,7 +237,7 @@ const FeatureDetail = () => {
 
                   <button
                     onClick={() => {
-                      navigate("/checkout");
+                      navigate("/checkout", { state: campaign });
                     }}
                     ref={donateTriggerRef}
                   >
@@ -447,7 +448,7 @@ const FeatureDetail = () => {
         <div className={style.stickyDonateWrapper}>
           <button
             className={style.stickyDonateButton}
-            onClick={() => navigate("/checkout")}
+            onClick={() => navigate("/checkout", { state: campaign })}
           >
             Donate Now
           </button>
