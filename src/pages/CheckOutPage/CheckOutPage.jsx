@@ -308,7 +308,7 @@ const CheckOutPage = () => {
 
         first_name: donationCheck ? "Anonymous" : firstname.trim(),
         last_name: donationCheck ? "Donor" : lastname.trim(),
-        email: donationCheck ? (personalEmail.trim() || user?.email || "anonymous@blimp.org") : personalEmail.trim(),
+        email: donationCheck ? "anonymous@blimp.org" : personalEmail.trim(),
 
         is_supporters: 0,
         is_email_subscribed: 0,
@@ -352,9 +352,11 @@ const CheckOutPage = () => {
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY,
 
-        amount: Math.round(Number(donation?.total_amount || totalAmount) * 100),
+        // Use the original donor amount in their currency (e.g. $2100, not ₹2,00,789)
+        amount: Math.round(Number(totalAmount) * 100),
 
-        currency: "INR",
+        // Use the campaign's currency so donor sees USD/EUR/SGD in the checkout
+        currency: campaignCurrency,
 
         name: "Blimp",
 
@@ -364,7 +366,7 @@ const CheckOutPage = () => {
 
         prefill: {
           name: donationCheck ? "Anonymous Donor" : `${firstname.trim()} ${lastname.trim()}`.trim(),
-          email: donationCheck ? (personalEmail.trim() || user?.email || "") : personalEmail.trim(),
+          email: donationCheck ? "anonymous@blimp.org" : personalEmail.trim(),
         },
 
         notes: {
@@ -410,9 +412,13 @@ const CheckOutPage = () => {
     } catch (error) {
       console.error("Donation Error:", error);
 
-      alert(
-        "Something went wrong while processing your donation."
-      );
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error?.description ||
+        error.message ||
+        "Something went wrong while processing your donation.";
+
+      alert(errorMessage);
     }
   };
   const remainingAmount = campaign.targetAmount - campaign.raisedAmount;

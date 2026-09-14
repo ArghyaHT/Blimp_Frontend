@@ -32,7 +32,7 @@ const ProgressBar = ({
     >
       <div>
         <p>
-          {symbol} {raisedAmount} {currency} raised
+          {symbol} {formatNumber(raisedAmount)} {currency} raised
         </p>
         <p>
           {symbol}

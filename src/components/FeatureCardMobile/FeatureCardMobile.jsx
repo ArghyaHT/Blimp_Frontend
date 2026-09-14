@@ -55,7 +55,8 @@ const FeatureCardMobile = ({ featureItem }) => {
 
         <div className={style.ProgressBarText}>
           <p>
-            {featureItem?.country?.symbol} {featureItem?.raisedAmount}{" "}
+            {featureItem?.country?.symbol}{" "}
+            {formatNumber(featureItem?.raisedAmount)}{" "}
             {featureItem?.country?.currency} raised
           </p>
           <p>
