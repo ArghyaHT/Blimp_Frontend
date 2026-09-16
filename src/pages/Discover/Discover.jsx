@@ -73,7 +73,7 @@ const Discover = () => {
     setCampaignHistoryLoading(true);
     try {
       const { data } = await api.post("/get-discover-campaign", {
-        userId: user.id,
+        // userId: user.id,
         page,
         category_name: selectedCategory?.name,
         campaign_name: query,
@@ -134,54 +134,54 @@ const Discover = () => {
           <div>
             {getCategoriesLoading
               ? [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => {
-                  return (
-                    <Skeleton
-                      key={item}
-                      variant="rectangular"
-                      height={"20.5rem"}
-                      sx={{
-                        width: {
-                          xs: "100%", // mobile
-                          sm: "100%", // tablet
-                          md: "17%", // desktop
-                        },
-                      }}
-                    />
-                  );
-                })
+                return (
+                  <Skeleton
+                    key={item}
+                    variant="rectangular"
+                    height={"20.5rem"}
+                    sx={{
+                      width: {
+                        xs: "100%", // mobile
+                        sm: "100%", // tablet
+                        md: "17%", // desktop
+                      },
+                    }}
+                  />
+                );
+              })
               : getCategories?.map((item) => {
-                  const categoryItem = sortCardData.find(
-                    (cat) => cat.label === item?.name
-                  );
-                  return (
-                    <button
-                      key={item?.label}
-                      className={style.sortCardItem}
-                      onClick={() => {
-                        setPage(1);
-                        setQuery("");
-                        setSelectedCategory((prev) => {
-                          if (prev.name === item.name) {
-                            return "";
-                          } else {
-                            return item;
-                          }
-                        });
-                      }}
-                      style={{
-                        border:
-                          selectedCategory?.name === item?.name
-                            ? "0.2rem solid var(--text-primary)"
-                            : "none",
-                      }}
-                    >
-                      <div>
-                        <div>{categoryItem?.icon}</div>
-                        <p>{item?.name}</p>
-                      </div>
-                    </button>
-                  );
-                })}
+                const categoryItem = sortCardData.find(
+                  (cat) => cat.label === item?.name
+                );
+                return (
+                  <button
+                    key={item?.label}
+                    className={style.sortCardItem}
+                    onClick={() => {
+                      setPage(1);
+                      setQuery("");
+                      setSelectedCategory((prev) => {
+                        if (prev.name === item.name) {
+                          return "";
+                        } else {
+                          return item;
+                        }
+                      });
+                    }}
+                    style={{
+                      border:
+                        selectedCategory?.name === item?.name
+                          ? "0.2rem solid var(--text-primary)"
+                          : "none",
+                    }}
+                  >
+                    <div>
+                      <div>{categoryItem?.icon}</div>
+                      <p>{item?.name}</p>
+                    </div>
+                  </button>
+                );
+              })}
           </div>
         </div>
       </section>

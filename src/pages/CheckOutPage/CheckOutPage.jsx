@@ -155,6 +155,7 @@ const CheckOutPage = () => {
 
       if (result?.code === 200) {
         alert("Donation successful!");
+        window.scrollTo(0, 0);
         navigate("/");
       } else {
         alert(result?.message || "Payment verification failed. If money was deducted, status will update shortly.");

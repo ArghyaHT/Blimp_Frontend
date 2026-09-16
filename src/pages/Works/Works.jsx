@@ -128,8 +128,17 @@ const Works = () => {
                     />
                   );
                 })
-              : latestArticles?.data?.data?.remainingArticles?.slice(0,3)?.map(
-                  (item, index) => {
+              : (
+                  latestArticles?.data?.data?.remainingArticles?.length > 0
+                    ? latestArticles?.data?.data?.remainingArticles
+                    : latestArticles?.data?.data?.nextArticles?.length > 0
+                    ? latestArticles?.data?.data?.nextArticles
+                    : latestArticles?.data?.data?.latestArticle
+                    ? [latestArticles.data.data.latestArticle]
+                    : []
+                )
+                  ?.slice(0, 3)
+                  ?.map((item, index) => {
                     return (
                       <BlogCard
                         index={index}
@@ -137,11 +146,17 @@ const Works = () => {
                         articleItem={item}
                       />
                     );
-                  }
-                )}
+                  })}
           </div>
 
-          <button>more news</button>
+          <button
+            onClick={() => {
+              window.scrollTo(0, 0);
+              navigate("/news-blog");
+            }}
+          >
+            more news
+          </button>
         </div>
       </section>
     </main>

@@ -161,7 +161,9 @@ const AboutUs = () => {
 
               <button
                 onClick={() => {
-                  navigate("/checkout");
+                  window.scrollTo(0, 0);
+                  // navigate("/checkout");
+                  navigate("/discover");
                 }}
                 ref={donateTriggerRef}
               >
@@ -187,32 +189,40 @@ const AboutUs = () => {
           <div className={style.blogCardContainer}>
             {latestArticles.loading
               ? [0, 1, 2, 3, 4, 5].map((item) => {
+                return (
+                  <Skeleton
+                    key={item}
+                    variant="rectangular"
+                    height={"30rem"}
+                    sx={{
+                      width: {
+                        xs: "100%", // mobile
+                        sm: "48%", // tablet
+                        md: "32%", // desktop
+                      },
+                    }}
+                  />
+                );
+              })
+              : (
+                latestArticles?.data?.data?.remainingArticles?.length > 0
+                  ? latestArticles?.data?.data?.remainingArticles
+                  : latestArticles?.data?.data?.nextArticles?.length > 0
+                    ? latestArticles?.data?.data?.nextArticles
+                    : latestArticles?.data?.data?.latestArticle
+                      ? [latestArticles.data.data.latestArticle]
+                      : []
+              )
+                ?.slice(0, 3)
+                ?.map((item, index) => {
                   return (
-                    <Skeleton
-                      key={item}
-                      variant="rectangular"
-                      height={"30rem"}
-                      sx={{
-                        width: {
-                          xs: "100%", // mobile
-                          sm: "48%", // tablet
-                          md: "32%", // desktop
-                        },
-                      }}
+                    <BlogCard
+                      index={index}
+                      key={item.id}
+                      articleItem={item}
                     />
                   );
-                })
-              : latestArticles?.data?.data?.remainingArticles
-                  ?.slice(0, 3)
-                  ?.map((item, index) => {
-                    return (
-                      <BlogCard
-                        index={index}
-                        key={item.id}
-                        articleItem={item}
-                      />
-                    );
-                  })}
+                })}
           </div>
 
           <button>more news</button>
@@ -223,7 +233,11 @@ const AboutUs = () => {
         <div className={style.stickyDonateWrapper}>
           <button
             className={style.stickyDonateButton}
-            onClick={() => navigate("/checkout")}
+            // onClick={() => navigate("/checkout")}
+            onClick={() => {
+              window.scrollTo(0, 0);
+              navigate("/discover");
+            }}
           >
             Donate Now
           </button>

@@ -349,7 +349,7 @@ const StartCampaign = () => {
     data: {},
   });
 
-  const start_campaign_handler = async () => {
+  const start_campaign_handler = async (isDraft = false) => {
     if (!selectedCategory) {
       return toast.error("Category is not selected", {
         duration: 3000,
@@ -378,53 +378,55 @@ const StartCampaign = () => {
       });
     }
 
-    if (!bannerImage) {
-      return toast.error("Banner image is required", {
-        duration: 3000,
-        style: toastStyle,
-      });
-    }
+    if (!isDraft) {
+      if (!bannerImage) {
+        return toast.error("Banner image is required", {
+          duration: 3000,
+          style: toastStyle,
+        });
+      }
 
-    if (selectedCampaingDescription === "<p></p>") {
-      return toast.error("Campaign description is required", {
-        duration: 3000,
-        style: toastStyle,
-      });
-    }
+      if (selectedCampaingDescription === "<p></p>") {
+        return toast.error("Campaign description is required", {
+          duration: 3000,
+          style: toastStyle,
+        });
+      }
 
-    if (selectedCampaignImages.length === 0) {
-      return toast.error("Atleast one campaign image is required", {
-        duration: 3000,
-        style: toastStyle,
-      });
-    }
+      if (selectedCampaignImages.length === 0) {
+        return toast.error("Atleast one campaign image is required", {
+          duration: 3000,
+          style: toastStyle,
+        });
+      }
 
-    if (!bankName.trim()) {
-      return toast.error("Bank name is required", {
-        duration: 3000,
-        style: toastStyle,
-      });
-    }
+      if (!bankName.trim()) {
+        return toast.error("Bank name is required", {
+          duration: 3000,
+          style: toastStyle,
+        });
+      }
 
-    if (!accountHolderName.trim()) {
-      return toast.error("Account holder name is required", {
-        duration: 3000,
-        style: toastStyle,
-      });
-    }
+      if (!accountHolderName.trim()) {
+        return toast.error("Account holder name is required", {
+          duration: 3000,
+          style: toastStyle,
+        });
+      }
 
-    if (!accountNumber.toString().trim()) {
-      return toast.error("Account number is required", {
-        duration: 3000,
-        style: toastStyle,
-      });
-    }
+      if (!accountNumber.toString().trim()) {
+        return toast.error("Account number is required", {
+          duration: 3000,
+          style: toastStyle,
+        });
+      }
 
-    if (!bankIfsc.trim()) {
-      return toast.error("Bank IFSC / SWIFT code is required", {
-        duration: 3000,
-        style: toastStyle,
-      });
+      if (!bankIfsc.trim()) {
+        return toast.error("Bank IFSC / SWIFT code is required", {
+          duration: 3000,
+          style: toastStyle,
+        });
+      }
     }
 
     try {
@@ -445,16 +447,16 @@ const StartCampaign = () => {
       formData.append("name", user.fullname);
       formData.append("email", user.email);
       formData.append("request_for_donor", 1);
-      formData.append("team_memeber_name", beneficiaryDetail);
-      formData.append("is_draft", 0);
-      formData.append("bank_name", bankName);
-      formData.append("bank_address", bankAddress);
-      formData.append("account_holder_name", accountHolderName);
-      formData.append("account_number", accountNumber);
-      formData.append("bank_ifsc", bankIfsc);
-      formData.append("bank_account_name", accountHolderName);
-      formData.append("bank_account_number", accountNumber);
-      formData.append("ifsc_code", bankIfsc);
+      formData.append("team_memeber_name", beneficiaryDetail || "");
+      formData.append("is_draft", isDraft ? 1 : 0);
+      formData.append("bank_name", bankName || "");
+      formData.append("bank_address", bankAddress || "");
+      formData.append("account_holder_name", accountHolderName || "");
+      formData.append("account_number", accountNumber || "");
+      formData.append("bank_ifsc", bankIfsc || "");
+      formData.append("bank_account_name", accountHolderName || "");
+      formData.append("bank_account_number", accountNumber || "");
+      formData.append("ifsc_code", bankIfsc || "");
 
       // ✅ Append single file
       if (bannerImage?.file) {
@@ -464,7 +466,9 @@ const StartCampaign = () => {
       // ✅ Append multiple files
       if (selectedCampaignImages?.length > 0) {
         selectedCampaignImages.forEach((item, index) => {
-          formData.append("images", item.file); // backend must accept array files
+          if (item.file) {
+            formData.append("images", item.file); // backend must accept array files
+          }
         });
       }
 
@@ -497,8 +501,8 @@ const StartCampaign = () => {
         keysToRemove.forEach((key) => localStorage.removeItem(key));
         await del("bannerImage");
         await del("campaignImages");
-        toast.success(data.message, { duration: 3000, style: toastStyle });
-        navigate("/account/active-campaigns");
+        toast.success(isDraft ? "Campaign saved as draft!" : data.message, { duration: 3000, style: toastStyle });
+        navigate(isDraft ? "/account/draft-campaigns" : "/account/active-campaigns");
       } else if (data.code === 400) {
         toast.error(data.message, { duration: 3000, style: toastStyle });
         setStartCampaign({ loading: false, error: data.message, data: {} });
@@ -508,6 +512,34 @@ const StartCampaign = () => {
     } finally {
       setStartCampaign((prev) => ({ ...prev, loading: false }));
     }
+  };
+
+  const handleSaveDraft = () => {
+    if (!selectedCategory) {
+      toast.error("Please select a Cause Category (Step 1) before saving draft", {
+        duration: 3000,
+        style: toastStyle,
+      });
+      setSelectedStep(1);
+      return;
+    }
+    if (!selectedCountry) {
+      toast.error("Please select a Country (Step 2) before saving draft", {
+        duration: 3000,
+        style: toastStyle,
+      });
+      setSelectedStep(2);
+      return;
+    }
+    if (!targetedAmount || Number(targetedAmount) <= 0) {
+      toast.error("Please enter a Target Goal Amount (Step 3) before saving draft", {
+        duration: 3000,
+        style: toastStyle,
+      });
+      setSelectedStep(3);
+      return;
+    }
+    start_campaign_handler(true);
   };
 
   // signin error states
@@ -1109,24 +1141,40 @@ const StartCampaign = () => {
                 />
               </div>
 
-              <button
-                onClick={() => {
-                  if (!campaignTitle) {
-                    return toast.error("Campaign title is required", {
-                      duration: 3000,
-                      style: toastStyle,
-                    });
-                  }
+              <div className={styles.stepActionButtons}>
+                <button
+                  type="button"
+                  onClick={handleSaveDraft}
+                  disabled={startCampaign.loading}
+                  className={styles.saveDraftBtn}
+                >
+                  {startCampaign.loading ? (
+                    <ClipLoader size={"2rem"} color="#333" />
+                  ) : (
+                    "Save as Draft"
+                  )}
+                </button>
 
-                  localStorage.setItem(
-                    "campaignTitle",
-                    JSON.stringify(campaignTitle)
-                  );
-                  setSelectedStep(5);
-                }}
-              >
-                Save and Continue
-              </button>
+                <button
+                  className={styles.saveContinueBtn}
+                  onClick={() => {
+                    if (!campaignTitle) {
+                      return toast.error("Campaign title is required", {
+                        duration: 3000,
+                        style: toastStyle,
+                      });
+                    }
+
+                    localStorage.setItem(
+                      "campaignTitle",
+                      JSON.stringify(campaignTitle)
+                    );
+                    setSelectedStep(5);
+                  }}
+                >
+                  Save and Continue
+                </button>
+              </div>
             </div>
           </div>
         )}
@@ -1178,8 +1226,22 @@ const StartCampaign = () => {
                 />
               </div>
             </div>
-            <div>
+            <div className={styles.stepActionButtons}>
               <button
+                type="button"
+                onClick={handleSaveDraft}
+                disabled={startCampaign.loading}
+                className={styles.saveDraftBtn}
+              >
+                {startCampaign.loading ? (
+                  <ClipLoader size={"2rem"} color="#333" />
+                ) : (
+                  "Save as Draft"
+                )}
+              </button>
+
+              <button
+                className={styles.saveContinueBtn}
                 onClick={async () => {
                   if (!bannerImage) {
                     return toast.error("Banner image is required", {
@@ -1251,25 +1313,41 @@ const StartCampaign = () => {
                 </div>
               </div> */}
 
-                <button
-                  onClick={() => {
-                    if (!selectedName || !selectedEmail) {
-                      return;
-                    }
+                <div className={styles.stepActionButtons}>
+                  <button
+                    type="button"
+                    onClick={handleSaveDraft}
+                    disabled={startCampaign.loading}
+                    className={styles.saveDraftBtn}
+                  >
+                    {startCampaign.loading ? (
+                      <ClipLoader size={"2rem"} color="#333" />
+                    ) : (
+                      "Save as Draft"
+                    )}
+                  </button>
 
-                    localStorage.setItem(
-                      "userFullname",
-                      JSON.stringify(selectedName)
-                    );
-                    localStorage.setItem(
-                      "userEmail",
-                      JSON.stringify(selectedEmail)
-                    );
-                    setSelectedStep(7);
-                  }}
-                >
-                  Save and Continue
-                </button>
+                  <button
+                    className={styles.saveContinueBtn}
+                    onClick={() => {
+                      if (!selectedName || !selectedEmail) {
+                        return;
+                      }
+
+                      localStorage.setItem(
+                        "userFullname",
+                        JSON.stringify(selectedName)
+                      );
+                      localStorage.setItem(
+                        "userEmail",
+                        JSON.stringify(selectedEmail)
+                      );
+                      setSelectedStep(7);
+                    }}
+                  >
+                    Save and Continue
+                  </button>
+                </div>
               </div>
             ) : (
               <div className={styles.stepperYouUnFilledUserContainer}>
@@ -1529,35 +1607,51 @@ const StartCampaign = () => {
               </p>
             </div>
 
-            <button
-              onClick={() => {
-                if (selectedCampaingDescription === "<p></p>") {
-                  return toast.error("Campaign description is required", {
-                    duration: 3000,
-                    style: toastStyle,
-                  });
-                }
+            <div className={styles.stepActionButtons}>
+              <button
+                type="button"
+                onClick={handleSaveDraft}
+                disabled={startCampaign.loading}
+                className={styles.saveDraftBtn}
+              >
+                {startCampaign.loading ? (
+                  <ClipLoader size={"2rem"} color="#333" />
+                ) : (
+                  "Save as Draft"
+                )}
+              </button>
 
-                if (selectedCampaignImages.length === 0) {
-                  return toast.error("Atleast one campaign image is required", {
-                    duration: 3000,
-                    style: toastStyle,
-                  });
-                }
+              <button
+                className={styles.saveContinueBtn}
+                onClick={() => {
+                  if (selectedCampaingDescription === "<p></p>") {
+                    return toast.error("Campaign description is required", {
+                      duration: 3000,
+                      style: toastStyle,
+                    });
+                  }
 
-                localStorage.setItem(
-                  "selectedCampaingDescription",
-                  JSON.stringify(selectedCampaingDescription)
-                );
-                localStorage.setItem(
-                  "beneficiaryDetail",
-                  JSON.stringify(beneficiaryDetail)
-                );
-                setSelectedStep(8);
-              }}
-            >
-              Save and Continue
-            </button>
+                  if (selectedCampaignImages.length === 0) {
+                    return toast.error("Atleast one campaign image is required", {
+                      duration: 3000,
+                      style: toastStyle,
+                    });
+                  }
+
+                  localStorage.setItem(
+                    "selectedCampaingDescription",
+                    JSON.stringify(selectedCampaingDescription)
+                  );
+                  localStorage.setItem(
+                    "beneficiaryDetail",
+                    JSON.stringify(beneficiaryDetail)
+                  );
+                  setSelectedStep(8);
+                }}
+              >
+                Save and Continue
+              </button>
+            </div>
           </div>
         )}
 
@@ -1633,22 +1727,37 @@ const StartCampaign = () => {
               </div>
             </div>
 
-            <button
-              onClick={start_campaign_handler}
-              disabled={startCampaign.loading}
-              className={styles.submitPaymentBtn}
-            >
-              {startCampaign.loading ? (
-                <ClipLoader
-                  size={"3rem"}
-                  aria-label="Loading Spinner"
-                  data-testid="loader"
-                  color="#fff"
-                />
-              ) : (
-                "Save Payment & Launch Campaign"
-              )}
-            </button>
+            <div className={styles.stepActionButtons}>
+              <button
+                type="button"
+                onClick={handleSaveDraft}
+                disabled={startCampaign.loading}
+                className={styles.saveDraftBtn}
+              >
+                {startCampaign.loading ? (
+                  <ClipLoader size={"2rem"} color="#333" />
+                ) : (
+                  "Save as Draft"
+                )}
+              </button>
+
+              <button
+                onClick={() => start_campaign_handler(false)}
+                disabled={startCampaign.loading}
+                className={styles.submitPaymentBtn}
+              >
+                {startCampaign.loading ? (
+                  <ClipLoader
+                    size={"3rem"}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                    color="#fff"
+                  />
+                ) : (
+                  "Save Payment & Launch Campaign"
+                )}
+              </button>
+            </div>
           </div>
         )}
       </div>

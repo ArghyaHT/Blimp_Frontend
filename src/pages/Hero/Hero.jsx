@@ -604,6 +604,15 @@ const Hero = () => {
               <img
                 src={latestArticles?.data?.data?.latestArticle?.image}
                 alt=""
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  if (latestArticles?.data?.data?.latestArticle) {
+                    window.scrollTo(0, 0);
+                    navigate("/news-detail", {
+                      state: latestArticles.data.data.latestArticle,
+                    });
+                  }
+                }}
               />
             )}
 
