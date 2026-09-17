@@ -216,7 +216,91 @@ const Hero = () => {
 
   return (
     <>
-      <main
+      {/* Section 1: Top Hero Section */}
+      <section className={style.seedHeroSection}>
+        {/* Floating Decorative Shapes */}
+        <div className={style.shapeStripedCircle}>
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="24" fill="#5850EC" opacity="0.9" />
+            <path d="M6 14L34 42M14 6L42 34M2 24L24 46M24 2L46 24" stroke="#ffffff" strokeWidth="3" strokeLinecap="round"/>
+          </svg>
+        </div>
+
+        <div className={style.shapeYellowDots}>
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="10" r="3" fill="#FBBF24" />
+            <circle cx="20" cy="25" r="3" fill="#FBBF24" />
+            <circle cx="40" cy="25" r="3" fill="#FBBF24" />
+            <circle cx="10" cy="40" r="3" fill="#FBBF24" />
+            <circle cx="30" cy="40" r="3" fill="#FBBF24" />
+            <circle cx="50" cy="40" r="3" fill="#FBBF24" />
+            <circle cx="20" cy="55" r="3" fill="#FBBF24" />
+            <circle cx="40" cy="55" r="3" fill="#FBBF24" />
+          </svg>
+        </div>
+
+        <div className={style.shapeBlueRays}>
+          <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+            <path d="M10 35L20 15M25 40L30 10M40 38L42 20" stroke="#4F46E5" strokeWidth="5" strokeLinecap="round" />
+          </svg>
+        </div>
+
+        <div className={style.shapeArcRight}>
+          <svg width="40" height="50" viewBox="0 0 40 50" fill="none">
+            <path d="M 35 10 A 18 18 0 0 0 35 40" stroke="#818CF8" strokeWidth="6" strokeLinecap="round" fill="none" />
+          </svg>
+        </div>
+
+        <div className={style.shapeWavyLine}>
+          <svg width="50" height="30" viewBox="0 0 50 30" fill="none">
+            <path d="M 5 15 Q 15 5, 25 15 T 45 15" stroke="#3B82F6" strokeWidth="5" strokeLinecap="round" fill="none" />
+          </svg>
+        </div>
+
+        <div className={style.seedHeroContainer}>
+          <h1 className={style.seedHeroTitle}>
+            Grow <span className={style.highlightGreenOne}>faster</span>
+          </h1>
+
+          <p className={style.seedHeroSubtitle}>
+            The UK’s most powerful legal and fundraising platform
+          </p>
+
+          <div className={style.seedHeroBtnGroup}>
+            <button
+              className={style.seedPrimaryBtn}
+              onClick={() => {
+                window.scrollTo(0, 0);
+                navigate("/start-campaign");
+              }}
+            >
+              Start free
+            </button>
+
+            <button
+              className={style.seedSecondaryBtn}
+              onClick={() => {
+                window.scrollTo(0, 0);
+                navigate("/discover");
+              }}
+            >
+              <span>Talk to an expert</span>
+              <div className={style.expertAvatarStack}>
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="expert 1" />
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="expert 2" />
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80" alt="expert 3" />
+              </div>
+            </button>
+          </div>
+
+          <h2 className={style.seedHeroTagline}>
+            One platform. <span className={style.highlightGreenTwo}>Everything you need.</span>
+          </h2>
+        </div>
+      </section>
+
+      {/* Section 2: Campaign Banner Section */}
+      <section
         style={{
           backgroundImage: `url(${supportCampaigns?.data?.data?.banner_image})`,
         }}
@@ -243,7 +327,7 @@ const Hero = () => {
             </button>
           </div>
         </div>
-      </main>
+      </section>
 
       <section className={style.impactContainer}>
         <div>
@@ -516,47 +600,47 @@ const Hero = () => {
           <div className={style.featureCardContainer}>
             {featuredCampaigns?.loading
               ? [0, 1, 2, 3, 4, 5].map((item) => {
-                  return (
-                    <Skeleton
-                      key={item}
-                      variant="rectangular"
-                      height={"40rem"}
-                      sx={{
-                        width: {
-                          xs: "100%", // mobile
-                          sm: "48%", // tablet
-                          md: "32%", // desktop
-                        },
-                      }}
-                    />
-                  );
-                })
+                return (
+                  <Skeleton
+                    key={item}
+                    variant="rectangular"
+                    height={"40rem"}
+                    sx={{
+                      width: {
+                        xs: "100%", // mobile
+                        sm: "48%", // tablet
+                        md: "32%", // desktop
+                      },
+                    }}
+                  />
+                );
+              })
               : allFeatureItems?.map((item) => {
-                  return <FeatureCard key={item.id} featureItem={item} />;
-                })}
+                return <FeatureCard key={item.id} featureItem={item} />;
+              })}
           </div>
 
           <div className={style.featureCardMobileContainer}>
             {featuredCampaigns?.loading
               ? [0, 1, 2, 3, 4, 5].map((item) => {
-                  return (
-                    <Skeleton
-                      key={item}
-                      variant="rectangular"
-                      height={"40rem"}
-                      sx={{
-                        width: {
-                          xs: "100%", // mobile
-                          sm: "48%", // tablet
-                          md: "32%", // desktop
-                        },
-                      }}
-                    />
-                  );
-                })
+                return (
+                  <Skeleton
+                    key={item}
+                    variant="rectangular"
+                    height={"40rem"}
+                    sx={{
+                      width: {
+                        xs: "100%", // mobile
+                        sm: "48%", // tablet
+                        md: "32%", // desktop
+                      },
+                    }}
+                  />
+                );
+              })
               : allFeatureItems?.map((item) => {
-                  return <FeatureCardMobile key={item.id} featureItem={item} />;
-                })}
+                return <FeatureCardMobile key={item.id} featureItem={item} />;
+              })}
           </div>
 
           <div
@@ -598,7 +682,7 @@ const Hero = () => {
                     md: "50%", // desktop
                   },
                 }}
-                // sx={{ bgcolor: "black" }}
+              // sx={{ bgcolor: "black" }}
               />
             ) : (
               <img
@@ -619,27 +703,27 @@ const Hero = () => {
             <div>
               {latestArticles.loading
                 ? [0, 1, 2, 3].map((item) => {
+                  return (
+                    <Skeleton
+                      key={item}
+                      variant="rectangular"
+                      width={"100%"}
+                      height={"9.6rem"}
+                    // sx={{ bgcolor: "black" }}
+                    />
+                  );
+                })
+                : latestArticles?.data?.data?.nextArticles?.map(
+                  (item, index) => {
                     return (
-                      <Skeleton
-                        key={item}
-                        variant="rectangular"
-                        width={"100%"}
-                        height={"9.6rem"}
-                        // sx={{ bgcolor: "black" }}
+                      <NewsCard
+                        index={index}
+                        key={item.id}
+                        articleItem={item}
                       />
                     );
-                  })
-                : latestArticles?.data?.data?.nextArticles?.map(
-                    (item, index) => {
-                      return (
-                        <NewsCard
-                          index={index}
-                          key={item.id}
-                          articleItem={item}
-                        />
-                      );
-                    },
-                  )}
+                  },
+                )}
             </div>
           </div>
         </div>
