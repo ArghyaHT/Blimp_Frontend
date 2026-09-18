@@ -222,7 +222,7 @@ const Hero = () => {
         <div className={style.shapeStripedCircle}>
           <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
             <circle cx="24" cy="24" r="24" fill="#5850EC" opacity="0.9" />
-            <path d="M6 14L34 42M14 6L42 34M2 24L24 46M24 2L46 24" stroke="#ffffff" strokeWidth="3" strokeLinecap="round"/>
+            <path d="M6 14L34 42M14 6L42 34M2 24L24 46M24 2L46 24" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" />
           </svg>
         </div>
 
@@ -263,7 +263,7 @@ const Hero = () => {
           </h1>
 
           <p className={style.seedHeroSubtitle}>
-            The UK’s most powerful legal and fundraising platform
+            INDIA’s most powerful legal and fundraising platform
           </p>
 
           <div className={style.seedHeroBtnGroup}>

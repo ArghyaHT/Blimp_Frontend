@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import style from "./WorkCard.module.css";
 import { useGlobalContext } from "../../context/GlobalContext";
+import aboutImageOne from "../../assets/aboutImageOne.jpg";
+import aboutImageTwo from "../../assets/aboutImageTwo.jpg";
 
 const WorkCard = ({ dir, title, description }) => {
   const { mobileWidth } = useGlobalContext();
@@ -10,8 +12,8 @@ const WorkCard = ({ dir, title, description }) => {
       {mobileWidth ? (
         <>
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdnu3tuqGZxqxqvmLhwEEPSCTrXCJOW0J4Q&s"
-            alt=""
+            src={dir === "left" ? aboutImageOne : aboutImageTwo}
+            alt={title}
           />
           <div>
             <h2>{title}</h2>
@@ -21,8 +23,8 @@ const WorkCard = ({ dir, title, description }) => {
       ) : dir === "left" ? (
         <>
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdnu3tuqGZxqxqvmLhwEEPSCTrXCJOW0J4Q&s"
-            alt=""
+            src={aboutImageOne}
+            alt={title}
           />
           <div>
             <h2>{title}</h2>
@@ -36,8 +38,8 @@ const WorkCard = ({ dir, title, description }) => {
             <p>{description}</p>
           </div>
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqdnu3tuqGZxqxqvmLhwEEPSCTrXCJOW0J4Q&s"
-            alt=""
+            src={aboutImageTwo}
+            alt={title}
           />
         </>
       )}

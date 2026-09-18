@@ -13,38 +13,38 @@
   flex-direction: column;
   gap: 4rem;
 
-  & > div {
-    & > h2 {
+  &>div {
+    &>h2 {
       font-size: var(--header-large);
       text-transform: capitalize;
     }
   }
 
-  & > img {
+  &>img {
     object-fit: cover;
   }
 
-  & > div:nth-child(3) {
+  &>div:nth-child(3) {
     display: flex;
     align-items: center;
     gap: 4rem;
 
-    & > div {
+    &>div {
       display: flex;
       flex-direction: column;
       gap: 2rem;
 
-      & > h2 {
+      &>h2 {
         text-transform: capitalize;
         font-size: var(--font-large);
       }
 
-      & > p {
+      &>p {
         font-size: var(--font-medium);
         color: var(--text-secondary);
       }
 
-      & > button {
+      &>button {
         width: max-content;
         height: 4rem;
         padding-inline: 2rem;
@@ -61,13 +61,13 @@
         -o-border-radius: 3rem;
         color: var(--text-primary);
 
-        & > p {
+        &>p {
           font-size: var(--font-medium);
           font-weight: var(--btn-font-weight);
           color: var(--text-primary);
         }
 
-        & > span {
+        &>span {
           display: grid;
           place-items: center;
           font-size: var(--font-medium);
@@ -77,8 +77,8 @@
       }
     }
 
-    & > div:nth-child(2) {
-      & > button {
+    &>div:nth-child(2) {
+      &>button {
         background-color: var(--btn-base-color);
         color: var(--text-primary) 000;
         transition: 0.3s ease-in;
@@ -97,17 +97,17 @@
   padding-block: 6rem;
   background-color: var(--bg-primary);
 
-  & > div {
+  &>div {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    & > h2 {
+    &>h2 {
       font-size: var(--header-large);
       text-transform: capitalize;
     }
 
-    & > button {
+    &>button {
       width: 19.3rem;
       height: 4rem;
       background-color: #ffffff;
@@ -124,7 +124,7 @@
       gap: 1rem;
       color: var(--text-primary);
 
-      & > span {
+      &>span {
         font-size: var(--font-medium);
         font-weight: var(--btn-font-weight);
         color: var(--text-primary);
@@ -132,7 +132,7 @@
     }
   }
 
-  & > button:nth-child(3) {
+  &>button:nth-child(3) {
     display: none;
   }
 }
@@ -182,37 +182,37 @@
   .vissionContainer {
     gap: 2rem;
 
-    & > div {
-      & > h2 {
+    &>div {
+      &>h2 {
         text-transform: capitalize;
         text-align: center;
       }
     }
 
-    & > div:nth-child(3) {
+    &>div:nth-child(3) {
       flex-direction: column;
 
-      & > div {
+      &>div {
         gap: 2rem;
       }
     }
   }
 
   .blogsContainer {
-    & > div {
+    &>div {
       display: block;
 
-      & > h2 {
+      &>h2 {
         text-align: center;
         text-transform: capitalize;
       }
 
-      & > button {
+      &>button {
         display: none;
       }
     }
 
-    & > button:nth-child(3) {
+    &>button:nth-child(3) {
       display: block;
       margin-inline: auto;
       margin-top: 2rem;
@@ -240,17 +240,17 @@
   .vissionContainer {
     gap: 2rem;
 
-    & > div {
-      & > h2 {
+    &>div {
+      &>h2 {
         text-transform: capitalize;
         text-align: center;
       }
     }
 
-    & > div:nth-child(3) {
+    &>div:nth-child(3) {
       flex-direction: column;
 
-      & > div {
+      &>div {
         gap: 2rem;
       }
     }
@@ -260,18 +260,18 @@
     padding-block: 1.5rem;
     padding-inline: 1.5rem;
 
-    & > div {
-      & > h2 {
+    &>div {
+      &>h2 {
         text-align: center;
         text-transform: capitalize;
       }
 
-      & > button {
+      &>button {
         display: none;
       }
     }
 
-    & > button:nth-child(3) {
+    &>button:nth-child(3) {
       display: block;
       margin-inline: auto;
       margin-block: 2rem;
