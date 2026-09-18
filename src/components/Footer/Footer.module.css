@@ -83,6 +83,20 @@
         }
       }
 
+      .alreadySubscribedText {
+        color: #10b981;
+        font-size: var(--font-medium);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        height: 3.5rem;
+        padding-inline: 1.8rem;
+        background-color: rgba(16, 185, 129, 0.15);
+        border: 1.5px solid #10b981;
+        border-radius: 3.2rem;
+        width: fit-content;
+      }
+
       .linkContainer {
         width: -webkit-max-content;
         width: -moz-max-content;

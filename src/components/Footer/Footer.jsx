@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Footer.module.css";
 import blimpLogo from "../../assets/BlimpLogo1.png";
 import { FacebookIcon, InstagramIcon, TwitterXIcon } from "../../icons";
@@ -6,8 +6,12 @@ import toast from "react-hot-toast";
 import { toastStyle } from "../../utils/toastStyles";
 import api from "../../api/api";
 import { ClipLoader } from "react-spinners";
+import { useAuth } from "../../context/AuthContext";
 
 const Footer = () => {
+  const { user, isAuthenticated } = useAuth();
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
   const menus = [
     {
       name: "How it Works",
@@ -39,6 +43,22 @@ const Footer = () => {
     data: {},
   });
 
+  useEffect(() => {
+    if (user?.email) {
+      const storedSub = localStorage.getItem(`subscribed_${user.email}`);
+      if (
+        user?.is_subscribed ||
+        user?.isSubscribed ||
+        user?.newsletter_subscribed ||
+        storedSub === "true"
+      ) {
+        setIsSubscribed(true);
+      } else {
+        setSubscribeEmail(user.email);
+      }
+    }
+  }, [user]);
+
   const handleSubscribe = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!subscribeEmail) {
@@ -67,17 +87,30 @@ const Footer = () => {
       });
 
       if (data?.code === 400) {
+        if (data?.message?.toLowerCase().includes("already")) {
+          const emailKey = user?.email || subscribeEmail;
+          if (emailKey) {
+            localStorage.setItem(`subscribed_${emailKey}`, "true");
+          }
+          setIsSubscribed(true);
+        }
         setSubscribeNewsLetters({
           loading: false,
           error: data.message,
           data: {},
         });
+        toast.error(data.message, { duration: 3000, style: toastStyle });
         return;
       }
 
       setSubscribeNewsLetters({ loading: false, error: null, data });
 
       toast.success(data.message, { duration: 3000, style: toastStyle });
+      const emailKey = user?.email || subscribeEmail;
+      if (emailKey) {
+        localStorage.setItem(`subscribed_${emailKey}`, "true");
+      }
+      setIsSubscribed(true);
       setSubscribeEmail("");
     } catch (error) {
       setSubscribeNewsLetters({
@@ -99,29 +132,35 @@ const Footer = () => {
                 newsletter.
               </h2>
               <div>
-                <input
-                  type="text"
-                  placeholder="Enter Email"
-                  value={subscribeEmail}
-                  onChange={(e) => {
-                    setSubscribeEmail(e.target.value);
-                  }}
-                />
-                <button
-                  disabled={subscribeNewsLetters?.loading}
-                  onClick={handleSubscribe}
-                >
-                  {subscribeNewsLetters?.loading ? (
-                    <ClipLoader
-                      size={"3rem"}
-                      aria-label="Loading Spinner"
-                      data-testid="loader"
-                      color="#fff"
+                {isSubscribed ? (
+                  <p className={styles.alreadySubscribedText}>Already Subscribed</p>
+                ) : (
+                  <>
+                    <input
+                      type="text"
+                      placeholder="Enter Email"
+                      value={subscribeEmail}
+                      onChange={(e) => {
+                        setSubscribeEmail(e.target.value);
+                      }}
                     />
-                  ) : (
-                    "subscribe"
-                  )}
-                </button>
+                    <button
+                      disabled={subscribeNewsLetters?.loading}
+                      onClick={handleSubscribe}
+                    >
+                      {subscribeNewsLetters?.loading ? (
+                        <ClipLoader
+                          size={"3rem"}
+                          aria-label="Loading Spinner"
+                          data-testid="loader"
+                          color="#fff"
+                        />
+                      ) : (
+                        "subscribe"
+                      )}
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 

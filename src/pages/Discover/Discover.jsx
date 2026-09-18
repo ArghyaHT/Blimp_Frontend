@@ -48,6 +48,10 @@ const Discover = () => {
   const [getCategoriesLoading, setGetCategoriesLoading] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const fetch_categories = async () => {
       try {
         setGetCategoriesLoading(true);
@@ -103,6 +107,7 @@ const Discover = () => {
 
   const handlePageChange = (event, value) => {
     setPage(value);
+    window.scrollTo(0, 0);
   };
 
   return (

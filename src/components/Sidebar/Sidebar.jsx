@@ -46,12 +46,14 @@ const Sidebar = () => {
       <NavLink
         to="/account"
         end
+        onClick={() => window.scrollTo(0, 0)}
         className={({ isActive }) => (isActive ? styles.active : "")}
       >
         Profile
       </NavLink>
       <NavLink
         to="/account/active-campaigns"
+        onClick={() => window.scrollTo(0, 0)}
         className={({ isActive }) => (isActive ? styles.active : "")}
       >
         Active Campaigns
@@ -59,6 +61,7 @@ const Sidebar = () => {
 
       <NavLink
         to="/account/draft-campaigns"
+        onClick={() => window.scrollTo(0, 0)}
         className={({ isActive }) => (isActive ? styles.active : "")}
       >
         Draft Campaigns
@@ -66,6 +69,7 @@ const Sidebar = () => {
 
       <NavLink
         to="/account/donation-history"
+        onClick={() => window.scrollTo(0, 0)}
         className={({ isActive }) => (isActive ? styles.active : "")}
       >
         Donation History
@@ -73,6 +77,7 @@ const Sidebar = () => {
 
       <NavLink
         to="/account/bank-account"
+        onClick={() => window.scrollTo(0, 0)}
         className={({ isActive }) => (isActive ? styles.active : "")}
       >
         Bank Account
@@ -80,6 +85,7 @@ const Sidebar = () => {
 
       <NavLink
         to="/account/change-password"
+        onClick={() => window.scrollTo(0, 0)}
         className={({ isActive }) => (isActive ? styles.active : "")}
       >
         Change Password
