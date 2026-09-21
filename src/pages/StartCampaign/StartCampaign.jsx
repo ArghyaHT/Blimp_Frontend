@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import TiptapEditor from "../../components/Tiptap/TiptapEditor";
 import { PhoneInput } from "react-international-phone";
 import { PhoneNumberUtil } from "google-libphonenumber";
+import { validateImageQualityAndSafety } from "../../utils/imageValidator";
 
 const StartCampaign = () => {
   const navigate = useNavigate();
@@ -226,33 +227,41 @@ const StartCampaign = () => {
   const [selectedCampaignImages, setSelectedCampaignImages] = useState([]);
   const [bannerImage, setBannerImage] = useState("");
 
-  const handle_file_select = (e) => {
+  const handle_file_select = async (e) => {
     const files = Array.from(e.target.files);
     const validFiles = [];
     const maxImages = 5;
     const maxFileSize = 25 * 1024 * 1024; // 25MB
 
     if (files.length > maxImages) {
-      alert(`You can upload a maximum of ${maxImages} images at once.`);
+      toast.error(`You can upload a maximum of ${maxImages} images at once.`, { style: toastStyle });
       return;
     }
 
     for (const file of files) {
       if (!file.type.startsWith("image/")) {
-        alert(`"${file.name}" is not a valid image file.`);
+        toast.error(`"${file.name}" is not a valid image file.`, { style: toastStyle });
         continue;
       }
 
       if (file.size > maxFileSize) {
-        alert(`"${file.name}" exceeds 5MB. Please select smaller images.`);
+        toast.error(`"${file.name}" exceeds 25MB limit. Please select a smaller file.`, { style: toastStyle });
         continue;
       }
 
-      validFiles.push(file);
+      try {
+        await validateImageQualityAndSafety(file, { type: "gallery" });
+        validFiles.push(file);
+      } catch (validationErr) {
+        toast.error(validationErr.message, { style: toastStyle, duration: 4000 });
+      }
     }
 
     // If no valid files, stop
-    if (validFiles.length === 0) return;
+    if (validFiles.length === 0) {
+      e.target.value = "";
+      return;
+    }
 
     // Convert files to Base64
     const fileReaders = validFiles.map((file) => {
@@ -301,23 +310,25 @@ const StartCampaign = () => {
 
   const handle_banner_file_select = async (e) => {
     const file = e.target.files[0];
-    const maxFileSize = 5 * 1024 * 1024; // ✅ 5MB
+    const maxFileSize = 25 * 1024 * 1024; // 25MB
 
     if (!file) return;
 
     if (!file.type.startsWith("image/")) {
-      alert(`"${file.name}" is not a valid image file.`);
+      toast.error(`"${file.name}" is not a valid image file.`, { style: toastStyle });
       e.target.value = "";
       return;
     }
 
     if (file.size > maxFileSize) {
-      alert(`"${file.name}" exceeds 5MB. Please select a smaller image.`);
+      toast.error(`"${file.name}" exceeds file size limit. Please select a smaller image.`, { style: toastStyle });
       e.target.value = "";
       return;
     }
 
     try {
+      await validateImageQualityAndSafety(file, { type: "banner" });
+
       const reader = new FileReader();
       const filePreview = await new Promise((resolve, reject) => {
         reader.onload = () => resolve({ file, preview: reader.result }); // Base64 string
@@ -328,7 +339,8 @@ const StartCampaign = () => {
       setBannerImage(filePreview);
       await set("bannerImage", filePreview);
     } catch (error) {
-      console.error("Error reading file:", error);
+      console.error("Image validation or reading error:", error);
+      toast.error(error.message || "Failed to validate selected image.", { style: toastStyle, duration: 4000 });
     }
 
     e.target.value = "";

@@ -422,8 +422,11 @@
 
 @media screen and (min-width: 0px) and (max-width: 430px) {
   .heroContainer {
-    height: 75rem;
+    height: 50rem;
     padding-inline: 1.5rem;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
 
     &>div {
       width: 100%;
@@ -669,8 +672,11 @@
 
 @media screen and (min-width: 431px) and (max-width: 768px) {
   .heroContainer {
-    height: 75rem;
+    height: 60rem;
     padding-inline: 1.5rem;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
 
     &>div {
       width: 100%;

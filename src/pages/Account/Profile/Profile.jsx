@@ -10,6 +10,7 @@ import api from "../../../api/api";
 import { ClipLoader } from "react-spinners";
 import { Skeleton } from "@mui/material";
 import { useGlobalContext } from "../../../context/GlobalContext";
+import { validateImageQualityAndSafety } from "../../../utils/imageValidator";
 
 const Profile = () => {
 
@@ -155,6 +156,14 @@ const Profile = () => {
       const maxSizeInBytes = 5 * 1024 * 1024;
       if (file.size > maxSizeInBytes) {
         toast.error("File size must be lower than 5mb", { duration: 3000, style: toastStyle });
+        return;
+      }
+
+      try {
+        await validateImageQualityAndSafety(file, { type: "profile", minWidth: 300, minHeight: 300 });
+      } catch (validationErr) {
+        toast.error(validationErr.message, { duration: 4000, style: toastStyle });
+        e.target.value = "";
         return;
       }
 
