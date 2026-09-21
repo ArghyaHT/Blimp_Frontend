@@ -7,8 +7,15 @@ export const useAuth = () => useContext(AuthContext);
 
 // Provider component
 export const AuthProvider = ({ children }) => {
-
-    const authenticatedUser = JSON.parse(localStorage.getItem("usersignin")) || false
+    let authenticatedUser = false;
+    try {
+        const raw = localStorage.getItem("usersignin");
+        if (raw) {
+            authenticatedUser = JSON.parse(raw) === true || raw === "true";
+        }
+    } catch (e) {
+        authenticatedUser = localStorage.getItem("usersignin") === "true";
+    }
     const loggedinUserId = localStorage.getItem("userId") || null
 
     useEffect(() => {

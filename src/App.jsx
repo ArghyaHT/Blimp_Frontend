@@ -42,6 +42,9 @@ const KYC = lazy(() => import("./pages/Account/KYC/KYC"));
 const ChangePassword = lazy(() =>
   import("./pages/Account/ChangePassword/ChangePassword")
 );
+const CampaignUpdates = lazy(() =>
+  import("./pages/Account/CampaignUpdates/CampaignUpdates")
+);
 const StartCampaign = lazy(() => import("./pages/StartCampaign/StartCampaign"));
 const EditCampaign = lazy(() => import("./pages/EditCampaign/EditCampaign"));
 const Cause = lazy(() => import("./pages/Cause/Cause"));
@@ -118,6 +121,10 @@ const App = () => {
                     element={<DonationHistory />}
                   />
                   <Route path="bank-account" element={<BankAccount />} />
+                  <Route
+                    path="campaign-updates"
+                    element={<CampaignUpdates />}
+                  />
                   {/* <Route path="kyc-document" element={<KYC />} /> */}
                   <Route path="change-password" element={<ChangePassword />} />
                 </Route>

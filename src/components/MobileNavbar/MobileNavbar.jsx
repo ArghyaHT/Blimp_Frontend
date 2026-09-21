@@ -55,6 +55,11 @@ const MobileNavbar = () => {
       url: "/account/active-campaigns",
     },
     {
+      id: 2.5,
+      name: "Campaign Updates",
+      url: "/account/campaign-updates",
+    },
+    {
       id: 3,
       name: "Draft Campaigns",
       url: "/account/draft-campaigns",

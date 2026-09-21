@@ -18,30 +18,28 @@ const StartCampaign = () => {
   const navigate = useNavigate();
   const { user, setUser, setIsAuthenticated, userId, setUserId } = useAuth();
 
-  const parseSelectedCategory =
-    JSON.parse(localStorage.getItem("selectedCategory")) || null;
-  const parseSelectedCountry =
-    JSON.parse(localStorage.getItem("selectedCountry")) || null;
-  const parseTargetedAmount =
-    JSON.parse(localStorage.getItem("targetedAmount")) || null;
-  const parseCampaignTitle =
-    JSON.parse(localStorage.getItem("campaignTitle")) || "";
-  const parseCampaignType =
-    JSON.parse(localStorage.getItem("campaignType")) || "";
-  const parseBeneficiaryDetail =
-    JSON.parse(localStorage.getItem("beneficiaryDetail")) || "";
-  const parseSelectedCampaingDescription =
-    JSON.parse(localStorage.getItem("selectedCampaingDescription")) || "";
-  const parseBankName =
-    JSON.parse(localStorage.getItem("bankName")) || "";
-  const parseBankAddress =
-    JSON.parse(localStorage.getItem("bankAddress")) || "";
-  const parseAccountHolderName =
-    JSON.parse(localStorage.getItem("accountHolderName")) || "";
-  const parseAccountNumber =
-    JSON.parse(localStorage.getItem("accountNumber")) || "";
-  const parseBankIfsc =
-    JSON.parse(localStorage.getItem("bankIfsc")) || "";
+  const safeJsonParse = (key, fallback = "") => {
+    const item = localStorage.getItem(key);
+    if (!item) return fallback;
+    try {
+      return JSON.parse(item);
+    } catch (error) {
+      return item || fallback;
+    }
+  };
+
+  const parseSelectedCategory = safeJsonParse("selectedCategory", null);
+  const parseSelectedCountry = safeJsonParse("selectedCountry", null);
+  const parseTargetedAmount = safeJsonParse("targetedAmount", null);
+  const parseCampaignTitle = safeJsonParse("campaignTitle", "");
+  const parseCampaignType = safeJsonParse("campaignType", "");
+  const parseBeneficiaryDetail = safeJsonParse("beneficiaryDetail", "");
+  const parseSelectedCampaingDescription = safeJsonParse("selectedCampaingDescription", "");
+  const parseBankName = safeJsonParse("bankName", "");
+  const parseBankAddress = safeJsonParse("bankAddress", "");
+  const parseAccountHolderName = safeJsonParse("accountHolderName", "");
+  const parseAccountNumber = safeJsonParse("accountNumber", "");
+  const parseBankIfsc = safeJsonParse("bankIfsc", "");
 
   useEffect(() => {
     const fetch_banner_image = async () => {

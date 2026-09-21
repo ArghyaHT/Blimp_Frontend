@@ -60,6 +60,14 @@ const Sidebar = () => {
       </NavLink>
 
       <NavLink
+        to="/account/campaign-updates"
+        onClick={() => window.scrollTo(0, 0)}
+        className={({ isActive }) => (isActive ? styles.active : "")}
+      >
+        Campaign Updates
+      </NavLink>
+
+      <NavLink
         to="/account/draft-campaigns"
         onClick={() => window.scrollTo(0, 0)}
         className={({ isActive }) => (isActive ? styles.active : "")}

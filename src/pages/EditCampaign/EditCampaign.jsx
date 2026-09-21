@@ -164,23 +164,33 @@ const EditCampaign = () => {
   const [beneficiaryDetail, setBeneficiaryDetail] = useState(
     edit_campaign_item?.team_memeber_name
   );
+  const safeJsonParse = (key, fallback = "") => {
+    const item = localStorage.getItem(key);
+    if (!item) return fallback;
+    try {
+      return JSON.parse(item);
+    } catch (error) {
+      return item || fallback;
+    }
+  };
+
   const [bankName, setBankName] = useState(
-    edit_campaign_item?.bank_name || JSON.parse(localStorage.getItem("bankName") || "\"\"")
+    edit_campaign_item?.bank_name || safeJsonParse("bankName", "")
   );
   const [bankAddress, setBankAddress] = useState(
-    edit_campaign_item?.bank_address || JSON.parse(localStorage.getItem("bankAddress") || "\"\"")
+    edit_campaign_item?.bank_address || safeJsonParse("bankAddress", "")
   );
   const [accountHolderName, setAccountHolderName] = useState(
     edit_campaign_item?.account_holder_name ||
-      JSON.parse(localStorage.getItem("accountHolderName") || "\"\"") ||
+      safeJsonParse("accountHolderName", "") ||
       user?.fullname ||
       ""
   );
   const [accountNumber, setAccountNumber] = useState(
-    edit_campaign_item?.account_number || JSON.parse(localStorage.getItem("accountNumber") || "\"\"")
+    edit_campaign_item?.account_number || safeJsonParse("accountNumber", "")
   );
   const [bankIfsc, setBankIfsc] = useState(
-    edit_campaign_item?.bank_ifsc || JSON.parse(localStorage.getItem("bankIfsc") || "\"\"")
+    edit_campaign_item?.bank_ifsc || safeJsonParse("bankIfsc", "")
   );
   const [selectedCampaignImages, setSelectedCampaignImages] = useState(
     edit_campaign_item?.campaignsImages || []

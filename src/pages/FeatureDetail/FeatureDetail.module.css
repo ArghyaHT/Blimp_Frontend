@@ -228,6 +228,128 @@
   }
 }
 
+.tabsNavContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 1rem !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  margin-top: 1rem !important;
+  margin-bottom: 1.5rem !important;
+  padding-bottom: 0 !important;
+  width: 100% !important;
+}
+
+.tabBtn {
+  padding: 0.6rem 1.4rem !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 3px solid transparent !important;
+  color: #64748b !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  margin-bottom: -2px !important;
+}
+
+.tabBtn:hover {
+  color: #0f172a !important;
+}
+
+.activeTabBtn {
+  padding: 0.6rem 1.4rem !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 3px solid var(--btn-base-color, #000) !important;
+  color: var(--text-primary, #000) !important;
+  cursor: pointer !important;
+  margin-bottom: -2px !important;
+}
+
+.updatesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.updateTimelineCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.2rem;
+  padding: 2.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.updateHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.updateAuthorAvatar {
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #edf2f7;
+}
+
+.updateHeaderInfo h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.2rem;
+}
+
+.updateMeta {
+  font-size: 1.3rem;
+  color: #718096;
+}
+
+.updateContentText {
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: #2d3748;
+  white-space: pre-wrap;
+  margin-bottom: 1.8rem;
+}
+
+.updateMediaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
+  gap: 1.5rem;
+}
+
+.updateMediaWrapper {
+  border-radius: 1rem;
+  overflow: hidden;
+  max-height: 32rem;
+  background-color: #000;
+}
+
+.updateMediaImage,
+.updateMediaVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.emptyUpdatesBox {
+  padding: 4rem;
+  text-align: center;
+  background-color: #f7fafc;
+  border-radius: 1rem;
+  color: #718096;
+  font-size: 1.6rem;
+}
+
 .supporterPaginationContainer {
   display: flex;
   flex-direction: row !important;

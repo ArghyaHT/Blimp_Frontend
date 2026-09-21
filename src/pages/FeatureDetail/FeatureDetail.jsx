@@ -44,17 +44,23 @@ const FeatureDetail = () => {
     data: {},
   });
 
+  const [activeTab, setActiveTab] = useState("story");
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [totalSupporterData, setTotalSupporterData] = useState(0);
   const campaign = featureItemDetail?.data?.data || featureItem;
+  const campaignUpdates = featureItemDetail?.data?.data?.campaignUpdates || [];
+  const supportersList = totalSupporters?.data?.data?.campaign?.donationInfo || featureItemDetail?.data?.data?.donationInfo || [];
 
   const handlePageChange = (event, value) => {
     setPage(value);
   };
 
+  const campaignId = featureItem?.id || featureItemDetail?.data?.data?.id || location.state?.id;
+
   useEffect(() => {
-    if (featureItem?.id) {
+    const idToUse = featureItem?.id || location.state?.id;
+    if (idToUse) {
       const fetchCampaignDetails = async () => {
         try {
           setFeatureItemDetail((prev) => ({
@@ -63,7 +69,7 @@ const FeatureDetail = () => {
             error: null,
           }));
           const { data } = await api.post("/view-campaign-history", {
-            id: featureItem.id,
+            id: idToUse,
           });
           if (data.code === 200) {
             setFeatureItemDetail({ loading: false, error: null, data });
@@ -104,10 +110,10 @@ const FeatureDetail = () => {
       fetchCampaignDetails();
       fetchLatestArticles();
     }
-  }, [featureItem?.id]);
+  }, [featureItem?.id, location.state?.id]);
 
   useEffect(() => {
-    if (featureItem?.id) {
+    if (campaignId) {
       const fetchTotalSupporters = async () => {
         try {
           setTotalSupporters((prev) => ({
@@ -116,12 +122,12 @@ const FeatureDetail = () => {
             error: null,
           }));
           const { data } = await api.post("/total-supporters", {
-            id: featureItem.id,
+            id: campaignId,
             page,
           });
 
-          setTotalPages(data?.data?.pagination?.totalPages);
-          setTotalSupporterData(data?.data?.pagination?.total);
+          setTotalPages(data?.data?.pagination?.totalPages || 0);
+          setTotalSupporterData(data?.data?.pagination?.total || data?.data?.campaign?.donationInfo?.length || 0);
 
           if (data.code === 200) {
             setTotalSupporters({ loading: false, error: null, data });
@@ -143,7 +149,7 @@ const FeatureDetail = () => {
 
       fetchTotalSupporters();
     }
-  }, [page, featureItem?.id]);
+  }, [page, campaignId]);
 
   const options = {
     wordwrap: false,
@@ -258,139 +264,226 @@ const FeatureDetail = () => {
             )}
           </div>
 
-          <div>
-            {featureItemDetail?.loading ? (
-              <Skeleton variant="rectangular" width={"100%"} height={"10rem"} />
-            ) : (
-              <>
-                <h2>Campaign Details</h2>
-                <p>
-                  {featureItemDetail?.data?.data?.categories?.name} |{" "}
-                  {featureItemDetail?.data?.data?.country?.name}
-                </p>
-              </>
-            )}
+          {/* Tabs Navigation Header */}
+          <div className={style.tabsNavContainer}>
+            <button
+              className={activeTab === "story" ? style.activeTabBtn : style.tabBtn}
+              onClick={() => setActiveTab("story")}
+            >
+              Story
+            </button>
+            <button
+              className={activeTab === "updates" ? style.activeTabBtn : style.tabBtn}
+              onClick={() => setActiveTab("updates")}
+            >
+              Updates ({campaignUpdates.length})
+            </button>
+            <button
+              className={activeTab === "supporters" ? style.activeTabBtn : style.tabBtn}
+              onClick={() => setActiveTab("supporters")}
+            >
+              Supporters ({totalSupporterData || supportersList.length || 0})
+            </button>
           </div>
 
-          <div>
-            {featureItemDetail?.loading ? (
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={"10rem"}
-                // sx={{ bgcolor: "black" }}
-              />
-            ) : (
-              <>
-                <h2>Raising fund description</h2>
-                <p style={{ whiteSpace: "pre-wrap" }}>
-                  {convert(
-                    featureItem?.description
-                      .replace(/\\n/g, "")
-                      ?.replace(/^"(.*)"$/, "$1"),
-                    options,
-                  )}
-                </p>
-              </>
-            )}
-          </div>
-          
-          <div className={style.addGalleryContainer}>
-            {featureItemDetail?.loading ? (
-              <Skeleton
-                variant="rectangular"
-                width={"100%"}
-                height={"15rem"}
-                // sx={{ bgcolor: "black" }}
-              />
-            ) : (
-              featureItemDetail?.data?.data?.campaignsImages?.map(
-                (item, index) => {
-                  return <img key={item.id} src={item.image} alt="" />;
-                },
-              )
-            )}
-          </div>
+          {activeTab === "story" && (
+            <>
+              <div>
+                {featureItemDetail?.loading ? (
+                  <Skeleton variant="rectangular" width={"100%"} height={"10rem"} />
+                ) : (
+                  <>
+                    <h2>Campaign Details</h2>
+                    <p>
+                      {featureItemDetail?.data?.data?.categories?.name} |{" "}
+                      {featureItemDetail?.data?.data?.country?.name}
+                    </p>
+                  </>
+                )}
+              </div>
 
-          <div className={style.addsContainer}>
-            <h2>Run Ads / Causes section</h2>
-          </div>
+              <div>
+                {featureItemDetail?.loading ? (
+                  <Skeleton
+                    variant="rectangular"
+                    width={"100%"}
+                    height={"10rem"}
+                  />
+                ) : (
+                  <>
+                    <h2>Raising fund description</h2>
+                    <p style={{ whiteSpace: "pre-wrap" }}>
+                      {convert(
+                        featureItem?.description
+                          .replace(/\\n/g, "")
+                          ?.replace(/^"(.*)"$/, "$1"),
+                        options,
+                      )}
+                    </p>
+                  </>
+                )}
+              </div>
+              
+              <div className={style.addGalleryContainer}>
+                {featureItemDetail?.loading ? (
+                  <Skeleton
+                    variant="rectangular"
+                    width={"100%"}
+                    height={"15rem"}
+                  />
+                ) : (
+                  featureItemDetail?.data?.data?.campaignsImages?.map(
+                    (item, index) => {
+                      return <img key={item.id} src={item.image} alt="" />;
+                    },
+                  )
+                )}
+              </div>
 
-          {totalSupporters?.data?.data?.campaign?.donationInfo?.length > 0 && (
+              <div className={style.addsContainer}>
+                <h2>Run Ads / Causes section</h2>
+              </div>
+            </>
+          )}
+
+          {activeTab === "updates" && (
+            <div className={style.updatesContainer}>
+              {campaignUpdates.length === 0 ? (
+                <div className={style.emptyUpdatesBox}>
+                  <p>No updates have been posted for this campaign yet.</p>
+                </div>
+              ) : (
+                campaignUpdates.map((update) => (
+                  <div key={update.id} className={style.updateTimelineCard}>
+                    <div className={style.updateHeader}>
+                      {update.userInfo?.user_profile ? (
+                        <img
+                          src={update.userInfo.user_profile}
+                          alt=""
+                          className={style.updateAuthorAvatar}
+                        />
+                      ) : (
+                        <div
+                          className={style.updateAuthorAvatar}
+                          style={{
+                            display: "grid",
+                            placeItems: "center",
+                            fontWeight: "bold",
+                            fontSize: "1.8rem",
+                            color: "#555",
+                          }}
+                        >
+                          {update.userInfo?.fullname?.charAt(0) || "C"}
+                        </div>
+                      )}
+                      <div className={style.updateHeaderInfo}>
+                        <h3>{update.title}</h3>
+                        <span className={style.updateMeta}>
+                          Posted by {update.userInfo?.fullname || "Campaigner"} · {moment(update.createdAt).fromNow()}
+                        </span>
+                      </div>
+                    </div>
+
+                    <p className={style.updateContentText}>{update.update_text}</p>
+
+                    {update.media && update.media.length > 0 && (
+                      <div className={style.updateMediaGrid}>
+                        {update.media.map((item, idx) => (
+                          <div key={idx} className={style.updateMediaWrapper}>
+                            {item.type === "video" ? (
+                              <video src={item.url} controls className={style.updateMediaVideo} />
+                            ) : (
+                              <img src={item.url} alt="" className={style.updateMediaImage} />
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+
+          {activeTab === "supporters" && (
             <div className={style.supporterContainer}>
               <h2>
-                Supporters(
-                {totalSupporterData})
+                Supporters({totalSupporterData || supportersList.length})
               </h2>
-              <div>
-                {totalSupporters?.data?.data?.campaign?.donationInfo?.map(
-                  (item, index) => {
-                    return (
-                      <div key={item.id} className={style.supporterItem}>
-                        <div>
-                          {index === 0 ? (
-                            <img src={FirstMedal} alt="" />
-                          ) : index === 1 ? (
-                            <img src={SecondMedal} alt="" />
-                          ) : index === 2 ? (
-                            <img src={ThirdMedal} alt="" />
-                          ) : (
-                            <span></span>
-                          )}
+              {supportersList.length > 0 ? (
+                <div>
+                  {supportersList.map((item, index) => {
+                      return (
+                        <div key={item.id} className={style.supporterItem}>
+                          <div>
+                            {index === 0 ? (
+                              <img src={FirstMedal} alt="" />
+                            ) : index === 1 ? (
+                              <img src={SecondMedal} alt="" />
+                            ) : index === 2 ? (
+                              <img src={ThirdMedal} alt="" />
+                            ) : (
+                              <span></span>
+                            )}
+
+                            <div>
+                              <h2>
+                                {item.is_anonymous
+                                  ? "A"
+                                  : `${item?.first_name?.slice(
+                                      0,
+                                      1,
+                                    )}${item?.last_name?.slice(0, 1)}`}
+                              </h2>
+                            </div>
+                          </div>
 
                           <div>
-                            <h2>
+                            <h3>
                               {item.is_anonymous
-                                ? "A"
-                                : `${item?.first_name?.slice(
-                                    0,
-                                    1,
-                                  )}${item?.last_name?.slice(0, 1)}`}
-                            </h2>
+                                ? "anonymous"
+                                : `${item.first_name} ${item.last_name}`}
+                            </h3>
+                            {index === 0 ? (
+                              <p>Top Contributor</p>
+                            ) : index === 1 ? (
+                              <p>Top Contributor</p>
+                            ) : index === 2 ? (
+                              <p>Top Contributor</p>
+                            ) : (
+                              <span />
+                            )}
+                          </div>
+
+                          <div>
+                            <h3>{campaign?.country?.symbol || "$"} {item.original_amount || item.total_amount}</h3>
+                            <p>{moment(item?.createdAt).fromNow()}</p>
                           </div>
                         </div>
+                      );
+                    },
+                  )}
 
-                        <div>
-                          <h3>
-                            {item.is_anonymous
-                              ? "anonymous"
-                              : `${item.first_name} ${item.last_name}`}
-                          </h3>
-                          {index === 0 ? (
-                            <p>Top Contributor</p>
-                          ) : index === 1 ? (
-                            <p>Top Contributor</p>
-                          ) : index === 2 ? (
-                            <p>Top Contributor</p>
-                          ) : (
-                            <span />
-                          )}
-                        </div>
-
-                        <div>
-                          <h3>$ {item.total_amount}</h3>
-                          <p>{moment(item?.createdAt).fromNow()}</p>
-                        </div>
-                      </div>
-                    );
-                  },
-                )}
-
-                <div className={style.supporterPaginationContainer}>
-                  <Pagination
-                    count={totalPages}
-                    size="large"
-                    sx={{
-                      "& .MuiPaginationItem-page": {
-                        fontSize: "1.4rem",
-                      },
-                    }}
-                    value={page}
-                    onChange={handlePageChange}
-                    disabled={totalSupporters?.loading}
-                  />
+                  <div className={style.supporterPaginationContainer}>
+                    <Pagination
+                      count={totalPages}
+                      size="large"
+                      sx={{
+                        "& .MuiPaginationItem-page": {
+                          fontSize: "1.4rem",
+                        },
+                      }}
+                      value={page}
+                      onChange={handlePageChange}
+                      disabled={totalSupporters?.loading}
+                    />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className={style.emptyUpdatesBox}>
+                  <p>No supporters yet for this campaign.</p>
+                </div>
+              )}
             </div>
           )}
         </div>
