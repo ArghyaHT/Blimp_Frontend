@@ -422,7 +422,7 @@
 
 @media screen and (min-width: 0px) and (max-width: 430px) {
   .heroContainer {
-    height: 50rem;
+    height: 75rem;
     padding-inline: 1.5rem;
 
     &>div {
@@ -669,7 +669,7 @@
 
 @media screen and (min-width: 431px) and (max-width: 768px) {
   .heroContainer {
-    height: 50rem;
+    height: 75rem;
     padding-inline: 1.5rem;
 
     &>div {
@@ -1101,9 +1101,13 @@
 /* Small Screen Responsiveness for seedHeroSection */
 @media screen and (max-width: 768px) {
   .seedHeroSection {
-    padding-block: 5rem 4rem;
+    min-height: calc(100vh - 9.5rem);
+    padding-block: 4rem;
     padding-inline: 2rem;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .seedHeroTitle {
@@ -1165,8 +1169,12 @@
 
 @media screen and (max-width: 480px) {
   .seedHeroSection {
-    padding-block: 4rem 3rem;
+    min-height: calc(100vh - 9.5rem);
+    padding-block: 3rem 2rem;
     padding-inline: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .seedHeroTitle {
