@@ -548,7 +548,7 @@ const FeatureDetail = () => {
                   ))}
                 </div>
               ) : supportersList.length > 0 ? (
-                <div>
+                <div className={style.supporterListWrapper}>
                   {supportersList.map((item, index) => {
                     const isTopThreeOnPage1 = Number(page) === 1;
 
