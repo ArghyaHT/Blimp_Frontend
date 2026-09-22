@@ -83,7 +83,7 @@ const CheckOutPage = () => {
   // ------------------------------------
 
   const formatCurrency = (amount) => {
-    return `${campaign.country.symbol}${Number(amount).toFixed(2)}`;
+    return `${campaign?.country?.symbol || "₹"}${Number(amount).toFixed(2)}`;
   };
 
   // ------------------------------------
@@ -140,7 +140,7 @@ const CheckOutPage = () => {
   const verifyDonation = async (paymentResponse) => {
     try {
       const verifyData = {
-        campaign_id: campaign.id,
+        campaign_id: campaign?.id,
         razorpay_order_id: paymentResponse.razorpay_order_id,
         razorpay_payment_id: paymentResponse.razorpay_payment_id,
         razorpay_signature: paymentResponse.razorpay_signature,
@@ -300,7 +300,7 @@ const CheckOutPage = () => {
 
       const donationData = {
         user_id: user?.id || null,
-        campaign_id: campaign.id,
+        campaign_id: campaign?.id,
 
         total_amount: Number(totalAmount),
         tip_amount: Number(tipAmount),
@@ -361,7 +361,7 @@ const CheckOutPage = () => {
 
         name: "Blimp",
 
-        description: `${campaign.campaign_name} (${campaign?.country?.symbol || "$"}${totalAmount})`,
+        description: `${campaign?.campaign_name || "Campaign"} (${campaign?.country?.symbol || "$"}${totalAmount})`,
 
         order_id: donation.razorpay_order_id,
 
@@ -371,7 +371,7 @@ const CheckOutPage = () => {
         },
 
         notes: {
-          campaign_id: campaign.id,
+          campaign_id: campaign?.id,
           donation_id: donation.id,
         },
 
@@ -422,15 +422,17 @@ const CheckOutPage = () => {
       alert(errorMessage);
     }
   };
-  const remainingAmount = campaign.targetAmount - campaign.raisedAmount;
+  const targetVal = Number(campaign?.target_amount ?? campaign?.targetAmount ?? 0);
+  const raisedVal = Number(campaign?.raised_amount ?? campaign?.raisedAmount ?? 0);
+  const remainingAmount = Math.max(0, targetVal - raisedVal);
 
   return (
     <main>
       <section className={style.checkoutSectionContainer}>
         <div>
           <div>
-            <p>{campaign.campaign_name}</p>
-            <p>Still {campaign.country.symbol} {remainingAmount} to go. Help us amplify</p>
+            <p>{campaign?.campaign_name || "Campaign"}</p>
+            <p>Still {campaign?.country?.symbol || "₹"} {remainingAmount} to go. Help us amplify</p>
           </div>
 
           <div>
@@ -515,7 +517,7 @@ const CheckOutPage = () => {
                         cursor: "pointer",
                       }}
                     >
-                      <p>{campaign.country.symbol}{amount}</p>
+                      <p>{campaign?.country?.symbol || "₹"}{amount}</p>
                     </div>
                   );
                 })}
@@ -527,7 +529,7 @@ const CheckOutPage = () => {
               </div> */}
 
               <div>
-                <p>{campaign.country.symbol}</p>
+                <p>{campaign?.country?.symbol || "₹"}</p>
                 <input
                   type="text"
                   inputMode="decimal"
