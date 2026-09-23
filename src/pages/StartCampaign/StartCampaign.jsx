@@ -175,7 +175,7 @@ const StartCampaign = () => {
   const [selectedCampaingDescription, setSelectedCampaignDescription] =
     useState(
       parseSelectedCampaingDescription ||
-        `
+      `
       <h2 style="text-align:center;">Welcome to the blimp editor 👋</h2>
 
       <p>
@@ -881,7 +881,7 @@ const StartCampaign = () => {
                       onClick={() => {
                         if (!user?.email && (item.id === 7 || item.id === 8)) {
                           return toast.error(
-                            "User not found. Plz create an account",
+                            "User not found. Please create an account",
                             { duration: 3000, style: toastStyle }
                           );
                         }
@@ -1666,7 +1666,7 @@ const StartCampaign = () => {
         )}
 
         {selectedStep === 8 && (
-          
+
           <div className={styles.stepperPaymentContainer}>
             <div className={styles.paymentFormGroup}>
               <div>
