@@ -32,6 +32,9 @@ const ActiveCampaigns = lazy(() =>
 const DraftCampaigns = lazy(() =>
   import("./pages/Account/DraftCampaigns/DraftCampaigns")
 );
+const StoppedCampaigns = lazy(() =>
+  import("./pages/Account/StoppedCampaigns/StoppedCampaigns")
+);
 const DonationHistory = lazy(() =>
   import("./pages/Account/DonationHistory/DonationHistory")
 );
@@ -116,6 +119,10 @@ const App = () => {
                     element={<ActiveCampaigns />}
                   />
                   <Route path="draft-campaigns" element={<DraftCampaigns />} />
+                  <Route
+                    path="stopped-campaigns"
+                    element={<StoppedCampaigns />}
+                  />
                   <Route
                     path="donation-history"
                     element={<DonationHistory />}

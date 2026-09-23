@@ -131,16 +131,23 @@
     }
 
     .addGalleryContainer {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
       gap: 2rem;
-      flex-wrap: wrap;
+      width: 100%;
 
       & > img {
-        flex: 1;
-        min-width: 22.5rem;
-        height: 17.6rem;
+        width: 100%;
+        height: 20rem;
+        object-fit: cover;
+        border-radius: 1.2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
       }
     }
 

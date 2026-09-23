@@ -16,7 +16,7 @@ const EditCampaign = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { edit_campaign_item } = location.state;
+  const { edit_campaign_item, isRelaunch = false } = location.state || {};
 
   const { user } = useAuth();
 
@@ -396,6 +396,7 @@ const EditCampaign = () => {
       formData.append("request_for_donor", 1);
       formData.append("team_memeber_name", beneficiaryDetail || "");
       formData.append("is_draft", isDraft ? 1 : 0);
+      formData.append("is_relaunch", isRelaunch ? 1 : 0);
       formData.append("bank_name", bankName || "");
       formData.append("bank_address", bankAddress || "");
       formData.append("account_holder_name", accountHolderName || "");
@@ -429,7 +430,12 @@ const EditCampaign = () => {
 
       if (data.code === 200) {
         setEditCampaign({ loading: false, error: null, data });
-        toast.success(isDraft ? "Draft updated successfully!" : data.message, { duration: 3000, style: toastStyle });
+        const successMsg = isDraft
+          ? "Draft updated successfully!"
+          : isRelaunch
+          ? "Campaign relaunched successfully!"
+          : data.message;
+        toast.success(successMsg, { duration: 3000, style: toastStyle });
         navigate(isDraft ? "/account/draft-campaigns" : "/account/active-campaigns");
       } else if (data.code === 400) {
         toast.error(data.message, { duration: 3000, style: toastStyle });
@@ -1238,6 +1244,8 @@ const EditCampaign = () => {
                     data-testid="loader"
                     color="#fff"
                   />
+                ) : isRelaunch ? (
+                  "Relaunch Campaign"
                 ) : (
                   "Save Payment & Update Campaign"
                 )}

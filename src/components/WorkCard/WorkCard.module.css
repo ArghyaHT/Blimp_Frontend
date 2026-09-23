@@ -7,7 +7,7 @@
     width: 50%;
     height: 40rem;
     margin-block: 4rem;
-    object-fit: inherit;
+    object-fit: cover;
     object-position: center;
     border-radius: 1.6rem;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);

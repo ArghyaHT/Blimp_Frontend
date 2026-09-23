@@ -273,6 +273,19 @@ const Cause = () => {
                           Edit Campaign
                         </button>
 
+                        <button
+                          onClick={() =>
+                            navigate("/edit-campaign", {
+                              state: {
+                                edit_campaign_item: featureItemDetail.data.data,
+                                isRelaunch: true,
+                              },
+                            })
+                          }
+                        >
+                          Relaunch Campaign
+                        </button>
+
                         <button onClick={stop_campaign_handler}>
                           {stopCampaign.loading ? (
                             <ClipLoader

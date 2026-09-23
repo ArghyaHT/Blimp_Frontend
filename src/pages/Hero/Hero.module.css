@@ -1,8 +1,8 @@
 .heroContainer {
   position: relative;
-  height: 68rem;
+  height: 100rem;
   background-image: url("../../assets/heroBanner.jpg");
-  background-size: 100% 100%;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   padding-inline: 7.5rem;
@@ -107,6 +107,7 @@
         width: 50%;
         height: 50rem;
         object-fit: cover;
+        border-radius: 1.6rem;
       }
 
       &>div {
@@ -327,6 +328,7 @@
         width: 50%;
         height: 56rem;
         object-fit: cover;
+        border-radius: 1.6rem;
       }
 
       &>div {
@@ -424,7 +426,7 @@
   .heroContainer {
     height: 50rem;
     padding-inline: 1.5rem;
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
@@ -674,7 +676,7 @@
   .heroContainer {
     height: 60rem;
     padding-inline: 1.5rem;
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 

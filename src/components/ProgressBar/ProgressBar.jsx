@@ -41,7 +41,7 @@ const ProgressBar = ({
         </p>
       </div>
 
-      <div style={{ width: "6rem", height: "6rem" }}>
+      <div style={{ width: "6rem", height: "6rem", filter: "drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.08))" }}>
         <CircularProgressbar
           value={percentageAchieved}
           text={`${percentageAchieved}%`}
@@ -64,7 +64,7 @@ const ProgressBar = ({
             // Colors
             pathColor: "var(--btn-hover-color)",
             textColor: "var(--text-primary)",
-            trailColor: "var(--text-primary)000",
+            trailColor: "#e5e7eb",
             backgroundColor: "#ffffff",
           })}
         />
