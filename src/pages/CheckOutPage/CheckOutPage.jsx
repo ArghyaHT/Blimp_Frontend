@@ -185,6 +185,37 @@ const CheckOutPage = () => {
     }
   };
 
+  const verifySubscription = async (paymentResponse) => {
+    try {
+      const verifyData = {
+        razorpay_subscription_id: paymentResponse.razorpay_subscription_id,
+        razorpay_payment_id: paymentResponse.razorpay_payment_id,
+        razorpay_signature: paymentResponse.razorpay_signature,
+      };
+
+      console.log("Verify Subscription Data:", verifyData);
+
+      const response = await api.post("/verify-subscription", verifyData);
+      const result = response.data;
+
+      console.log("Verify Subscription Response:", result);
+
+      if (result?.code === 200) {
+        alert("Monthly Subscription successful! Thank you for your recurring support.");
+        window.scrollTo(0, 0);
+        navigate("/");
+      } else {
+        alert(result?.message || "Subscription verification failed. If money was deducted, status will update shortly.");
+      }
+    } catch (error) {
+      console.error("Subscription Verification Error:", error);
+      alert(
+        error.response?.data?.message ||
+        "Subscription verification process had an issue. Status will update automatically."
+      );
+    }
+  };
+
   const handleDonate = async () => {
     let valid = true;
 
@@ -258,8 +289,63 @@ const CheckOutPage = () => {
 
       console.log("Donation Data:", donationData);
 
+      const isMonthly = selectedTab === "Monthly";
+
       // ------------------------------------
-      // CREATE DONATION / RAZORPAY ORDER
+      // MONTHLY RECURRING SUBSCRIPTION FLOW
+      // ------------------------------------
+
+      if (isMonthly) {
+        const response = await api.post("/create-subscription", donationData);
+        const result = response.data;
+
+        console.log("Subscription API Response:", result);
+
+        if (result.code !== 200) {
+          alert(result.message || "Unable to create monthly subscription");
+          return;
+        }
+
+        const subData = result.data;
+
+        const options = {
+          key: import.meta.env.VITE_RAZORPAY_KEY,
+          subscription_id: subData.razorpay_subscription_id,
+          name: "Blimp Monthly Support",
+          description: isArticle
+            ? `Monthly: ${article?.title || "Article"} (${currencySymbol}${totalAmount}/mo)`
+            : `Monthly: ${campaign?.campaign_name || "Campaign"} (${currencySymbol}${totalAmount}/mo)`,
+          prefill: {
+            name: donationCheck ? "Anonymous Donor" : `${firstname.trim()} ${lastname.trim()}`.trim(),
+            email: donationCheck ? "anonymous@blimp.org" : personalEmail.trim(),
+          },
+          handler: async function (paymentResponse) {
+            console.log("Razorpay Subscription Response:", paymentResponse);
+            await verifySubscription(paymentResponse);
+          },
+          modal: {
+            ondismiss: function () {
+              console.log("Razorpay checkout closed");
+            },
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+
+        const razorpay = new window.Razorpay(options);
+
+        razorpay.on("payment.failed", function (response) {
+          console.error("Razorpay subscription payment failed:", response.error);
+          alert(response.error?.description || "Subscription payment failed. Please try again.");
+        });
+
+        razorpay.open();
+        return;
+      }
+
+      // ------------------------------------
+      // SINGLE ("GIVE ONCE") DONATION FLOW
       // ------------------------------------
 
       const response = await api.post("/donation", donationData);
@@ -273,30 +359,17 @@ const CheckOutPage = () => {
         return;
       }
 
-      // ------------------------------------
-      // DONATION CREATED
-      // ------------------------------------
-
       const donation = result.data;
 
       console.log("Created Donation:", donation);
 
-      // ------------------------------------
-      // OPEN RAZORPAY
-      // ------------------------------------
-
-      console.log(
-        "Razorpay Key:",
-        import.meta.env.VITE_RAZORPAY_KEY
-      );
-
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY,
 
-        // Use the original donor amount in their currency (e.g. $2100, not ₹2,00,789)
+        // Use the original donor amount in their currency
         amount: Math.round(Number(totalAmount) * 100),
 
-        // Use the campaign's currency so donor sees USD/EUR/SGD in the checkout
+        // Use currency code
         currency: currencyCode,
 
         name: "Blimp",
