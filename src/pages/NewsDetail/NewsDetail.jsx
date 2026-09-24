@@ -107,7 +107,17 @@ const NewsDetail = () => {
             <p>{newsDetailItem?.data?.data?.description}</p>
           </div>
 
-          <button ref={donateTriggerRef} onClick={() => navigate("/checkout")}>
+          <button
+            ref={donateTriggerRef}
+            onClick={() =>
+              navigate("/checkout", {
+                state: {
+                  articleItem: newsDetailItem?.data?.data || newsItem,
+                  isArticle: true,
+                },
+              })
+            }
+          >
             donate now
           </button>
 
@@ -170,7 +180,14 @@ const NewsDetail = () => {
         <div className={style.stickyDonateWrapper}>
           <button
             className={style.stickyDonateButton}
-            onClick={() => navigate("/checkout")}
+            onClick={() =>
+              navigate("/checkout", {
+                state: {
+                  articleItem: newsDetailItem?.data?.data || newsItem,
+                  isArticle: true,
+                },
+              })
+            }
           >
             Donate Now
           </button>

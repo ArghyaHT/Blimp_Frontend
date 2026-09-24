@@ -96,6 +96,10 @@ const StartCampaign = () => {
   ]);
   const [selectedStep, setSelectedStep] = useState(1);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [selectedStep]);
+
   const [categories, setCategories] = useState({
     loading: false,
     error: null,

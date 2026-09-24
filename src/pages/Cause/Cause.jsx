@@ -58,6 +58,7 @@ const Cause = () => {
   const [pageNo, setPageNo] = useState(1);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (featureItem?.id) {
       const fetchCampaignDetails = async () => {
         try {
@@ -438,7 +439,10 @@ const Cause = () => {
                       },
                     }}
                     value={pageNo}
-                    onChange={(event, value) => setPageNo(value)}
+                    onChange={(event, value) => {
+                      setPageNo(value);
+                      window.scrollTo(0, 0);
+                    }}
                   />
                 </div>
               </div>

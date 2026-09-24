@@ -52,6 +52,16 @@ const StartCampaign = lazy(() => import("./pages/StartCampaign/StartCampaign"));
 const EditCampaign = lazy(() => import("./pages/EditCampaign/EditCampaign"));
 const Cause = lazy(() => import("./pages/Cause/Cause"));
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 const App = () => {
   useEffect(() => {
     const styleElement = document.createElement("style");
@@ -75,6 +85,7 @@ const App = () => {
     <>
       <Toaster />
       <BrowserRouter>
+        <ScrollToTop />
         <Suspense
           fallback={
             <div className="loading-wrapper">

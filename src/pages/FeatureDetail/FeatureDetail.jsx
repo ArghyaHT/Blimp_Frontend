@@ -81,6 +81,7 @@ const FeatureDetail = () => {
 
   const handlePageChange = (event, value) => {
     setPage(value);
+    window.scrollTo(0, 0);
   };
 
   const handleToggleLike = (updateId) => {
@@ -155,6 +156,7 @@ const FeatureDetail = () => {
   const campaignId = featureItem?.id || featureItemDetail?.data?.data?.id || location.state?.id;
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const idToUse = featureItem?.id || location.state?.id;
     if (idToUse) {
       const fetchCampaignDetails = async () => {

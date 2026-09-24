@@ -98,6 +98,7 @@ const Discover = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (user?.id && page) {
       fetchCampaignHistory(page, selectedCategory, query);
     }

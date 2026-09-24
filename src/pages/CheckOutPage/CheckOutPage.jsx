@@ -1,4 +1,4 @@
-import React, { useState, } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import style from "./CheckOutPage.module.css";
@@ -51,10 +51,25 @@ const CheckOutPage = () => {
 
 
   const location = useLocation();
+  const locationState = location.state || {};
 
-  const campaign = location.state;
+  const isArticle = Boolean(
+    locationState?.isArticle ||
+    locationState?.articleItem ||
+    (!locationState?.campaign_name && (locationState?.title || locationState?.article_id))
+  );
 
-  console.log(campaign, "campaign in checkout page");
+  const article = locationState?.articleItem || (isArticle ? locationState : null);
+  const campaign = isArticle ? null : locationState;
+
+  const currencySymbol = isArticle ? "₹" : (campaign?.country?.symbol || "₹");
+  const currencyCode = isArticle ? "INR" : (campaign?.country?.currency || campaign?.country?.currency_code || "INR");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  console.log({ campaign, article, isArticle }, "in checkout page");
 
   // ------------------------------------
   // CALCULATE TIP
@@ -83,7 +98,7 @@ const CheckOutPage = () => {
   // ------------------------------------
 
   const formatCurrency = (amount) => {
-    return `${campaign?.country?.symbol || "₹"}${Number(amount).toFixed(2)}`;
+    return `${currencySymbol}${Number(amount).toFixed(2)}`;
   };
 
   // ------------------------------------
@@ -140,7 +155,8 @@ const CheckOutPage = () => {
   const verifyDonation = async (paymentResponse) => {
     try {
       const verifyData = {
-        campaign_id: campaign?.id,
+        campaign_id: campaign?.id || null,
+        article_id: article?.id || null,
         razorpay_order_id: paymentResponse.razorpay_order_id,
         razorpay_payment_id: paymentResponse.razorpay_payment_id,
         razorpay_signature: paymentResponse.razorpay_signature,
@@ -164,85 +180,10 @@ const CheckOutPage = () => {
       console.error("Payment Verification Error:", error);
       alert(
         error.response?.data?.message ||
-          "Payment verification process had an issue. If money was deducted, your donation status will update automatically."
+        "Payment verification process had an issue. If money was deducted, your donation status will update automatically."
       );
     }
   };
-
-  // const handleDonate = async () => {
-
-  //   let valid = true;
-
-  //   setFirstnameError("");
-  //   setLastnameError("");
-  //   setPersonalEmailError("");
-
-  //   if (!firstname.trim()) {
-  //     setFirstnameError("First name is required");
-  //     valid = false;
-  //   }
-
-  //   if (!lastname.trim()) {
-  //     setLastnameError("Last name is required");
-  //     valid = false;
-  //   }
-
-  //   if (!personalEmail.trim()) {
-  //     setPersonalEmailError("Email is required");
-  //     valid = false;
-  //   } else if (
-  //     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(personalEmail)
-  //   ) {
-  //     setPersonalEmailError("Please enter a valid email");
-  //     valid = false;
-  //   }
-
-  //   if (!valid) {
-  //     return;
-  //   }
-
-  //   const loaded = await loadRazorpay();
-
-  //   if (!loaded) {
-  //     alert("Razorpay SDK failed to load. Please check your internet connection.");
-  //     return;
-  //   }
-
-  //   // const donationData = {
-  //   //   donationType: selectedTab,
-  //   //   donationAmount: donationAmount,
-  //   //   tipPercentage: tipPercentage,
-  //   //   tipAmount: tipAmount,
-  //   //   totalAmount: totalAmount,
-  //   //   anonymous: donationCheck,
-  //   //   firstname: firstname,
-  //   //   lastname: lastname,
-  //   //   email: personalEmail,
-  //   // };
-
-  //   const donationData = {
-  //     user_id: user?.id || null,
-  //     campaign_id: campaign.id,
-
-  //     total_amount: Number(totalAmount),
-  //     tip_amount: Number(tipAmount),
-  //     tip_percent: Number(tipPercentage),
-
-  //     first_name: firstname.trim(),
-  //     last_name: lastname.trim(),
-  //     email: personalEmail.trim(),
-
-  //     is_supporters: selectedTab === "supporters" ? 1 : 0,
-  //     is_email_subscribed: 0,
-  //     is_anonymous: donationCheck ? 1 : 0,
-  //   };
-
-
-
-  //   console.log("Donation Data:", donationData);
-
-  //   // Payment API can be called here
-  // };
 
   const handleDonate = async () => {
     let valid = true;
@@ -296,16 +237,15 @@ const CheckOutPage = () => {
       // DONATION DATA
       // ------------------------------------
 
-      const campaignCurrency = campaign?.country?.currency || campaign?.country?.currency_code || "INR";
-
       const donationData = {
         user_id: user?.id || null,
-        campaign_id: campaign?.id,
+        campaign_id: campaign?.id || null,
+        article_id: article?.id || null,
 
         total_amount: Number(totalAmount),
         tip_amount: Number(tipAmount),
         tip_percent: Number(tipPercentage),
-        currency: campaignCurrency,
+        currency: currencyCode,
 
         first_name: donationCheck ? "Anonymous" : firstname.trim(),
         last_name: donationCheck ? "Donor" : lastname.trim(),
@@ -357,11 +297,13 @@ const CheckOutPage = () => {
         amount: Math.round(Number(totalAmount) * 100),
 
         // Use the campaign's currency so donor sees USD/EUR/SGD in the checkout
-        currency: campaignCurrency,
+        currency: currencyCode,
 
         name: "Blimp",
 
-        description: `${campaign?.campaign_name || "Campaign"} (${campaign?.country?.symbol || "$"}${totalAmount})`,
+        description: isArticle
+          ? `${article?.title || "Article Donation"} (${currencySymbol}${totalAmount})`
+          : `${campaign?.campaign_name || "Campaign"} (${currencySymbol}${totalAmount})`,
 
         order_id: donation.razorpay_order_id,
 
@@ -371,7 +313,8 @@ const CheckOutPage = () => {
         },
 
         notes: {
-          campaign_id: campaign?.id,
+          campaign_id: campaign?.id || null,
+          article_id: article?.id || null,
           donation_id: donation.id,
         },
 
@@ -431,8 +374,12 @@ const CheckOutPage = () => {
       <section className={style.checkoutSectionContainer}>
         <div>
           <div>
-            <p>{campaign?.campaign_name || "Campaign"}</p>
-            <p>Still {campaign?.country?.symbol || "₹"} {remainingAmount} to go. Help us amplify</p>
+            <p>{isArticle ? (article?.title || "Article") : (campaign?.campaign_name || "Campaign")}</p>
+            {isArticle ? (
+              <p>Empower independent journalism and stories. Help us amplify</p>
+            ) : (
+              <p>Still {currencySymbol}{remainingAmount} to go. Help us amplify</p>
+            )}
           </div>
 
           <div>
@@ -517,7 +464,7 @@ const CheckOutPage = () => {
                         cursor: "pointer",
                       }}
                     >
-                      <p>{campaign?.country?.symbol || "₹"}{amount}</p>
+                      <p>{currencySymbol}{amount}</p>
                     </div>
                   );
                 })}
@@ -529,7 +476,7 @@ const CheckOutPage = () => {
               </div> */}
 
               <div>
-                <p>{campaign?.country?.symbol || "₹"}</p>
+                <p>{currencySymbol}</p>
                 <input
                   type="text"
                   inputMode="decimal"

@@ -34,11 +34,13 @@ const NewsBlogPage = () => {
       }
     };
 
+    window.scrollTo(0, 0);
     fetchLatestArticles();
   }, [page]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
+    window.scrollTo(0, 0);
   };
 
   return (
