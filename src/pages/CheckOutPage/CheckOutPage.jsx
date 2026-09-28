@@ -69,6 +69,12 @@ const CheckOutPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    if (selectedTab === "Monthly") {
+      setDonationCheck(false);
+    }
+  }, [selectedTab]);
+
   console.log({ campaign, article, isArticle }, "in checkout page");
 
   // ------------------------------------
@@ -223,8 +229,10 @@ const CheckOutPage = () => {
     setLastnameError("");
     setPersonalEmailError("");
 
-    // Only validate personal information if NOT anonymous
-    if (!donationCheck) {
+    const isMonthly = selectedTab === "Monthly";
+
+    // Validate personal information if NOT anonymous OR if Monthly subscription selected
+    if (isMonthly || !donationCheck) {
       if (!firstname.trim()) {
         setFirstnameError("First name is required");
         valid = false;
@@ -741,16 +749,28 @@ const CheckOutPage = () => {
                     offColor="#97A5B4"
                     onColor="#0A84FF"
                     checked={donationCheck}
+                    disabled={selectedTab === "Monthly"}
                     onChange={() => {
-                      setDonationCheck((prev) => !prev);
+                      if (selectedTab !== "Monthly") {
+                        setDonationCheck((prev) => !prev);
+                      }
                     }}
                   />
 
-                  <p>Donate Anonymously</p>
+                  <p>
+                    Donate Anonymously{" "}
+                    {selectedTab === "Monthly" && (
+                      <span style={{ fontSize: "1.2rem", color: "#e63946", marginLeft: "0.5rem" }}>
+                        (Disabled for monthly)
+                      </span>
+                    )}
+                  </p>
                 </div>
 
                 <p>
-                  Turn on to keep your identity private on the fundraiser
+                  {selectedTab === "Monthly"
+                    ? "Anonymous donations are not allowed for monthly recurring subscriptions. Personal details are required."
+                    : "Turn on to keep your identity private on the fundraiser"}
                 </p>
               </div>
 

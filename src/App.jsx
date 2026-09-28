@@ -20,6 +20,7 @@ const NewsDetail = lazy(() => import("./pages/NewsDetail/NewsDetail"));
 const FeatureDetail = lazy(() => import("./pages/FeatureDetail/FeatureDetail"));
 const CheckOutPage = lazy(() => import("./pages/CheckOutPage/CheckOutPage"));
 const NewsBlogPage = lazy(() => import("./pages/NewsBlogPage/NewsBlogPage"));
+const ManageSubscription = lazy(() => import("./pages/ManageSubscription/ManageSubscription"));
 const LoginSignup = lazy(() => import("./pages/LoginSignup/LoginSignup"));
 const ForgetPassword = lazy(() => import("./pages/ForgetPassword/ForgetPassword"))
 const ForgetChangedPassword = lazy(() => import("./pages/ForgetChangedPassword/ForgetChangedPassword"))
@@ -113,6 +114,7 @@ const App = () => {
 
               <Route path="/checkout" element={<CheckOutPage />} />
               <Route path="/news-blog" element={<NewsBlogPage />} />
+              <Route path="/manage-subscription" element={<ManageSubscription />} />
               <Route path="/start-campaign" element={<StartCampaign />} />
 
               <Route element={<ProtectedAuthRoute />}>

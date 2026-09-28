@@ -25,6 +25,10 @@ const Navbar = () => {
       url: "/news-blog",
     },
     {
+      name: "Manage Subscriptions",
+      url: "/manage-subscription",
+    },
+    {
       name: "Contact Us",
       url: "/contact-us",
     },

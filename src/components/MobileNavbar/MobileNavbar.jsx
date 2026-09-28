@@ -38,6 +38,10 @@ const MobileNavbar = () => {
       url: "/aboutus",
     },
     {
+      name: "Manage Subscriptions",
+      url: "/manage-subscription",
+    },
+    {
       name: "Contact Us",
       url: "/contact-us",
     },
