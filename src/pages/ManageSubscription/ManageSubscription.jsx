@@ -11,7 +11,7 @@ const ManageSubscription = () => {
   const [subscriptions, setSubscriptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
-  const [actionLoadingId, setActionLoadingId] = useState(null);
+  const [loadingAction, setLoadingAction] = useState({ id: null, action: null });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -66,7 +66,7 @@ const ManageSubscription = () => {
       return;
     }
 
-    setActionLoadingId(sub.id);
+    setLoadingAction({ id: sub.id, action: "pause" });
     try {
       const response = await api.post("/pause-subscription", {
         razorpay_subscription_id: subId,
@@ -90,7 +90,7 @@ const ManageSubscription = () => {
         error.response?.data?.message || "Failed to pause subscription"
       );
     } finally {
-      setActionLoadingId(null);
+      setLoadingAction({ id: null, action: null });
     }
   };
 
@@ -98,7 +98,7 @@ const ManageSubscription = () => {
     const subId = sub.razorpay_subscription_id;
     if (!subId && !sub.id) return;
 
-    setActionLoadingId(sub.id);
+    setLoadingAction({ id: sub.id, action: "resume" });
     try {
       const response = await api.post("/resume-subscription", {
         razorpay_subscription_id: subId,
@@ -122,7 +122,7 @@ const ManageSubscription = () => {
         error.response?.data?.message || "Failed to resume subscription"
       );
     } finally {
-      setActionLoadingId(null);
+      setLoadingAction({ id: null, action: null });
     }
   };
 
@@ -138,7 +138,7 @@ const ManageSubscription = () => {
       return;
     }
 
-    setActionLoadingId(sub.id);
+    setLoadingAction({ id: sub.id, action: "cancel" });
     try {
       const response = await api.post("/cancel-subscription", {
         razorpay_subscription_id: subId,
@@ -165,7 +165,7 @@ const ManageSubscription = () => {
         error.response?.data?.message || "Failed to cancel subscription"
       );
     } finally {
-      setActionLoadingId(null);
+      setLoadingAction({ id: null, action: null });
     }
   };
 
@@ -313,17 +313,17 @@ const ManageSubscription = () => {
                           <>
                             <button
                               className={`${style.btnAction} ${style.btnPause}`}
-                              disabled={actionLoadingId === sub.id}
+                              disabled={loadingAction?.id === sub.id}
                               onClick={() => handlePause(sub)}
                             >
-                              {actionLoadingId === sub.id ? "Processing..." : "Pause"}
+                              {loadingAction?.id === sub.id && loadingAction?.action === "pause" ? "Processing..." : "Pause"}
                             </button>
                             <button
                               className={`${style.btnAction} ${style.btnCancel}`}
-                              disabled={actionLoadingId === sub.id}
+                              disabled={loadingAction?.id === sub.id}
                               onClick={() => handleCancel(sub)}
                             >
-                              {actionLoadingId === sub.id ? "Processing..." : "Cancel"}
+                              {loadingAction?.id === sub.id && loadingAction?.action === "cancel" ? "Processing..." : "Cancel"}
                             </button>
                           </>
                         )}
@@ -332,17 +332,17 @@ const ManageSubscription = () => {
                           <>
                             <button
                               className={`${style.btnAction} ${style.btnResume}`}
-                              disabled={actionLoadingId === sub.id}
+                              disabled={loadingAction?.id === sub.id}
                               onClick={() => handleResume(sub)}
                             >
-                              {actionLoadingId === sub.id ? "Processing..." : "Resume"}
+                              {loadingAction?.id === sub.id && loadingAction?.action === "resume" ? "Processing..." : "Resume"}
                             </button>
                             <button
                               className={`${style.btnAction} ${style.btnCancel}`}
-                              disabled={actionLoadingId === sub.id}
+                              disabled={loadingAction?.id === sub.id}
                               onClick={() => handleCancel(sub)}
                             >
-                              {actionLoadingId === sub.id ? "Processing..." : "Cancel"}
+                              {loadingAction?.id === sub.id && loadingAction?.action === "cancel" ? "Processing..." : "Cancel"}
                             </button>
                           </>
                         )}
