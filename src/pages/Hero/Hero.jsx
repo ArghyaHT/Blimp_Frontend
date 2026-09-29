@@ -471,7 +471,7 @@ const Hero = () => {
                   });
                 }}
               >
-                DONATE
+                Donate
               </button>
             </div>
 

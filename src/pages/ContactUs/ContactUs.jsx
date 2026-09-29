@@ -337,7 +337,7 @@ const ContactUs = () => {
               )}
             </div>
 
-            <button onClick={sendMessage}>
+            <button className="glossy-btn" onClick={sendMessage}>
               {sendMessageLoader ? (
                 <ClipLoader
                   size={"1.8rem"}

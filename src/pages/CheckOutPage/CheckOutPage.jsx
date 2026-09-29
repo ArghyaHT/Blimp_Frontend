@@ -879,7 +879,7 @@ const CheckOutPage = () => {
               </div>
 
               <button
-                className={style.donate_btn}
+                className={`${style.donate_btn} glossy-btn`}
                 onClick={handleDonate}
               >
                 Donate

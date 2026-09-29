@@ -342,8 +342,9 @@ const FeatureDetail = () => {
                       navigate("/checkout", { state: campaign });
                     }}
                     ref={donateTriggerRef}
+                    className="glossy-btn"
                   >
-                    donate
+                    Donate
                   </button>
                 </div>
               </>
@@ -673,7 +674,7 @@ const FeatureDetail = () => {
       {showStickyDonate && (
         <div className={style.stickyDonateWrapper}>
           <button
-            className={style.stickyDonateButton}
+            className={`${style.stickyDonateButton} glossy-btn`}
             onClick={() => navigate("/checkout", { state: campaign })}
           >
             Donate Now
@@ -906,7 +907,7 @@ const FeatureDetail = () => {
                 </button>
 
                 <button
-                  className={style.modalDonateBtn}
+                  className={`${style.modalDonateBtn} glossy-btn`}
                   onClick={() => {
                     setSelectedUpdateModal(null);
                     navigate("/checkout", { state: campaign });

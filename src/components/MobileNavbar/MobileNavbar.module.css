@@ -71,22 +71,34 @@
 
     & > button {
       height: 4rem;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       outline: none;
       cursor: pointer;
       font-size: var(--font-medium);
-      font-weight: 500;
-      background-color: var(--btn-base-black-color);
+      font-weight: 700;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0.1) 48%,
+        rgba(0, 0, 0, 0.1) 50%,
+        rgba(0, 0, 0, 0.3) 100%
+      ), #111827;
       color: #ffffff;
       border-radius: 2rem;
-      -webkit-border-radius: 2rem;
-      -moz-border-radius: 2rem;
-      -ms-border-radius: 2rem;
-      -o-border-radius: 2rem;
-      transition: 0.3s ease-in;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.4),
+                  0 4px 12px rgba(0, 0, 0, 0.25);
+      transition: all 0.25s ease;
 
-      &:hover{
-        background-color: var(--btn-hover-black-color);
+      &:hover {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.5) 0%,
+          rgba(255, 255, 255, 0.15) 48%,
+          rgba(0, 0, 0, 0.15) 50%,
+          rgba(0, 0, 0, 0.4) 100%
+        ), #1f2937;
+        box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.5),
+                    0 6px 18px rgba(0, 0, 0, 0.35);
       }
     }
   }

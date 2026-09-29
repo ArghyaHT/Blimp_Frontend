@@ -108,6 +108,7 @@ const NewsDetail = () => {
           </div>
 
           <button
+            className="glossy-btn"
             ref={donateTriggerRef}
             onClick={() =>
               navigate("/checkout", {
@@ -118,7 +119,7 @@ const NewsDetail = () => {
               })
             }
           >
-            donate now
+            Donate Now
           </button>
 
           <div className={style.addsContainer}>
@@ -179,7 +180,7 @@ const NewsDetail = () => {
       {showStickyDonate && (
         <div className={style.stickyDonateWrapper}>
           <button
-            className={style.stickyDonateButton}
+            className={`${style.stickyDonateButton} glossy-btn`}
             onClick={() =>
               navigate("/checkout", {
                 state: {

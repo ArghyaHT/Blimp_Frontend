@@ -55,25 +55,10 @@
     }
 
     & > button {
-      height: 4rem;
+      height: 4.4rem;
       width: fit-content;
       padding-inline: 3rem;
-      border-radius: 3rem;
-      -webkit-border-radius: 3rem;
-      -moz-border-radius: 3rem;
-      -ms-border-radius: 3rem;
-      -o-border-radius: 3rem;
-      cursor: pointer;
-      border: none;
-      outline: none;
       font-size: var(--font-medium);
-      font-weight: var(--btn-font-weight);
-      background-color: var(--btn-base-color);
-      transition: 0.3s ease-in;
-
-      &:hover {
-        background-color: var(--btn-hover-color);
-      }
     }
 
     .addsContainer {
@@ -142,14 +127,6 @@
   gap: 2rem;
 }
 
-.blogCardContainer {
-  margin-top: 4rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  gap: 2rem;
-}
-
 .stickyDonateWrapper {
   position: fixed;
   bottom: 0;
@@ -165,11 +142,6 @@
   width: 100%;
   padding: 1.4rem;
   font-size: 1.6rem;
-  font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  background-color: var(--btn-base-color);
-  color: #000;
 }
 
 /* Desktop: disable sticky */

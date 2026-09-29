@@ -256,24 +256,8 @@
         margin-top: 1rem;
         width: max-content;
         height: 4rem;
-        border-radius: 3rem;
-        -webkit-border-radius: 3rem;
-        -moz-border-radius: 3rem;
-        -ms-border-radius: 3rem;
-        -o-border-radius: 3rem;
         padding-inline: 2rem;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        background-color: var(--btn-base-color);
         font-size: var(--font-medium);
-        font-weight: var(--btn-font-weight);
-        transition: 0.3s ease-in;
-        color: var(--text-primary);
-
-        &:hover {
-          background-color: var(--btn-hover-color);
-        }
       }
     }
   }

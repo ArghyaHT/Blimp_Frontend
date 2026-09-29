@@ -84,14 +84,8 @@
 
     &>div:nth-child(2) {
       &>button {
-        background-color: var(--btn-base-color);
-        color: var(--text-primary) 000;
-        transition: 0.3s ease-in;
-        color: var(--text-primary);
-
-        &:hover {
-          background-color: var(--btn-hover-color);
-          color: var(--text-primary);
+        &>p, &>span {
+          color: #ffffff;
         }
       }
     }
@@ -165,11 +159,6 @@
   width: 100%;
   padding: 1.4rem;
   font-size: 1.6rem;
-  font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  background-color: var(--btn-base-color);
-  color: #000;
 }
 
 /* Desktop: disable sticky */

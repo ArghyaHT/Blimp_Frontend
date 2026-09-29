@@ -15,12 +15,13 @@
 
     & > h2 {
       font-size: var(--font-large);
+      line-height: 1.4;
+      height: calc(1.4em * 2);
       display: -webkit-box;
       -webkit-line-clamp: 2; /* limit to 2 lines */
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
-      min-height: calc(2 * 1.2 * 2.2rem);
     }
 
     & > div {

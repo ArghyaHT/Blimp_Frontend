@@ -166,8 +166,9 @@ const AboutUs = () => {
                   navigate("/discover");
                 }}
                 ref={donateTriggerRef}
+                className="glossy-btn"
               >
-                <p>donate</p>
+                <p>Donate</p>
               </button>
             </div>
           </div>
@@ -232,7 +233,7 @@ const AboutUs = () => {
       {showStickyDonate && (
         <div className={style.stickyDonateWrapper}>
           <button
-            className={style.stickyDonateButton}
+            className={`${style.stickyDonateButton} glossy-btn`}
             // onClick={() => navigate("/checkout")}
             onClick={() => {
               window.scrollTo(0, 0);
