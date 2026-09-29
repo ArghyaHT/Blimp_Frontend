@@ -9,65 +9,69 @@ const ProgressBar = ({
   percentageAchieved,
   donationCount,
   currency,
-  symbol,
+  symbol = "₹",
   height = "auto",
 }) => {
   const formatNumber = (num) => {
     if (num == null || isNaN(num)) return "0";
+    const numericVal = Number(num);
 
-    if (num >= 1_000_000_000)
-      return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
-    if (num >= 1_000_000)
-      return (num / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
-    if (num >= 1_000) return (num / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
-    return num.toString();
+    if (numericVal >= 1_000_000_000)
+      return (numericVal / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
+    if (numericVal >= 1_000_000)
+      return (numericVal / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+    if (numericVal >= 1_000)
+      return (numericVal / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
+    return numericVal.toLocaleString();
   };
 
+  const calculatedPercentage =
+    percentageAchieved !== undefined && percentageAchieved !== null
+      ? Math.round(Number(percentageAchieved))
+      : targetAmount && Number(targetAmount) > 0
+      ? Math.min(100, Math.round((Number(raisedAmount || 0) / Number(targetAmount)) * 100))
+      : 0;
+
+  const displayCurrency = currency ? currency.toUpperCase() : "";
+
   return (
-    <div
-      className={styles.progressContainer}
-      style={{
-        height: height,
-      }}
-    >
-      <div>
-        <p>
-          {symbol} {formatNumber(raisedAmount)} {currency} raised
-        </p>
-        <p>
-          {symbol}
-          {formatNumber(targetAmount)} goal - {formatNumber(donationCount)}{" "}
-          donations
-        </p>
-      </div>
-
-      <div style={{ width: "6rem", height: "6rem", filter: "drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.08))" }}>
+    <div className={styles.progressContainer} style={{ height }}>
+      <div className={styles.circularWrapper}>
         <CircularProgressbar
-          value={percentageAchieved}
-          text={`${percentageAchieved}%`}
+          value={calculatedPercentage}
+          text={`${calculatedPercentage}%`}
           styles={buildStyles({
-            // Rotation of path and trail, in number of turns (0-1)
-            rotation: 0.25,
-
-            // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
-            strokeLinecap: "butt",
-
-            // Text size
-            textSize: "2rem",
-
-            // How long animation takes to go from one percentage to another, in seconds
+            rotation: 0,
+            strokeLinecap: "round",
+            textSize: "24px",
             pathTransitionDuration: 0.5,
-
-            // Can specify path transition in more detail, or remove it entirely
-            // pathTransition: 'none',
-
-            // Colors
-            pathColor: "var(--btn-hover-color)",
-            textColor: "var(--text-primary)",
+            pathColor: "var(--btn-hover-color, #00c1e8)",
+            textColor: "var(--text-primary, #111827)",
             trailColor: "#e5e7eb",
             backgroundColor: "#ffffff",
           })}
         />
+      </div>
+
+      <div className={styles.textWrapper}>
+        <p className={styles.raisedText}>
+          {symbol}
+          {formatNumber(raisedAmount)} {displayCurrency}{" "}
+          <span className={styles.raisedLabel}>raised</span>
+        </p>
+
+        {targetAmount != null && (
+          <p className={styles.targetText}>
+            of {symbol}
+            {formatNumber(targetAmount)}
+          </p>
+        )}
+
+        {donationCount != null && (
+          <p className={styles.donationsText}>
+            {formatNumber(donationCount)} donations
+          </p>
+        )}
       </div>
     </div>
   );

@@ -1,58 +1,73 @@
 .progressContainer {
+  padding: 1.2rem 1.6rem;
+  border-radius: 1.2rem;
+  background-color: #f8fafc;
+  border: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.6rem;
+  box-sizing: border-box;
+}
+
+.circularWrapper {
+  width: 6rem;
+  height: 6rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.06));
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.raisedText {
+  font-size: 1.8rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary, #111827);
+  margin: 0 !important;
+  line-height: 1.2;
+}
+
+.raisedLabel {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text-primary, #111827);
+}
+
+.targetText {
+  font-size: 1.4rem !important;
+  color: #6b7280 !important;
+  margin: 0 !important;
+  font-weight: 500;
+}
+
+.donationsText {
+  font-size: 1.3rem !important;
+  color: #6b7280 !important;
+  margin: 0 !important;
+  font-weight: 400;
+}
+
+@media (max-width: 480px) {
+  .progressContainer {
     padding: 1rem;
-    border-radius: 0.8rem;
-    -webkit-border-radius: 0.8rem;
-    -moz-border-radius: 0.8rem;
-    -ms-border-radius: 0.8rem;
-    -o-border-radius: 0.8rem;
-    background-color: #F2F4F4;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    gap: 1.2rem;
+  }
 
-    &>div {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 0.5rem;
+  .circularWrapper {
+    width: 5.2rem;
+    height: 5.2rem;
+  }
 
-        &>p:nth-child(1) {
-            font-size: var(--font-medium) !important;
-        }
+  .raisedText {
+    font-size: 1.6rem !important;
+  }
 
-        &>p:nth-child(2) {
-            font-size: var(--font-vsmall) !important;
-            color: #6C757D;
-        }
-    }
-
-    .circularProgressbar {
-        width: 5.5rem;
-        height: 5.5rem;
-        border-radius: 50%;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        -ms-border-radius: 50%;
-        -o-border-radius: 50%;
-        background-color: rgba(108, 235, 40, 1);
-        padding: 0.4rem;
-
-        &>div {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            -webkit-border-radius: 50%;
-            -moz-border-radius: 50%;
-            -ms-border-radius: 50%;
-            -o-border-radius: 50%;
-            background-color: var(--bg-primary);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            &>p {
-                font-size: var(--font-vsmall);
-            }
-        }
-    }
+  .targetText {
+    font-size: 1.3rem !important;
+  }
 }
