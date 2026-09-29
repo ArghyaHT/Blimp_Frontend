@@ -268,7 +268,7 @@ const Hero = () => {
 
           <div className={style.seedHeroBtnGroup}>
             <button
-              className={style.seedPrimaryBtn}
+              className={`${style.seedPrimaryBtn} glossy-btn`}
               onClick={() => {
                 window.scrollTo(0, 0);
                 navigate("/start-campaign");
@@ -432,6 +432,7 @@ const Hero = () => {
                     </button>
 
                     <button
+                      className="glossy-btn"
                       onClick={() => {
 
                         window.scrollTo(0, 0);
@@ -464,6 +465,7 @@ const Hero = () => {
                 <RightIcon />
               </button>
               <button
+                className="glossy-btn"
                 onClick={() => {
                   window.scrollTo(0, 0);
                   navigate("/checkout", {
