@@ -330,8 +330,10 @@ const EditCampaign = () => {
     error: null,
     data: {},
   });
+  const [loadingAction, setLoadingAction] = useState(null);
 
   const edit_campaign_handler = async (isDraft = false) => {
+    setLoadingAction(isDraft ? "draft" : "submit");
     if (!selectedCategory) {
       return toast.error("Category is not selected", {
         duration: 3000,
@@ -449,6 +451,7 @@ const EditCampaign = () => {
       setEditCampaign((prev) => ({ ...prev, error: error.message }));
     } finally {
       setEditCampaign((prev) => ({ ...prev, loading: false }));
+      setLoadingAction(null);
     }
   };
 
@@ -812,8 +815,8 @@ const EditCampaign = () => {
                   disabled={editCampaign.loading}
                   className={styles.saveDraftBtn}
                 >
-                  {editCampaign.loading ? (
-                    <ClipLoader size={"2rem"} color="#333" />
+                  {editCampaign.loading && loadingAction === "draft" ? (
+                    <ClipLoader size={"22px"} color="#333" />
                   ) : (
                     "Save as Draft"
                   )}
@@ -893,8 +896,8 @@ const EditCampaign = () => {
                 disabled={editCampaign.loading}
                 className={styles.saveDraftBtn}
               >
-                {editCampaign.loading ? (
-                  <ClipLoader size={"2rem"} color="#333" />
+                {editCampaign.loading && loadingAction === "draft" ? (
+                  <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
                 )}
@@ -979,8 +982,8 @@ const EditCampaign = () => {
                 disabled={editCampaign.loading}
                 className={styles.saveDraftBtn}
               >
-                {editCampaign.loading ? (
-                  <ClipLoader size={"2rem"} color="#333" />
+                {editCampaign.loading && loadingAction === "draft" ? (
+                  <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
                 )}
@@ -1135,8 +1138,8 @@ const EditCampaign = () => {
                 disabled={editCampaign.loading}
                 className={styles.saveDraftBtn}
               >
-                {editCampaign.loading ? (
-                  <ClipLoader size={"2rem"} color="#333" />
+                {editCampaign.loading && loadingAction === "draft" ? (
+                  <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
                 )}
@@ -1229,8 +1232,8 @@ const EditCampaign = () => {
                 disabled={editCampaign.loading}
                 className={styles.saveDraftBtn}
               >
-                {editCampaign.loading ? (
-                  <ClipLoader size={"2rem"} color="#333" />
+                {editCampaign.loading && loadingAction === "draft" ? (
+                  <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
                 )}
@@ -1241,9 +1244,9 @@ const EditCampaign = () => {
                 disabled={editCampaign.loading}
                 className={styles.submitPaymentBtn}
               >
-                {editCampaign.loading ? (
+                {editCampaign.loading && loadingAction === "submit" ? (
                   <ClipLoader
-                    size="3rem"
+                    size="22px"
                     aria-label="Loading Spinner"
                     data-testid="loader"
                     color="#fff"

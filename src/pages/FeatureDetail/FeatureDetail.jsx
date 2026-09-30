@@ -21,6 +21,8 @@ import api from "../../api/api";
 import Pagination from "@mui/material/Pagination";
 import { convert } from "html-to-text";
 import campaignDummy from "../../assets/campaign_dummy.jpeg";
+import VerifiedBadge from "../../components/VerifiedBadge/VerifiedBadge";
+import { isVerifiedCampaign } from "../../utils/campaignUtils";
 
 const FeatureDetail = () => {
   const navigate = useNavigate();
@@ -291,7 +293,10 @@ const FeatureDetail = () => {
           {featureItemDetail?.loading ? (
             <Skeleton variant="rectangular" width={"100%"} height={"56rem"} />
           ) : (
-            <img src={featureItemDetail?.data?.data?.banner_image} alt="" />
+            <div className={style.mainBannerWrapper}>
+              <img src={featureItemDetail?.data?.data?.banner_image} alt="" />
+              {isVerifiedCampaign(campaign) && <VerifiedBadge />}
+            </div>
           )}
 
           <div className={style.donationContainer}>
@@ -405,8 +410,8 @@ const FeatureDetail = () => {
                     <h2>Raising fund description</h2>
                     <p style={{ whiteSpace: "pre-wrap" }}>
                       {convert(
-                        featureItem?.description
-                          .replace(/\\n/g, "")
+                        (featureItem?.description || "")
+                          ?.replace(/\\n/g, "")
                           ?.replace(/^"(.*)"$/, "$1"),
                         options,
                       )}

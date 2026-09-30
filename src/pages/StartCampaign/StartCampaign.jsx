@@ -362,8 +362,10 @@ const StartCampaign = () => {
     error: null,
     data: {},
   });
+  const [loadingAction, setLoadingAction] = useState(null);
 
   const start_campaign_handler = async (isDraft = false) => {
+    setLoadingAction(isDraft ? "draft" : "submit");
     if (!selectedCategory) {
       return toast.error("Category is not selected", {
         duration: 3000,
@@ -525,6 +527,7 @@ const StartCampaign = () => {
       setStartCampaign((prev) => ({ ...prev, error: error.message }));
     } finally {
       setStartCampaign((prev) => ({ ...prev, loading: false }));
+      setLoadingAction(null);
     }
   };
 
@@ -1162,8 +1165,8 @@ const StartCampaign = () => {
                   disabled={startCampaign.loading}
                   className={styles.saveDraftBtn}
                 >
-                  {startCampaign.loading ? (
-                    <ClipLoader size={"2rem"} color="#333" />
+                  {startCampaign.loading && loadingAction === "draft" ? (
+                    <ClipLoader size={"22px"} color="#333" />
                   ) : (
                     "Save as Draft"
                   )}
@@ -1247,8 +1250,8 @@ const StartCampaign = () => {
                 disabled={startCampaign.loading}
                 className={styles.saveDraftBtn}
               >
-                {startCampaign.loading ? (
-                  <ClipLoader size={"2rem"} color="#333" />
+                {startCampaign.loading && loadingAction === "draft" ? (
+                  <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
                 )}
@@ -1282,8 +1285,7 @@ const StartCampaign = () => {
                     type="text"
                     placeholder="Your full name"
                     value={selectedName}
-                    // onChange={(e) => setSelectedName(e.target.value)}
-                    readOnly
+                    onChange={(e) => setSelectedName(e.target.value)}
                   />
                 </div>
 
@@ -1292,8 +1294,7 @@ const StartCampaign = () => {
                     type="text"
                     placeholder="Your email"
                     value={selectedEmail}
-                    // onChange={(e) => setSelectedEmail(e.target.value)}
-                    readOnly
+                    onChange={(e) => setSelectedEmail(e.target.value)}
                   />
                 </div>
 
@@ -1326,42 +1327,6 @@ const StartCampaign = () => {
                   <p>**NGO/ONG Registration Certificate (for organizations)</p>
                 </div>
               </div> */}
-
-                <div className={styles.stepActionButtons}>
-                  <button
-                    type="button"
-                    onClick={handleSaveDraft}
-                    disabled={startCampaign.loading}
-                    className={styles.saveDraftBtn}
-                  >
-                    {startCampaign.loading ? (
-                      <ClipLoader size={"2rem"} color="#333" />
-                    ) : (
-                      "Save as Draft"
-                    )}
-                  </button>
-
-                  <button
-                    className={styles.saveContinueBtn}
-                    onClick={() => {
-                      if (!selectedName || !selectedEmail) {
-                        return;
-                      }
-
-                      localStorage.setItem(
-                        "userFullname",
-                        JSON.stringify(selectedName)
-                      );
-                      localStorage.setItem(
-                        "userEmail",
-                        JSON.stringify(selectedEmail)
-                      );
-                      setSelectedStep(7);
-                    }}
-                  >
-                    Save and Continue
-                  </button>
-                </div>
               </div>
             ) : (
               <div className={styles.stepperYouUnFilledUserContainer}>
@@ -1482,13 +1447,54 @@ const StartCampaign = () => {
                   {signupLoader ? (
                     <ClipLoader
                       color="#fff"
-                      size={"3rem"}
+                      size={"22px"}
                       aria-label="Loading Spinner"
                       data-testid="loader"
                     />
                   ) : (
                     "Create My Account"
                   )}
+                </button>
+              </div>
+            )}
+
+            {selectedName && selectedEmail && (
+              <div className={styles.stepActionButtons}>
+                <button
+                  type="button"
+                  onClick={handleSaveDraft}
+                  disabled={startCampaign.loading}
+                  className={styles.saveDraftBtn}
+                >
+                  {startCampaign.loading && loadingAction === "draft" ? (
+                    <ClipLoader size={"22px"} color="#333" />
+                  ) : (
+                    "Save as Draft"
+                  )}
+                </button>
+
+                <button
+                  className={styles.saveContinueBtn}
+                  onClick={() => {
+                    if (!selectedName || !selectedEmail) {
+                      return toast.error("Please fill in your name and email", {
+                        duration: 3000,
+                        style: toastStyle,
+                      });
+                    }
+
+                    localStorage.setItem(
+                      "userFullname",
+                      JSON.stringify(selectedName)
+                    );
+                    localStorage.setItem(
+                      "userEmail",
+                      JSON.stringify(selectedEmail)
+                    );
+                    setSelectedStep(7);
+                  }}
+                >
+                  Save and Continue
                 </button>
               </div>
             )}
@@ -1628,8 +1634,8 @@ const StartCampaign = () => {
                 disabled={startCampaign.loading}
                 className={styles.saveDraftBtn}
               >
-                {startCampaign.loading ? (
-                  <ClipLoader size={"2rem"} color="#333" />
+                {startCampaign.loading && loadingAction === "draft" ? (
+                  <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
                 )}
@@ -1748,8 +1754,8 @@ const StartCampaign = () => {
                 disabled={startCampaign.loading}
                 className={styles.saveDraftBtn}
               >
-                {startCampaign.loading ? (
-                  <ClipLoader size={"2rem"} color="#333" />
+                {startCampaign.loading && loadingAction === "draft" ? (
+                  <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
                 )}
@@ -1760,9 +1766,9 @@ const StartCampaign = () => {
                 disabled={startCampaign.loading}
                 className={styles.submitPaymentBtn}
               >
-                {startCampaign.loading ? (
+                {startCampaign.loading && loadingAction === "submit" ? (
                   <ClipLoader
-                    size={"3rem"}
+                    size={"22px"}
                     aria-label="Loading Spinner"
                     data-testid="loader"
                     color="#fff"

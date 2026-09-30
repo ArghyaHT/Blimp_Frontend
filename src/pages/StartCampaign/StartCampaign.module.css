@@ -2,7 +2,7 @@
   padding-inline: 7.5rem;
   padding-block: 4rem;
 
-  & > div {
+  &>div {
     width: min(100%, 60%);
     margin-inline: auto;
     display: flex;
@@ -12,18 +12,18 @@
       display: none !important;
     }
 
-    & > div:nth-child(2) {
+    &>div:nth-child(2) {
       display: flex;
       flex-direction: column;
       gap: 2rem;
       width: 100%;
 
-      & > h2 {
+      &>h2 {
         font-size: var(--font-large);
         text-align: center;
       }
 
-      & > p {
+      &>p {
         font-size: var(--font-small);
         text-align: center;
         max-width: 85%;
@@ -41,7 +41,7 @@
         flex-direction: column;
         gap: 1rem;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           display: flex;
 
           .circleWrapper {
@@ -85,12 +85,12 @@
     }
 
     .stepperCategoryContainer {
-      & > div:nth-child(1) {
+      &>div:nth-child(1) {
         position: relative;
         width: 85%;
         margin-inline: auto;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -111,7 +111,7 @@
             border-color: var(--btn-hover-color);
           }
 
-          & > input {
+          &>input {
             flex: 1;
             height: 100%;
             padding: 0 1.6rem;
@@ -128,7 +128,7 @@
             }
           }
 
-          & > div {
+          &>div {
             display: grid;
             place-items: center;
             height: 100%;
@@ -144,7 +144,7 @@
           }
         }
 
-        & > button {
+        &>button {
           width: max-content;
           height: 4.4rem;
           border-radius: 2.5rem;
@@ -207,7 +207,7 @@
           flex-direction: column;
           gap: 1.5rem;
 
-          & > button {
+          &>button {
             min-height: 4rem;
             cursor: pointer;
             background: transparent;
@@ -238,19 +238,21 @@
         }
       }
 
-      & > div:nth-child(2) {
+      &>div:nth-child(2) {
         width: 85%;
         margin-inline: auto;
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2 columns of equal width */
-        gap: 4rem; /* optional spacing between boxes */
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns of equal width */
+        gap: 4rem;
+        /* optional spacing between boxes */
 
-        & > div {
+        &>div {
           height: 30rem;
           background-color: #f8f9fa;
           border-radius: 1rem;
 
-          & > img {
+          &>img {
             width: 100%;
             height: inherit;
             border-radius: 1rem;
@@ -261,13 +263,13 @@
     }
 
     .stepperCountryContainer {
-      & > div:nth-child(1) {
+      &>div:nth-child(1) {
         position: relative;
         width: 85%;
         margin-inline: auto;
         min-height: 45vh;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -288,7 +290,7 @@
             border-color: var(--btn-hover-color);
           }
 
-          & > input {
+          &>input {
             flex: 1;
             height: 100%;
             padding: 0 1.6rem;
@@ -305,7 +307,7 @@
             }
           }
 
-          & > div {
+          &>div {
             display: grid;
             place-items: center;
             height: 100%;
@@ -321,7 +323,7 @@
           }
         }
 
-        & > button {
+        &>button {
           width: max-content;
           height: 4.4rem;
           border-radius: 2.5rem;
@@ -384,7 +386,7 @@
           flex-direction: column;
           gap: 1.5rem;
 
-          & > button {
+          &>button {
             min-height: 4rem;
             cursor: pointer;
             background: transparent;
@@ -417,13 +419,13 @@
     }
 
     .stepperGoalContainer {
-      & > div:nth-child(1) {
+      &>div:nth-child(1) {
         position: relative;
         width: 85%;
         margin-inline: auto;
         min-height: 45vh;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -444,7 +446,7 @@
             border-color: var(--btn-hover-color);
           }
 
-          & > input {
+          &>input {
             flex: 1;
             height: 100%;
             padding: 0 1.6rem;
@@ -461,7 +463,7 @@
             }
           }
 
-          & > div {
+          &>div {
             display: grid;
             place-items: center;
             height: 100%;
@@ -477,7 +479,7 @@
           }
         }
 
-        & > button {
+        &>button {
           width: max-content;
           height: 4.4rem;
           border-radius: 2.5rem;
@@ -514,13 +516,13 @@
     }
 
     .stepperTitleContainer {
-      & > div:nth-child(1) {
+      &>div:nth-child(1) {
         position: relative;
         width: 85%;
         margin-inline: auto;
         min-height: 45vh;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -541,7 +543,7 @@
             border-color: var(--btn-hover-color);
           }
 
-          & > input {
+          &>input {
             flex: 1;
             height: 100%;
             padding: 0 1.6rem;
@@ -559,7 +561,7 @@
           }
         }
 
-        & > button {
+        &>button {
           width: max-content;
           height: 4.4rem;
           border-radius: 2.5rem;
@@ -693,7 +695,7 @@
         flex-direction: column;
         gap: 3rem;
 
-        & > button:nth-child(1) {
+        &>button:nth-child(1) {
           padding: 1rem 2rem;
           border-radius: 2.5rem;
           font-weight: var(--btn-font-weight);
@@ -704,10 +706,10 @@
           display: block;
           margin-inline: auto;
           background-color: #ffffff;
-          /* display: none; */
+          display: none;
         }
 
-        & > div {
+        &>div {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -729,7 +731,7 @@
             border-color: var(--btn-hover-color);
           }
 
-          & > input {
+          &>input {
             flex: 1;
             height: 100%;
             padding: 0 1.6rem;
@@ -747,7 +749,7 @@
             }
           }
 
-          & > div {
+          &>div {
             display: grid;
             place-items: center;
             height: 100%;
@@ -763,7 +765,7 @@
           }
         }
 
-        & > button:nth-child(4) {
+        &>button:nth-child(4) {
           width: max-content;
           height: 4.4rem;
           border-radius: 2.5rem;
@@ -789,18 +791,18 @@
         flex-direction: column;
         gap: 4rem;
 
-        & > h2 {
+        &>h2 {
           font-size: var(--font-large);
           text-align: center;
         }
 
-        & > div:nth-child(2) {
+        &>div:nth-child(2) {
           display: flex;
           align-items: center;
           gap: 3rem;
           justify-content: space-between;
 
-          & > div {
+          &>div {
             flex: 1;
             display: flex;
             align-items: center;
@@ -811,17 +813,17 @@
             overflow: hidden;
             transition: all 0.25s ease;
 
-            & > input:hover {
+            &>input:hover {
               border-color: #cbd5e1;
               box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
             }
 
-            & > input:focus {
+            &>input:focus {
               border-color: var(--btn-hover-color);
               box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             }
 
-            & > input {
+            &>input {
               width: 100%;
               min-height: var(--input-height);
               padding: 0 1.6rem;
@@ -840,7 +842,7 @@
               }
             }
 
-            & > div {
+            &>div {
               display: grid;
               place-items: center;
               height: 100%;
@@ -857,22 +859,22 @@
           }
         }
 
-        & > div:not(:nth-child(2)):not(:nth-child(4)):not(:nth-last-child(2)) {
+        &>div:not(:nth-child(2)):not(:nth-child(4)):not(:nth-last-child(2)) {
           display: flex;
           flex-direction: column;
           gap: 2rem;
 
-          & > input:hover {
+          &>input:hover {
             border-color: #cbd5e1;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
           }
 
-          & > input:focus {
+          &>input:focus {
             border-color: var(--btn-hover-color);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
           }
 
-          & > input {
+          &>input {
             width: 100%;
             min-height: var(--input-height);
             padding: 0 1.6rem;
@@ -892,7 +894,7 @@
           }
 
           /* Icon */
-          & > div {
+          &>div {
             display: grid;
             place-items: center;
             height: 100%;
@@ -933,11 +935,7 @@
           }
         }
 
-        .phoneContainer
-          :global(
-            .react-international-phone-input-container
-              .react-international-phone-input
-          ) {
+        .phoneContainer :global(.react-international-phone-input-container .react-international-phone-input) {
           width: 100%;
           height: inherit;
           background-color: transparent;
@@ -947,8 +945,7 @@
           }
         }
 
-        .phoneContainer
-          :global(.react-international-phone-country-selector-button) {
+        .phoneContainer :global(.react-international-phone-country-selector-button) {
           background-color: transparent;
           border: none;
           padding-left: 0.3rem;
@@ -960,7 +957,7 @@
           align-items: center;
           gap: 4rem;
 
-          & > div {
+          &>div {
             flex: 1;
             height: 100%;
             padding: 0 1.6rem;
@@ -980,7 +977,7 @@
           }
         }
 
-        & > button {
+        &>button {
           min-height: 4rem;
           width: 19rem;
           border-radius: 2rem;
@@ -1010,7 +1007,7 @@
       flex-direction: column;
       gap: 4rem;
 
-      & > div:nth-child(1) {
+      &>div:nth-child(1) {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -1022,7 +1019,7 @@
           border-color: var(--btn-hover-color);
         }
 
-        & > textarea {
+        &>textarea {
           width: 100%;
           min-height: 6.5rem;
           max-height: 20rem;
@@ -1163,7 +1160,7 @@
         background-color: rgba(0, 0, 0, 0.8);
       }
 
-      & > button:nth-last-child(1) {
+      &>button:nth-last-child(1) {
         width: max-content;
         height: 4.4rem;
         border-radius: 2.5rem;
@@ -1198,18 +1195,18 @@
         flex-direction: column;
         gap: 2rem;
 
-        & > div {
+        &>div {
           display: flex;
           flex-direction: column;
           gap: 0.6rem;
 
-          & > label {
+          &>label {
             font-size: 1.4rem;
             font-weight: 600;
             color: #374151;
           }
 
-          & > input {
+          &>input {
             height: var(--input-height, 4.8rem);
             padding: 0 1.6rem;
             background-color: #ffffff;
@@ -1269,12 +1266,13 @@
     padding-inline: 1.5rem;
     padding-block: 2rem;
 
-    & > div {
+    &>div {
       width: 95%;
+
       .mobileStepperCircle {
         display: block !important;
 
-        & > div {
+        &>div {
           background-color: var(--btn-hover-color);
           width: 4rem;
           height: 4rem;
@@ -1285,7 +1283,7 @@
           justify-content: center;
           align-items: center;
 
-          & > p {
+          &>p {
             font-size: 2rem;
             font-weight: bold;
             color: #ffffff;
@@ -1293,18 +1291,18 @@
         }
       }
 
-      & > div:nth-child(2) {
+      &>div:nth-child(2) {
         display: flex;
         flex-direction: column;
         gap: 2rem;
 
-        & > h2 {
+        &>h2 {
           font-size: 2rem;
           font-weight: bold;
           text-align: center;
         }
 
-        & > p {
+        &>p {
           font-size: var(--font-small);
           font-weight: 600;
           text-align: center;
@@ -1320,13 +1318,13 @@
       .stepperCategoryContainer {
         margin-block: 4rem;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           width: 100%;
 
-          & > div:nth-child(1) {
+          &>div:nth-child(1) {
             height: 5.5rem;
 
-            & > div {
+            &>div {
               height: 100%;
             }
           }
@@ -1336,7 +1334,7 @@
           }
         }
 
-        & > div:nth-child(2) {
+        &>div:nth-child(2) {
           width: 100%;
           grid-template-columns: repeat(1, 1fr);
           gap: 3rem;
@@ -1346,10 +1344,10 @@
       .stepperCountryContainer {
         margin-block: 4rem;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           width: 100%;
 
-          & > div:nth-child(1) {
+          &>div:nth-child(1) {
             height: 5.5rem;
           }
 
@@ -1362,10 +1360,10 @@
       .stepperGoalContainer {
         margin-block: 4rem;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           width: 100%;
 
-          & > div:nth-child(1) {
+          &>div:nth-child(1) {
             height: 5.5rem;
           }
 
@@ -1378,10 +1376,10 @@
       .stepperTitleContainer {
         margin-block: 4rem;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           width: 100%;
 
-          & > input {
+          &>input {
             height: 5.5rem;
           }
         }
@@ -1395,20 +1393,20 @@
         margin-block: 4rem;
 
         .stepperYouUnFilledUserContainer {
-          & > div:nth-child(2) {
+          &>div:nth-child(2) {
             flex-direction: column;
             gap: 4rem;
 
-            & > div {
+            &>div {
               width: 100%;
             }
           }
 
-          & > div:nth-last-child(2) {
+          &>div:nth-last-child(2) {
             flex-direction: column;
             gap: 3rem;
 
-            & > div {
+            &>div {
               width: 100%;
               min-height: 6.5rem;
             }
@@ -1420,24 +1418,24 @@
         width: 100%;
         margin-block: 4rem;
 
-        & > input {
+        &>input {
           height: 5.5rem;
         }
 
-        & > div:nth-child(3) {
-          & > p:nth-child(1) {
+        &>div:nth-child(3) {
+          &>p:nth-child(1) {
             font-size: var(--font-medium);
           }
 
-          & > div {
+          &>div {
             flex-direction: column;
 
-            & > div {
+            &>div {
               width: 100%;
             }
           }
 
-          & > p:nth-last-child(1) {
+          &>p:nth-last-child(1) {
             font-size: var(--font-small);
           }
         }
@@ -1451,12 +1449,13 @@
     padding-inline: 1.5rem;
     padding-block: 2rem;
 
-    & > div {
+    &>div {
       width: min(95%, 85%);
+
       .mobileStepperCircle {
         display: block !important;
 
-        & > div {
+        &>div {
           background-color: var(--btn-hover-color);
           width: 4rem;
           height: 4rem;
@@ -1467,7 +1466,7 @@
           justify-content: center;
           align-items: center;
 
-          & > p {
+          &>p {
             font-size: 2rem;
             font-weight: bold;
             color: #ffffff;
@@ -1475,18 +1474,18 @@
         }
       }
 
-      & > div:nth-child(2) {
+      &>div:nth-child(2) {
         display: flex;
         flex-direction: column;
         gap: 2rem;
 
-        & > h2 {
+        &>h2 {
           font-size: 2rem;
           font-weight: bold;
           text-align: center;
         }
 
-        & > p {
+        &>p {
           font-size: var(--font-small);
           font-weight: 600;
           text-align: center;
@@ -1502,13 +1501,13 @@
       .stepperCategoryContainer {
         margin-block: 4rem;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           width: 100%;
 
-          & > div:nth-child(1) {
+          &>div:nth-child(1) {
             height: 5.5rem;
 
-            & > div {
+            &>div {
               height: 100%;
             }
           }
@@ -1518,7 +1517,7 @@
           }
         }
 
-        & > div:nth-child(2) {
+        &>div:nth-child(2) {
           width: 100%;
           grid-template-columns: repeat(1, 1fr);
           gap: 3rem;
@@ -1528,10 +1527,10 @@
       .stepperCountryContainer {
         margin-block: 4rem;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           width: 100%;
 
-          & > div:nth-child(1) {
+          &>div:nth-child(1) {
             height: 5.5rem;
           }
 
@@ -1544,10 +1543,10 @@
       .stepperGoalContainer {
         margin-block: 4rem;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           width: 100%;
 
-          & > div:nth-child(1) {
+          &>div:nth-child(1) {
             height: 5.5rem;
           }
 
@@ -1560,10 +1559,10 @@
       .stepperTitleContainer {
         margin-block: 4rem;
 
-        & > div:nth-child(1) {
+        &>div:nth-child(1) {
           width: 100%;
 
-          & > input {
+          &>input {
             height: 5.5rem;
           }
         }
@@ -1576,36 +1575,37 @@
       .stepperYouContainer {
         margin-block: 4rem;
 
-        & > div:nth-child(2) {
+        &>div:nth-child(2) {
           width: 100%;
 
-          & > div:nth-child(1) {
+          &>div:nth-child(1) {
             flex-direction: column;
             align-items: flex-start;
 
-            & > input {
+            &>input {
               width: 100%;
               min-height: 5.5rem;
             }
           }
 
-          & > input:nth-child(2) {
+          &>input:nth-child(2) {
             min-height: 5.5rem;
           }
 
-          & > div:nth-child(3) {
+          &>div:nth-child(3) {
             flex-direction: column;
             align-items: flex-start;
 
-            & > div:nth-child(1),
-            & > div:nth-child(2) {
+            &>div:nth-child(1),
+            &>div:nth-child(2) {
               width: 100%;
               min-height: 5.5rem;
             }
 
-            & > div:nth-child(3) {
+            &>div:nth-child(3) {
               width: 100%;
-              & > button {
+
+              &>button {
                 margin-inline: auto;
                 margin-bottom: 2rem;
               }
@@ -1618,24 +1618,24 @@
         width: 100%;
         margin-block: 4rem;
 
-        & > input {
+        &>input {
           height: 5.5rem;
         }
 
-        & > div:nth-child(3) {
-          & > p:nth-child(1) {
+        &>div:nth-child(3) {
+          &>p:nth-child(1) {
             font-size: var(--font-medium);
           }
 
-          & > div {
+          &>div {
             flex-direction: column;
 
-            & > div {
+            &>div {
               width: 100%;
             }
           }
 
-          & > p:nth-last-child(1) {
+          &>p:nth-last-child(1) {
             font-size: var(--font-small);
           }
         }
@@ -1646,7 +1646,7 @@
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
   .startCampaignContainer {
-    & > div {
+    &>div {
       width: min(100%, 90%);
     }
   }
@@ -1654,7 +1654,7 @@
 
 @media screen and (min-width: 1025px) and (max-width: 1250px) {
   .startCampaignContainer {
-    & > div {
+    &>div {
       width: min(100%, 75%);
     }
   }

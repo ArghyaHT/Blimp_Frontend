@@ -4,6 +4,8 @@ import api from "../../api/api";
 import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import { SearchIcon } from "../../icons";
+import VerifiedBadge from "../../components/VerifiedBadge/VerifiedBadge";
+import { isVerifiedCampaign } from "../../utils/campaignUtils";
 
 const ManageSubscription = () => {
   const { user } = useAuth();
@@ -258,15 +260,18 @@ const ManageSubscription = () => {
 
                   return (
                     <div key={sub.id} className={style.subscriptionCard}>
-                      <img
-                        src={image}
-                        alt={title}
-                        className={style.itemImage}
-                        onError={(e) => {
-                          e.target.src =
-                            "https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?w=500&auto=format&fit=crop";
-                        }}
-                      />
+                      <div className={style.itemImageWrapper}>
+                        <img
+                          src={image}
+                          alt={title}
+                          className={style.itemImage}
+                          onError={(e) => {
+                            e.target.src =
+                              "https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?w=500&auto=format&fit=crop";
+                          }}
+                        />
+                        {isVerifiedCampaign(sub.campaignInfo) && <VerifiedBadge />}
+                      </div>
 
                       <div className={style.itemInfo}>
                         <div className={style.titleBadgeRow}>

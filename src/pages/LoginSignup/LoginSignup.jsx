@@ -271,7 +271,7 @@ const LoginSignup = () => {
             {signinLoader ? (
               <ClipLoader
                 color="#fff"
-                size={"3rem"}
+                size={"22px"}
                 aria-label="Loading Spinner"
                 data-testid="loader"
               />
@@ -397,7 +397,7 @@ const LoginSignup = () => {
             {signupLoader ? (
               <ClipLoader
                 color="#fff"
-                size={"3rem"}
+                size={"22px"}
                 aria-label="Loading Spinner"
                 data-testid="loader"
               />

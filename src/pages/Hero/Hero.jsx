@@ -16,10 +16,14 @@ import { useAuth } from "../../context/AuthContext";
 import { convert } from "html-to-text";
 import { Pagination } from "@mui/material";
 import FeatureCardMobile from "../../components/FeatureCardMobile/FeatureCardMobile";
+import VerifiedBadge from "../../components/VerifiedBadge/VerifiedBadge";
+import { isVerifiedCampaign } from "../../utils/campaignUtils";
 
 import HeroCarouselOne from "../../assets/hero_carousel_one.svg";
 import HeroCarouselTwo from "../../assets/hero_carousel_two.svg";
 import HeroCarouselThree from "../../assets/hero_carousel_three.svg";
+import HeroBanner from "../../assets/HeroBanner.jpg";
+import campaignDummy from "../../assets/campaign_dummy.jpeg";
 
 const Hero = () => {
   const { user } = useAuth();
@@ -308,14 +312,14 @@ const Hero = () => {
       {/* Section 2: Campaign Banner Section */}
       <section
         style={{
-          backgroundImage: `url(${supportCampaigns?.data?.data?.banner_image})`,
+          backgroundImage: `url(${supportCampaigns?.data?.data?.banner_image || HeroBanner})`,
         }}
         className={style.heroContainer}
       >
         <div>
           <div className={style.heroContent}>
             <h1>
-              {supportCampaigns?.data?.data?.campaign_name}{" "}
+              {supportCampaigns?.data?.data?.campaign_name || "Support Empowering Causes"}{" "}
               <span
                 style={{
                   fontSize: "2.4rem",
@@ -367,13 +371,18 @@ const Hero = () => {
               </>
             ) : (
               <>
-                <img
-                  src={
+                <div className={style.latestImageWrapper}>
+                  <img
+                    src={
+                      latestCampaigns?.data?.data?.latestCampaigns?.[0]
+                        ?.banner_image || campaignDummy
+                    }
+                    alt=""
+                  />
+                  {isVerifiedCampaign(
                     latestCampaigns?.data?.data?.latestCampaigns?.[0]
-                      ?.banner_image
-                  }
-                  alt=""
-                />
+                  ) && <VerifiedBadge />}
+                </div>
 
                 <div>
                   <h2>
@@ -547,8 +556,8 @@ const Hero = () => {
                       ?.banner_image
                   }
                   description={convert(
-                    latestCampaigns?.data?.data?.latestCampaigns?.[2]?.description
-                      .replace(/\\n/g, "")
+                    (latestCampaigns?.data?.data?.latestCampaigns?.[2]?.description || "")
+                      ?.replace(/\\n/g, "")
                       ?.replace(/^"(.*)"$/, "$1"),
                     options,
                   )}

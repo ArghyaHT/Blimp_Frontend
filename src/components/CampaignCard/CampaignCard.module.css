@@ -4,12 +4,25 @@
     gap: 2rem;
     width: 50%;
     cursor: pointer;
+}
 
-    &>img {
-        width: 100%;
-        height: 31.3rem;
-        object-fit: cover;
-    }
+.imageWrapper {
+    position: relative !important;
+    width: 100%;
+    height: 31.3rem;
+    border-radius: var(--button-radius, 1rem);
+    overflow: hidden !important;
+}
+
+.imageWrapper > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--button-radius, 1rem);
+}
+
+.campaignCardContainer {
+
 
     &>h2 {
         font-size: var(--font-large);

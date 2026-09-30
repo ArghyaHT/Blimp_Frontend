@@ -1,4 +1,20 @@
+.latestImageWrapper {
+  position: relative !important;
+  width: 100%;
+  height: 31.3rem;
+  border-radius: var(--button-radius, 1rem);
+  overflow: hidden !important;
+}
+
+.latestImageWrapper > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--button-radius, 1rem);
+}
+
 .heroContainer {
+
   position: relative;
   height: 100rem;
   background-image: url("../../assets/heroBanner.jpg");
@@ -152,13 +168,11 @@
           &>button:nth-child(2) {
             width: 15.3rem;
             height: 4.4rem;
-            background: linear-gradient(
-              180deg,
-              rgba(255, 255, 255, 0.65) 0%,
-              rgba(255, 255, 255, 0.15) 48%,
-              rgba(0, 0, 0, 0.05) 50%,
-              rgba(0, 0, 0, 0.2) 100%
-            ), var(--btn-hover-color, #00c1e8);
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.65) 0%,
+                rgba(255, 255, 255, 0.15) 48%,
+                rgba(0, 0, 0, 0.05) 50%,
+                rgba(0, 0, 0, 0.2) 100%), var(--btn-hover-color, #00c1e8);
             color: #ffffff;
             border-radius: 3rem;
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -169,28 +183,26 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
             cursor: pointer;
             box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8),
-                        inset 0 -2px 6px rgba(0, 0, 0, 0.2),
-                        0 4px 14px rgba(0, 193, 232, 0.4);
+              inset 0 -2px 6px rgba(0, 0, 0, 0.2),
+              0 4px 14px rgba(0, 193, 232, 0.4);
             transition: all 0.25s ease;
 
             &:hover {
-              background: linear-gradient(
-                180deg,
-                rgba(255, 255, 255, 0.8) 0%,
-                rgba(255, 255, 255, 0.25) 48%,
-                rgba(0, 0, 0, 0.05) 50%,
-                rgba(0, 0, 0, 0.25) 100%
-              ), var(--btn-hover-color, #00c1e8);
+              background: linear-gradient(180deg,
+                  rgba(255, 255, 255, 0.8) 0%,
+                  rgba(255, 255, 255, 0.25) 48%,
+                  rgba(0, 0, 0, 0.05) 50%,
+                  rgba(0, 0, 0, 0.25) 100%), var(--btn-hover-color, #00c1e8);
               box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.9),
-                          inset 0 -2px 6px rgba(0, 0, 0, 0.25),
-                          0 6px 20px rgba(0, 193, 232, 0.55);
+                inset 0 -2px 6px rgba(0, 0, 0, 0.25),
+                0 6px 20px rgba(0, 193, 232, 0.55);
               transform: translateY(-2px);
             }
 
             &:active {
               transform: translateY(0);
               box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.35),
-                          0 2px 8px rgba(0, 193, 232, 0.3);
+                0 2px 8px rgba(0, 193, 232, 0.3);
             }
           }
         }
@@ -259,13 +271,11 @@
 
     &>button {
       padding: 1.2rem 2.8rem;
-      background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.65) 0%,
-        rgba(255, 255, 255, 0.15) 48%,
-        rgba(0, 0, 0, 0.05) 50%,
-        rgba(0, 0, 0, 0.2) 100%
-      ), var(--btn-hover-color, #00c1e8);
+      background: linear-gradient(180deg,
+          rgba(255, 255, 255, 0.65) 0%,
+          rgba(255, 255, 255, 0.15) 48%,
+          rgba(0, 0, 0, 0.05) 50%,
+          rgba(0, 0, 0, 0.2) 100%), var(--btn-hover-color, #00c1e8);
       color: #ffffff;
       border: 1px solid rgba(255, 255, 255, 0.5);
       border-radius: 3rem;
@@ -281,21 +291,19 @@
       text-transform: uppercase;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
       box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8),
-                  inset 0 -2px 6px rgba(0, 0, 0, 0.2),
-                  0 4px 15px rgba(0, 193, 232, 0.4);
+        inset 0 -2px 6px rgba(0, 0, 0, 0.2),
+        0 4px 15px rgba(0, 193, 232, 0.4);
       transition: all 0.25s ease;
 
       &:hover {
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.8) 0%,
-          rgba(255, 255, 255, 0.25) 48%,
-          rgba(0, 0, 0, 0.05) 50%,
-          rgba(0, 0, 0, 0.25) 100%
-        ), var(--btn-hover-color, #00c1e8);
+        background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.25) 48%,
+            rgba(0, 0, 0, 0.05) 50%,
+            rgba(0, 0, 0, 0.25) 100%), var(--btn-hover-color, #00c1e8);
         box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.9),
-                    inset 0 -2px 6px rgba(0, 0, 0, 0.25),
-                    0 8px 24px rgba(0, 193, 232, 0.55);
+          inset 0 -2px 6px rgba(0, 0, 0, 0.25),
+          0 8px 24px rgba(0, 193, 232, 0.55);
         transform: translateY(-2px);
       }
     }
@@ -570,13 +578,11 @@
             width: max-content;
             height: 4.4rem;
             padding-inline: 3rem;
-            background: linear-gradient(
-              180deg,
-              rgba(255, 255, 255, 0.65) 0%,
-              rgba(255, 255, 255, 0.15) 48%,
-              rgba(0, 0, 0, 0.05) 50%,
-              rgba(0, 0, 0, 0.2) 100%
-            ), var(--btn-hover-color, #00c1e8);
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.65) 0%,
+                rgba(255, 255, 255, 0.15) 48%,
+                rgba(0, 0, 0, 0.05) 50%,
+                rgba(0, 0, 0, 0.2) 100%), var(--btn-hover-color, #00c1e8);
             border-radius: 3rem;
             border: 1px solid rgba(255, 255, 255, 0.5);
             outline: none;
@@ -586,22 +592,20 @@
             letter-spacing: 0.3px;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
             box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8),
-                        inset 0 -2px 6px rgba(0, 0, 0, 0.2),
-                        0 4px 14px rgba(0, 193, 232, 0.4);
+              inset 0 -2px 6px rgba(0, 0, 0, 0.2),
+              0 4px 14px rgba(0, 193, 232, 0.4);
             cursor: pointer;
             transition: all 0.25s ease;
 
             &:hover {
-              background: linear-gradient(
-                180deg,
-                rgba(255, 255, 255, 0.8) 0%,
-                rgba(255, 255, 255, 0.25) 48%,
-                rgba(0, 0, 0, 0.05) 50%,
-                rgba(0, 0, 0, 0.25) 100%
-              ), var(--btn-hover-color, #00c1e8);
+              background: linear-gradient(180deg,
+                  rgba(255, 255, 255, 0.8) 0%,
+                  rgba(255, 255, 255, 0.25) 48%,
+                  rgba(0, 0, 0, 0.05) 50%,
+                  rgba(0, 0, 0, 0.25) 100%), var(--btn-hover-color, #00c1e8);
               box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.9),
-                          inset 0 -2px 6px rgba(0, 0, 0, 0.25),
-                          0 6px 20px rgba(0, 193, 232, 0.55);
+                inset 0 -2px 6px rgba(0, 0, 0, 0.25),
+                0 6px 20px rgba(0, 193, 232, 0.55);
               transform: translateY(-2px);
             }
           }
@@ -832,13 +836,11 @@
           &>button:nth-child(3) {
             width: 15.3rem;
             height: 4.4rem;
-            background: linear-gradient(
-              180deg,
-              rgba(255, 255, 255, 0.65) 0%,
-              rgba(255, 255, 255, 0.15) 48%,
-              rgba(0, 0, 0, 0.05) 50%,
-              rgba(0, 0, 0, 0.2) 100%
-            ), var(--btn-hover-color, #00c1e8);
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.65) 0%,
+                rgba(255, 255, 255, 0.15) 48%,
+                rgba(0, 0, 0, 0.05) 50%,
+                rgba(0, 0, 0, 0.2) 100%), var(--btn-hover-color, #00c1e8);
             border-radius: 3rem;
             border: 1px solid rgba(255, 255, 255, 0.5);
             outline: none;
@@ -848,22 +850,20 @@
             letter-spacing: 0.3px;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
             box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8),
-                        inset 0 -2px 6px rgba(0, 0, 0, 0.2),
-                        0 4px 14px rgba(0, 193, 232, 0.4);
+              inset 0 -2px 6px rgba(0, 0, 0, 0.2),
+              0 4px 14px rgba(0, 193, 232, 0.4);
             cursor: pointer;
             transition: all 0.25s ease;
 
             &:hover {
-              background: linear-gradient(
-                180deg,
-                rgba(255, 255, 255, 0.8) 0%,
-                rgba(255, 255, 255, 0.25) 48%,
-                rgba(0, 0, 0, 0.05) 50%,
-                rgba(0, 0, 0, 0.25) 100%
-              ), var(--btn-hover-color, #00c1e8);
+              background: linear-gradient(180deg,
+                  rgba(255, 255, 255, 0.8) 0%,
+                  rgba(255, 255, 255, 0.25) 48%,
+                  rgba(0, 0, 0, 0.05) 50%,
+                  rgba(0, 0, 0, 0.25) 100%), var(--btn-hover-color, #00c1e8);
               box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.9),
-                          inset 0 -2px 6px rgba(0, 0, 0, 0.25),
-                          0 6px 20px rgba(0, 193, 232, 0.55);
+                inset 0 -2px 6px rgba(0, 0, 0, 0.25),
+                0 6px 20px rgba(0, 193, 232, 0.55);
               transform: translateY(-2px);
             }
           }

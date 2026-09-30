@@ -12,7 +12,8 @@
       font-size: var(--font-large);
     }
 
-    & > img {
+    .mainBannerWrapper {
+      position: relative;
       width: 100%;
       height: 56rem;
       border-radius: var(--button-radius);
@@ -20,7 +21,13 @@
       -moz-border-radius: var(--button-radius);
       -ms-border-radius: var(--button-radius);
       -o-border-radius: var(--button-radius);
-      object-fit: cover;
+      overflow: hidden;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     .linkContainer {
@@ -344,7 +351,7 @@
     & > div {
       gap: 2rem;
 
-      & > img {
+      .mainBannerWrapper {
         height: 20.8rem;
       }
 
@@ -497,7 +504,7 @@
         line-height: var(--subheader-small-lineheight);
       }
 
-      & > img {
+      .mainBannerWrapper {
         height: 30.8rem;
       }
 
