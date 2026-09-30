@@ -191,7 +191,7 @@ const Footer = () => {
           >
             By signing up, you agree to the <span>Terms of Use</span> and{" "}
             <span>Privacy Policy</span> & to receive electronic communications
-            from VICE Media Group, which may include marketing promotions,
+            from BLIMP, which may include marketing promotions,
             advertisements and sponsored content.
           </i>
 
