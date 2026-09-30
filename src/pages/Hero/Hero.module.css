@@ -1140,37 +1140,44 @@
 /* Floating Decorative Background Shapes */
 .shapeStripedCircle {
   position: absolute;
-  top: 15%;
+  top: 20%;
   left: 10%;
   animation: floatSlow 6s ease-in-out infinite;
 }
 
 .shapeYellowDots {
   position: absolute;
-  top: 48%;
+  top: 50%;
   left: 8%;
   animation: floatSlow 7s ease-in-out infinite reverse;
 }
 
 .shapeBlueRays {
   position: absolute;
-  top: 18%;
+  top: 20%;
   right: 12%;
   animation: floatSlow 5.5s ease-in-out infinite;
 }
 
 .shapeArcRight {
   position: absolute;
-  top: 42%;
+  top: 50%;
   right: 6%;
   animation: floatSlow 6.5s ease-in-out infinite reverse;
 }
 
 .shapeWavyLine {
   position: absolute;
-  bottom: 18%;
+  bottom: 20%;
   right: 12%;
   animation: floatSlow 8s ease-in-out infinite;
+}
+
+.shapeOrangeCross {
+  position: absolute;
+  bottom: 20%;
+  left: 12%;
+  animation: floatSlow 7.5s ease-in-out infinite;
 }
 
 @keyframes floatSlow {
@@ -1248,7 +1255,8 @@
   .shapeYellowDots,
   .shapeBlueRays,
   .shapeArcRight,
-  .shapeWavyLine {
+  .shapeWavyLine,
+  .shapeOrangeCross {
     opacity: 0.25;
     transform: scale(0.6);
   }
@@ -1331,7 +1339,8 @@
   .shapeYellowDots,
   .shapeBlueRays,
   .shapeArcRight,
-  .shapeWavyLine {
+  .shapeWavyLine,
+  .shapeOrangeCross {
     display: none;
   }
 }

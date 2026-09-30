@@ -257,6 +257,12 @@ const Hero = () => {
           </svg>
         </div>
 
+        <div className={style.shapeOrangeCross}>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <path d="M 18 4 L 18 32 M 4 18 L 32 18" stroke="#F59E0B" strokeWidth="6" strokeLinecap="round" />
+          </svg>
+        </div>
+
         <div className={style.seedHeroContainer}>
           <h1 className={style.seedHeroTitle}>
             Grow <span className={style.highlightGreenOne}>faster</span>
