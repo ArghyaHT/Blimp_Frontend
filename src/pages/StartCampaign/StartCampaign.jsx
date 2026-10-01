@@ -362,10 +362,10 @@ const StartCampaign = () => {
     error: null,
     data: {},
   });
-  const [loadingAction, setLoadingAction] = useState(null);
+  const [draftLoading, setDraftLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const start_campaign_handler = async (isDraft = false) => {
-    setLoadingAction(isDraft ? "draft" : "submit");
     if (!selectedCategory) {
       return toast.error("Category is not selected", {
         duration: 3000,
@@ -446,6 +446,13 @@ const StartCampaign = () => {
     }
 
     try {
+      if (isDraft) {
+        setDraftLoading(true);
+      } else {
+        setSubmitLoading(true);
+      }
+      setStartCampaign((prev) => ({ ...prev, loading: true, error: null }));
+
       const formData = new FormData();
 
       formData.append("user_id", user.id);
@@ -488,8 +495,6 @@ const StartCampaign = () => {
         });
       }
 
-      setStartCampaign((prev) => ({ ...prev, loading: true, error: null }));
-
       const { data } = await api.post("/campaigns", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -527,7 +532,8 @@ const StartCampaign = () => {
       setStartCampaign((prev) => ({ ...prev, error: error.message }));
     } finally {
       setStartCampaign((prev) => ({ ...prev, loading: false }));
-      setLoadingAction(null);
+      setDraftLoading(false);
+      setSubmitLoading(false);
     }
   };
 
@@ -1162,10 +1168,10 @@ const StartCampaign = () => {
                 <button
                   type="button"
                   onClick={handleSaveDraft}
-                  disabled={startCampaign.loading}
+                  disabled={draftLoading || submitLoading}
                   className={styles.saveDraftBtn}
                 >
-                  {startCampaign.loading && loadingAction === "draft" ? (
+                  {draftLoading ? (
                     <ClipLoader size={"22px"} color="#333" />
                   ) : (
                     "Save as Draft"
@@ -1247,10 +1253,10 @@ const StartCampaign = () => {
               <button
                 type="button"
                 onClick={handleSaveDraft}
-                disabled={startCampaign.loading}
+                disabled={draftLoading || submitLoading}
                 className={styles.saveDraftBtn}
               >
-                {startCampaign.loading && loadingAction === "draft" ? (
+                {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
@@ -1463,10 +1469,10 @@ const StartCampaign = () => {
                 <button
                   type="button"
                   onClick={handleSaveDraft}
-                  disabled={startCampaign.loading}
+                  disabled={draftLoading || submitLoading}
                   className={styles.saveDraftBtn}
                 >
-                  {startCampaign.loading && loadingAction === "draft" ? (
+                  {draftLoading ? (
                     <ClipLoader size={"22px"} color="#333" />
                   ) : (
                     "Save as Draft"
@@ -1631,10 +1637,10 @@ const StartCampaign = () => {
               <button
                 type="button"
                 onClick={handleSaveDraft}
-                disabled={startCampaign.loading}
+                disabled={draftLoading || submitLoading}
                 className={styles.saveDraftBtn}
               >
-                {startCampaign.loading && loadingAction === "draft" ? (
+                {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
@@ -1751,10 +1757,10 @@ const StartCampaign = () => {
               <button
                 type="button"
                 onClick={handleSaveDraft}
-                disabled={startCampaign.loading}
+                disabled={draftLoading || submitLoading}
                 className={styles.saveDraftBtn}
               >
-                {startCampaign.loading && loadingAction === "draft" ? (
+                {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
@@ -1762,11 +1768,12 @@ const StartCampaign = () => {
               </button>
 
               <button
+                type="button"
                 onClick={() => start_campaign_handler(false)}
-                disabled={startCampaign.loading}
+                disabled={draftLoading || submitLoading}
                 className={styles.submitPaymentBtn}
               >
-                {startCampaign.loading && loadingAction === "submit" ? (
+                {submitLoading ? (
                   <ClipLoader
                     size={"22px"}
                     aria-label="Loading Spinner"

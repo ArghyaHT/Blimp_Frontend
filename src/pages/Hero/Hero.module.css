@@ -996,13 +996,13 @@
 .seedHeroSection {
   position: relative;
   background-color: #f8fafc;
-  padding-block: 8rem 6rem;
+  padding-block: 6rem 5rem;
   padding-inline: 2rem;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 150vh;
+  min-height: 100vh;
 }
 
 .seedHeroContainer {
@@ -1062,19 +1062,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3.5rem;
+  gap: 2.5rem;
   margin-bottom: 10rem;
   flex-wrap: wrap;
 }
 
 .seedPrimaryBtn {
-  height: 7rem;
-  padding-inline: 5rem;
+  height: 5.4rem;
+  padding-inline: 3.5rem;
   background-color: #00c1e8;
   color: #000000;
   border: none;
-  border-radius: 4rem;
-  font-size: 2.4rem;
+  border-radius: 3rem;
+  font-size: 1.8rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
@@ -1088,19 +1088,19 @@
 }
 
 .seedSecondaryBtn {
-  height: 7rem;
-  padding-left: 4rem;
-  padding-right: 2.4rem;
+  height: 5.4rem;
+  padding-left: 2.8rem;
+  padding-right: 1.8rem;
   background-color: #ffffff;
   color: #0f172a;
   border: 1.5px solid #cbd5e1;
-  border-radius: 4rem;
-  font-size: 2.4rem;
+  border-radius: 3rem;
+  font-size: 1.8rem;
   font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 1.4rem;
+  gap: 1.2rem;
   transition: all 0.25s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
@@ -1116,12 +1116,12 @@
   align-items: center;
 
   &>img {
-    width: 4.2rem;
-    height: 4.2rem;
+    width: 3.4rem;
+    height: 3.4rem;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #ffffff;
-    margin-left: -1rem;
+    margin-left: -0.8rem;
 
     &:first-child {
       margin-left: 0;
@@ -1135,6 +1135,7 @@
   color: #0f172a;
   letter-spacing: -0.05rem;
   margin-top: 4rem;
+  margin-bottom: 10rem;
 }
 
 /* Floating Decorative Background Shapes */

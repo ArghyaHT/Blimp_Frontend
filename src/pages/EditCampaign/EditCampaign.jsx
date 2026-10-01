@@ -369,10 +369,10 @@ const EditCampaign = () => {
     error: null,
     data: {},
   });
-  const [loadingAction, setLoadingAction] = useState(null);
+  const [draftLoading, setDraftLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const edit_campaign_handler = async (isDraft = false) => {
-    setLoadingAction(isDraft ? "draft" : "submit");
     if (!selectedCategory) {
       return toast.error("Category is not selected", {
         duration: 3000,
@@ -425,6 +425,13 @@ const EditCampaign = () => {
     }
 
     try {
+      if (isDraft) {
+        setDraftLoading(true);
+      } else {
+        setSubmitLoading(true);
+      }
+      setEditCampaign((prev) => ({ ...prev, loading: true, error: null }));
+
       const formData = new FormData();
 
       formData.append("id", edit_campaign_item.id);
@@ -465,8 +472,6 @@ const EditCampaign = () => {
         });
       }
 
-      setEditCampaign((prev) => ({ ...prev, loading: true, error: null }));
-
       const { data } = await api.post("/edit-campaign", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -490,7 +495,8 @@ const EditCampaign = () => {
       setEditCampaign((prev) => ({ ...prev, error: error.message }));
     } finally {
       setEditCampaign((prev) => ({ ...prev, loading: false }));
-      setLoadingAction(null);
+      setDraftLoading(false);
+      setSubmitLoading(false);
     }
   };
 
@@ -851,10 +857,10 @@ const EditCampaign = () => {
                 <button
                   type="button"
                   onClick={handleSaveDraft}
-                  disabled={editCampaign.loading}
+                  disabled={draftLoading || submitLoading}
                   className={styles.saveDraftBtn}
                 >
-                  {editCampaign.loading && loadingAction === "draft" ? (
+                  {draftLoading ? (
                     <ClipLoader size={"22px"} color="#333" />
                   ) : (
                     "Save as Draft"
@@ -932,10 +938,10 @@ const EditCampaign = () => {
               <button
                 type="button"
                 onClick={handleSaveDraft}
-                disabled={editCampaign.loading}
+                disabled={draftLoading || submitLoading}
                 className={styles.saveDraftBtn}
               >
-                {editCampaign.loading && loadingAction === "draft" ? (
+                {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
@@ -1018,10 +1024,10 @@ const EditCampaign = () => {
               <button
                 type="button"
                 onClick={handleSaveDraft}
-                disabled={editCampaign.loading}
+                disabled={draftLoading || submitLoading}
                 className={styles.saveDraftBtn}
               >
-                {editCampaign.loading && loadingAction === "draft" ? (
+                {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
@@ -1174,10 +1180,10 @@ const EditCampaign = () => {
               <button
                 type="button"
                 onClick={handleSaveDraft}
-                disabled={editCampaign.loading}
+                disabled={draftLoading || submitLoading}
                 className={styles.saveDraftBtn}
               >
-                {editCampaign.loading && loadingAction === "draft" ? (
+                {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
@@ -1268,10 +1274,10 @@ const EditCampaign = () => {
               <button
                 type="button"
                 onClick={handleSaveDraft}
-                disabled={editCampaign.loading}
+                disabled={draftLoading || submitLoading}
                 className={styles.saveDraftBtn}
               >
-                {editCampaign.loading && loadingAction === "draft" ? (
+                {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
                 ) : (
                   "Save as Draft"
@@ -1279,11 +1285,12 @@ const EditCampaign = () => {
               </button>
 
               <button
+                type="button"
                 onClick={() => edit_campaign_handler(false)}
-                disabled={editCampaign.loading}
+                disabled={draftLoading || submitLoading}
                 className={styles.submitPaymentBtn}
               >
-                {editCampaign.loading && loadingAction === "submit" ? (
+                {submitLoading ? (
                   <ClipLoader
                     size="22px"
                     aria-label="Loading Spinner"
