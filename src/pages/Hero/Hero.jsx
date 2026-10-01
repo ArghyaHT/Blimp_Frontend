@@ -310,34 +310,47 @@ const Hero = () => {
       </section>
 
       {/* Section 2: Campaign Banner Section */}
-      <section
-        style={{
-          backgroundImage: `url(${supportCampaigns?.data?.data?.banner_image || HeroBanner})`,
-        }}
-        className={style.heroContainer}
-      >
-        <div>
-          <div className={style.heroContent}>
-            <h1>
-              {supportCampaigns?.data?.data?.campaign_name || "Support Empowering Causes"}{" "}
-              <span
-                style={{
-                  fontSize: "2.4rem",
-                  textTransform: "lowercase",
-                }}
-              ></span>
-            </h1>
+      {supportCampaigns?.loading ? (
+        <Skeleton
+          variant="rectangular"
+          width="100%"
+          sx={{
+            height: {
+              xs: "40rem",
+              md: "100rem",
+            },
+          }}
+        />
+      ) : (
+        <section
+          style={{
+            backgroundImage: `url(${supportCampaigns?.data?.data?.banner_image || HeroBanner})`,
+          }}
+          className={style.heroContainer}
+        >
+          <div>
+            <div className={style.heroContent}>
+              <h1>
+                {supportCampaigns?.data?.data?.campaign_name || "Support Empowering Causes"}{" "}
+                <span
+                  style={{
+                    fontSize: "2.4rem",
+                    textTransform: "lowercase",
+                  }}
+                ></span>
+              </h1>
 
-            <button
-              onClick={() => {
-                navigate("/start-campaign");
-              }}
-            >
-              Get Funding
-            </button>
+              <button
+                onClick={() => {
+                  navigate("/start-campaign");
+                }}
+              >
+                Get Funding
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className={style.impactContainer}>
         <div>
