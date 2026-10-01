@@ -18,7 +18,16 @@ const EditCampaign = () => {
 
   const { edit_campaign_item, isRelaunch = false } = location.state || {};
 
-  const { user } = useAuth();
+  const { user, setUser, setIsAuthenticated, setUserId } = useAuth();
+
+  const logout_handler = async () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("usersignin");
+    setUser?.(null);
+    setUserId?.(null);
+    setIsAuthenticated?.(false);
+    navigate("/login-signup");
+  };
 
   const [stepper, setStepper] = useState([
     {
@@ -117,11 +126,31 @@ const EditCampaign = () => {
   }, []);
 
   useEffect(() => {
-    if (user?.fullname || user?.email) {
-      setSelectedName(user?.fullname);
-      setSelectedEmail(user?.email);
+    const initialName =
+      edit_campaign_item?.name ||
+      edit_campaign_item?.campaigns?.fullname ||
+      user?.fullname ||
+      "";
+    const initialEmail =
+      edit_campaign_item?.email ||
+      edit_campaign_item?.campaigns?.email ||
+      user?.email ||
+      "";
+
+    if (initialName && !selectedName) {
+      setSelectedName(initialName);
     }
-  }, [user?.fullname, user?.email]);
+    if (initialEmail && !selectedEmail) {
+      setSelectedEmail(initialEmail);
+    }
+  }, [
+    user?.fullname,
+    user?.email,
+    edit_campaign_item?.name,
+    edit_campaign_item?.email,
+    edit_campaign_item?.campaigns?.fullname,
+    edit_campaign_item?.campaigns?.email,
+  ]);
 
   useEffect(() => {
     if (categories?.data?.data && edit_campaign_item?.category_id && !selectedCategory) {
@@ -156,8 +185,18 @@ const EditCampaign = () => {
   const [campaignTitle, setCampaignTitle] = useState(
     edit_campaign_item?.campaign_name
   );
-  const [selectedName, setSelectedName] = useState("");
-  const [selectedEmail, setSelectedEmail] = useState("");
+  const [selectedName, setSelectedName] = useState(
+    edit_campaign_item?.name ||
+      edit_campaign_item?.campaigns?.fullname ||
+      user?.fullname ||
+      ""
+  );
+  const [selectedEmail, setSelectedEmail] = useState(
+    edit_campaign_item?.email ||
+      edit_campaign_item?.campaigns?.email ||
+      user?.email ||
+      ""
+  );
   const [selectedCampaingDescription, setSelectedCampaignDescription] =
     useState(
       edit_campaign_item?.description === "<p></p>"
@@ -397,8 +436,8 @@ const EditCampaign = () => {
       formData.append("description", selectedCampaingDescription);
       formData.append("campagin_date", new Date().toISOString().split("T")[0]);
       formData.append("hear_about_blimp", "Online");
-      formData.append("name", user.fullname);
-      formData.append("email", user.email);
+      formData.append("name", selectedName || user?.fullname || "");
+      formData.append("email", selectedEmail || user?.email || "");
       formData.append("request_for_donor", 1);
       formData.append("team_memeber_name", beneficiaryDetail || "");
       formData.append("is_draft", isDraft ? 1 : 0);
@@ -923,7 +962,7 @@ const EditCampaign = () => {
 
         {selectedStep === 6 && (
           <div className={styles.stepperYouContainer}>
-            <button>Not You ? Logout</button>
+            <button onClick={logout_handler}>Not You ? Logout</button>
 
             <div>
               <div>

@@ -6,7 +6,7 @@
   overflow: hidden !important;
 }
 
-.latestImageWrapper > img {
+.latestImageWrapper>img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1030,9 +1030,9 @@
   z-index: 1;
   color: #0f172a;
   background-image: linear-gradient(#10b981, #10b981);
-  background-size: 100% 25%;
+  background-size: 100% 20%;
   background-repeat: no-repeat;
-  background-position: 0 80%;
+  background-position: 0 84%;
   padding-inline: 0.2rem;
 }
 
@@ -1195,8 +1195,8 @@
 /* Small Screen Responsiveness for seedHeroSection */
 @media screen and (max-width: 768px) {
   .seedHeroSection {
-    min-height: 150vh;
-    padding-block: 4rem;
+    min-height: auto;
+    padding-block: 4.5rem;
     padding-inline: 2rem;
     overflow: hidden;
     display: flex;
@@ -1206,12 +1206,13 @@
 
   .seedHeroTitle {
     font-size: 6.4rem;
+    margin-top: 0;
     margin-bottom: 2.4rem;
   }
 
   .seedHeroSubtitle {
     font-size: 2.8rem;
-    margin-bottom: 5rem;
+    margin-bottom: 3.5rem;
   }
 
   .seedHeroBtnGroup {
@@ -1221,34 +1222,36 @@
     justify-content: center;
     width: 100%;
     gap: 2.4rem;
-    margin-bottom: 6rem;
+    margin-top: 0;
+    margin-bottom: 3.5rem;
   }
 
   .seedPrimaryBtn {
-    height: 6rem;
-    padding-inline: 3.6rem;
-    font-size: 2rem;
-    border-radius: 3rem;
+    height: 4.4rem;
+    padding-inline: 2.4rem;
+    font-size: 1.5rem;
+    border-radius: 2.5rem;
     width: auto;
   }
 
   .seedSecondaryBtn {
-    height: 6rem;
-    padding-left: 3rem;
-    padding-right: 1.8rem;
-    font-size: 2rem;
-    border-radius: 3rem;
+    height: 4.4rem;
+    padding-left: 2rem;
+    padding-right: 1.4rem;
+    font-size: 1.5rem;
+    border-radius: 2.5rem;
     width: auto;
-    gap: 1.2rem;
+    gap: 0.8rem;
   }
 
   .expertAvatarStack>img {
-    width: 3.6rem;
-    height: 3.6rem;
+    width: 2.8rem;
+    height: 2.8rem;
   }
 
   .seedHeroTagline {
     font-size: 3.8rem;
+    margin-top: 0;
   }
 
   .shapeStripedCircle,
@@ -1264,8 +1267,8 @@
 
 @media screen and (max-width: 480px) {
   .seedHeroSection {
-    min-height: 150vh;
-    padding-block: 3rem 2rem;
+    min-height: auto;
+    padding-block: 4rem;
     padding-inline: 1.5rem;
     display: flex;
     justify-content: center;
@@ -1274,55 +1277,66 @@
 
   .seedHeroTitle {
     font-size: 4.8rem;
+    margin-top: 0;
     margin-bottom: 2rem;
     letter-spacing: -0.05rem;
   }
 
   .seedHeroSubtitle {
     font-size: 2.2rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2.5rem;
     line-height: 1.45;
   }
 
   .seedHeroBtnGroup {
     flex-direction: column;
-    gap: 2rem;
-    margin-bottom: 5rem;
+    align-items: center;
+    width: 100%;
+    gap: 1.6rem;
+    margin-top: 0;
+    margin-bottom: 2.5rem;
   }
 
   .seedPrimaryBtn {
-    height: 5.2rem;
-    padding-inline: 2.8rem;
-    font-size: 1.8rem;
-    border-radius: 2.8rem;
-    width: auto;
-    min-width: 22rem;
+    height: 4.4rem;
+    width: min(28rem, 100%);
+    padding-inline: 2.4rem;
+    font-size: 1.4rem;
+    border-radius: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .seedSecondaryBtn {
-    height: 5.2rem;
-    padding-left: 2.4rem;
-    padding-right: 1.6rem;
-    font-size: 1.8rem;
-    border-radius: 2.8rem;
-    width: auto;
-    gap: 0.8rem;
+    height: 4.4rem;
+    width: min(28rem, 100%);
+    padding-left: 2rem;
+    padding-right: 1.4rem;
+    font-size: 1.4rem;
+    border-radius: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
   }
 
   .expertAvatarStack>img {
-    width: 3.2rem;
-    height: 3.2rem;
-    margin-left: -0.6rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-left: -0.5rem;
   }
 
   .seedHeroTagline {
     font-size: 2.8rem;
     line-height: 1.3;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .highlightGreenOne {
-    background-size: 100% 48%;
-    background-position: 0 78%;
+    background-size: 100% 18%;
+    background-position: 0 84%;
   }
 
   .highlightGreenTwo {

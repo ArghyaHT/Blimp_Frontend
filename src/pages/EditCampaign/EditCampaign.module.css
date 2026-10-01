@@ -714,62 +714,6 @@
           display: flex;
           align-items: center;
           justify-content: space-between;
-          height: 6.5rem;
-          background-color: #ffffff;
-          border-radius: 0.8rem;
-          border: 1px solid #e2e8f0;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-          transition: all 0.25s ease;
-          overflow: hidden;
-          /* flex: 1; */
-
-          &:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-          }
-
-          &:focus-within {
-            border-color: var(--btn-hover-color);
-          }
-
-          & > input {
-            flex: 1;
-            height: 100%;
-            padding: 0 1.6rem;
-            background-color: transparent;
-            border: none;
-            outline: none;
-            font-size: 1.6rem;
-            font-weight: 500;
-            color: #1f2937;
-            letter-spacing: 0.3px;
-
-            &::placeholder {
-              color: #9ca3af;
-              font-weight: 400;
-            }
-          }
-
-          & > div {
-            display: grid;
-            place-items: center;
-            height: 100%;
-            width: 6.5rem;
-            font-size: 2rem;
-            color: #6b7280;
-            transition: color 0.25s ease;
-
-            &:hover {
-              color: var(--btn-hover-color);
-              cursor: pointer;
-            }
-          }
-        }
-
-        & > div:nth-child(2) {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
           min-height: var(--input-height);
           background-color: #ffffff;
           border-radius: 0.8rem;

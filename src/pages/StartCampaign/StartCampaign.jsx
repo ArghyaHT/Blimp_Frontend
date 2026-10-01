@@ -460,8 +460,8 @@ const StartCampaign = () => {
       );
       formData.append("campagin_date", new Date().toISOString().split("T")[0]);
       formData.append("hear_about_blimp", "Online");
-      formData.append("name", user.fullname);
-      formData.append("email", user.email);
+      formData.append("name", selectedName || user?.fullname || "");
+      formData.append("email", selectedEmail || user?.email || "");
       formData.append("request_for_donor", 1);
       formData.append("team_memeber_name", beneficiaryDetail || "");
       formData.append("is_draft", isDraft ? 1 : 0);

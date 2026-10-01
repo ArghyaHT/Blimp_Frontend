@@ -286,6 +286,66 @@
   height: 100%;
 }
 
+.passwordWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border-radius: 0.8rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+  height: var(--input-height);
+  overflow: hidden;
+
+  &:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  &:focus-within {
+    border-color: #cbd5e1;
+  }
+
+  & > input {
+    width: calc(100% - 4.5rem);
+    height: 100%;
+    padding: 0 1.6rem;
+    border: none;
+    background: transparent;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #1f2937;
+    letter-spacing: 0.3px;
+    outline: none;
+
+    &::placeholder {
+      color: #9ca3af;
+      font-weight: 400;
+    }
+  }
+
+  & > button {
+    height: 100%;
+    width: 4.5rem;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #1f2937;
+    }
+  }
+}
+
 @media screen and (min-width: 0px) and (max-width: 430px) {
   .authContainer {
     padding: 1.5rem;

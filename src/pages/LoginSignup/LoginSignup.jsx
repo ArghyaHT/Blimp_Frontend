@@ -8,6 +8,7 @@ import api from "../../api/api";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { EyeIcon, EyeOffIcon } from "../../icons";
 
 const LoginSignup = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const LoginSignup = () => {
 
   const [signinEmail, setSigninEmail] = useState("");
   const [signinPassword, setSigninPassword] = useState("");
+  const [showSigninPassword, setShowSigninPassword] = useState(false);
   const [signinLoader, setSigninLoader] = useState("");
   const [accountType, setAccountType] = useState("individual");
 
@@ -26,7 +28,9 @@ const LoginSignup = () => {
   const [lastname, setLastname] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
+  const [showSignupConfirmPassword, setShowSignupConfirmPassword] = useState(false);
   const [signupPhoneNumber, setSignupPhoneNumber] = useState("");
 
   // signup error states
@@ -248,12 +252,27 @@ const LoginSignup = () => {
 
           <div>
             <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={signinPassword}
-              onChange={(e) => setSigninPassword(e.target.value)}
-            />
+            <div className={style.passwordWrapper}>
+              <input
+                type={showSigninPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={signinPassword}
+                onChange={(e) => setSigninPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className={style.iconButton}
+                onClick={() => setShowSigninPassword((prev) => !prev)}
+                aria-pressed={showSigninPassword}
+                aria-label={showSigninPassword ? "Hide password" : "Show password"}
+              >
+                {showSigninPassword ? (
+                  <EyeOffIcon aria-hidden="true" />
+                ) : (
+                  <EyeIcon aria-hidden="true" />
+                )}
+              </button>
+            </div>
 
             {signinPasswordError && (
               <p className="input-error-message">{signinPasswordError}</p>
@@ -343,12 +362,27 @@ const LoginSignup = () => {
 
           <div>
             <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={signupPassword}
-              onChange={(e) => setSignupPassword(e.target.value)}
-            />
+            <div className={style.passwordWrapper}>
+              <input
+                type={showSignupPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={signupPassword}
+                onChange={(e) => setSignupPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className={style.iconButton}
+                onClick={() => setShowSignupPassword((prev) => !prev)}
+                aria-pressed={showSignupPassword}
+                aria-label={showSignupPassword ? "Hide password" : "Show password"}
+              >
+                {showSignupPassword ? (
+                  <EyeOffIcon aria-hidden="true" />
+                ) : (
+                  <EyeIcon aria-hidden="true" />
+                )}
+              </button>
+            </div>
             {signupPasswordError && (
               <p className="input-error-message">{signupPasswordError}</p>
             )}
@@ -356,12 +390,27 @@ const LoginSignup = () => {
 
           <div>
             <label>Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Confirm your password"
-              value={signupConfirmPassword}
-              onChange={(e) => setSignupConfirmPassword(e.target.value)}
-            />
+            <div className={style.passwordWrapper}>
+              <input
+                type={showSignupConfirmPassword ? "text" : "password"}
+                placeholder="Confirm your password"
+                value={signupConfirmPassword}
+                onChange={(e) => setSignupConfirmPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className={style.iconButton}
+                onClick={() => setShowSignupConfirmPassword((prev) => !prev)}
+                aria-pressed={showSignupConfirmPassword}
+                aria-label={showSignupConfirmPassword ? "Hide password" : "Show password"}
+              >
+                {showSignupConfirmPassword ? (
+                  <EyeOffIcon aria-hidden="true" />
+                ) : (
+                  <EyeIcon aria-hidden="true" />
+                )}
+              </button>
+            </div>
             {signupConfirmPasswordError && (
               <p className="input-error-message">
                 {signupConfirmPasswordError}

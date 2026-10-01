@@ -51,7 +51,7 @@ const ChangePassword = () => {
       setConfirmPasswordError("Please confirm your new password")
       hasError = true
     } else if (!validatePassword(confirmPassword)) {
-      setNewPasswordError(
+      setConfirmPasswordError(
         "Password must be at least 8 characters long and contain uppercase, lowercase, and a number"
       );
       hasError = true;
@@ -97,7 +97,7 @@ const ChangePassword = () => {
         <label htmlFor="">New Password</label>
         <div>
           <input
-            type="text"
+            type={showNewPassword ? "text" : "password"}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder="Enter new password"
@@ -125,7 +125,7 @@ const ChangePassword = () => {
         <label htmlFor="">Confirm Password</label>
         <div>
           <input
-            type="text"
+            type={showConfirmPassword ? "text" : "password"}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="Confirm new password"
@@ -157,7 +157,7 @@ const ChangePassword = () => {
         size={"2rem"}
         aria-label="Loading Spinner"
         data-testid="loader"
-      /> : "update"}</button>
+      /> : "Update"}</button>
 
     </div>
   );

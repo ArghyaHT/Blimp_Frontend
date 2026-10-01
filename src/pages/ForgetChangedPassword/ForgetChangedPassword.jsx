@@ -5,6 +5,7 @@ import { toastStyle } from "../../utils/toastStyles";
 import api from "../../api/api";
 import { ClipLoader } from "react-spinners";
 import { useLocation, useNavigate } from "react-router-dom";
+import { EyeIcon, EyeOffIcon } from "../../icons";
 
 const ForgetChangedPassword = () => {
 
@@ -14,7 +15,9 @@ const ForgetChangedPassword = () => {
 
 
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [confirmPasswordValue, setConfirmPasswordValue] = useState("");
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -88,12 +91,27 @@ const ForgetChangedPassword = () => {
           {/* Password */}
           <div>
             <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className={style.passwordWrapper}>
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className={style.iconButton}
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-pressed={showPassword}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <EyeOffIcon aria-hidden="true" />
+                ) : (
+                  <EyeIcon aria-hidden="true" />
+                )}
+              </button>
+            </div>
             {passwordError && (
               <p className="input-error-message">{passwordError}</p>
             )}
@@ -102,12 +120,27 @@ const ForgetChangedPassword = () => {
           {/* Confirm Password */}
           <div>
             <label>Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Confirm your password"
-              value={confirmPasswordValue}
-              onChange={(e) => setConfirmPasswordValue(e.target.value)}
-            />
+            <div className={style.passwordWrapper}>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirm your password"
+                value={confirmPasswordValue}
+                onChange={(e) => setConfirmPasswordValue(e.target.value)}
+              />
+              <button
+                type="button"
+                className={style.iconButton}
+                onClick={() => setShowConfirmPassword((prev) => !prev)}
+                aria-pressed={showConfirmPassword}
+                aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+              >
+                {showConfirmPassword ? (
+                  <EyeOffIcon aria-hidden="true" />
+                ) : (
+                  <EyeIcon aria-hidden="true" />
+                )}
+              </button>
+            </div>
             {confirmPasswordError && (
               <p className="input-error-message">{confirmPasswordError}</p>
             )}
