@@ -20,35 +20,41 @@
 
 :root {
   font-size: 62.5%;
-  --font-large: 2.2rem;
-  --font-semi-large: 1.8rem;
-  --font-medium: 1.6rem;
-  --font-small: 1.4rem;
+  --header-large: 3.6rem;
+  --header-semi-large: 2.6rem;
+  --subheader-large: 2.2rem;
+  --subheader-large-lineheight: 2.8rem;
+  --subheader-small: 1.95rem;
+  --subheader-small-lineheight: 2.5rem;
+
+  --font-large: 1.75rem;
+  --font-semi-large: 1.6rem;
+  --font-medium: 1.45rem;
+  --font-small: 1.35rem;
   --font-vsmall: 1.2rem;
 
-  --header-large: 4rem;
-  --header-semi-large: 3rem;
   --btn-font-weight: 600;
   --input-height: 4.5rem;
 
   --icon-size: 2.2rem;
   --button-radius: 1rem;
-  --subheader-large: 5rem;
-  --subheader-large-lineheight: 6rem;
-  --subheader-small: 2.4rem;
-  --subheader-small-lineheight: 2.5rem;
   --maximum-screen-width: 1440px;
 }
 
 @media (max-width: 768px) {
   :root {
-    --font-large: 1.8rem;
-    --font-semi-large: 1.6rem;
-    --font-medium: 1.4rem;
+    --header-large: 2.4rem;
+    --header-semi-large: 2.0rem;
+    --subheader-large: 1.8rem;
+    --subheader-large-lineheight: 2.3rem;
+    --subheader-small: 1.6rem;
+    --subheader-small-lineheight: 2.1rem;
+
+    --font-large: 1.5rem;
+    --font-semi-large: 1.4rem;
+    --font-medium: 1.3rem;
     --font-small: 1.2rem;
-    --font-vsmall: 1rem;
-    --header-large: 2.5rem;
-    --header-semi-large: 1.8rem;
+    --font-vsmall: 1.1rem;
   }
 }
 
@@ -96,7 +102,7 @@ body[data-theme="dark"] {
 } */
 
 .react-international-phone-country-selector-dropdown {
-  /* display: block !important; */
+  display: block !important;
 }
 
 .input-error-message {
@@ -109,6 +115,7 @@ body[data-theme="dark"] {
 .single-thumb .range-slider__thumb[data-lower] {
   width: 0;
 }
+
 .single-thumb .range-slider__range {
   border-radius: 6px;
 }
@@ -124,13 +131,11 @@ body[data-theme="dark"] {
   font-weight: 700;
   letter-spacing: 0.5px;
   color: #ffffff !important;
-  background: linear-gradient(
-    180deg,
-    #47dfff 0%,
-    #00b4d8 100%
-  ) !important;
+  background: linear-gradient(180deg,
+      #47dfff 0%,
+      #00b4d8 100%) !important;
   text-shadow: 0 1px 2px rgba(0, 120, 160, 0.5) !important;
-  box-shadow: 
+  box-shadow:
     inset 0 2px 4px rgba(255, 255, 255, 0.5),
     inset 0 -3px 8px rgba(0, 100, 150, 0.3) !important;
   transition: all 0.2s ease !important;
@@ -144,22 +149,18 @@ body[data-theme="dark"] {
   left: 2%;
   right: 2%;
   height: 45%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0.05) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.05) 100%);
   border-radius: 50rem;
   pointer-events: none;
 }
 
 .glossy-btn:hover {
-  background: linear-gradient(
-    180deg,
-    #66e5ff 0%,
-    #00c1e8 100%
-  ) !important;
-  box-shadow: 
+  background: linear-gradient(180deg,
+      #66e5ff 0%,
+      #00c1e8 100%) !important;
+  box-shadow:
     inset 0 2px 6px rgba(255, 255, 255, 0.7),
     inset 0 -3px 8px rgba(0, 100, 150, 0.2) !important;
   transform: translateY(-2px);
@@ -167,12 +168,10 @@ body[data-theme="dark"] {
 
 .glossy-btn:active {
   transform: translateY(1px);
-  background: linear-gradient(
-    180deg,
-    #00b4d8 0%,
-    #009ac2 100%
-  ) !important;
-  box-shadow: 
+  background: linear-gradient(180deg,
+      #00b4d8 0%,
+      #009ac2 100%) !important;
+  box-shadow:
     inset 0 3px 8px rgba(0, 100, 150, 0.5) !important;
 }
 

@@ -9,7 +9,10 @@
     gap: 2rem;
 
     & > h2 {
-      font-size: var(--font-large);
+      font-size: var(--header-semi-large);
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--text-primary);
     }
 
     .mainBannerWrapper {
@@ -75,11 +78,14 @@
       gap: 2rem;
 
       & > h2 {
-        font-size: var(--font-large);
+        font-size: var(--subheader-small);
+        font-weight: 700;
+        color: var(--text-primary);
       }
 
       & > p {
-        font-size: var(--font-vsmall);
+        font-size: var(--font-medium);
+        line-height: 1.7;
         color: var(--text-secondary);
       }
     }

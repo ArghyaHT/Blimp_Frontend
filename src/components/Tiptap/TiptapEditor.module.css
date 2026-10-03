@@ -102,7 +102,7 @@
   min-height: 35rem;
   max-width: 100%;
   font-size: 1.6rem;
-  line-height: 1.6;
+  line-height: 1.7;
   color: #111827;
   outline: none;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -110,6 +110,12 @@
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-wrap;
+}
+
+:global(.tiptap p) {
+  font-size: 1.55rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
 }
 
 :global(.tiptap p),
@@ -135,13 +141,34 @@
 }
 
 /* --- Headings --- */
-:global(.tiptap h1),
-:global(.tiptap h2),
-:global(.tiptap h3),
-:global(.tiptap h4),
+:global(.tiptap h1) {
+  font-size: 2.4rem;
+  margin: 1.8rem 0 1rem;
+  font-weight: 700;
+}
+
+:global(.tiptap h2) {
+  font-size: 2.0rem;
+  margin: 1.6rem 0 0.8rem;
+  font-weight: 700;
+}
+
+:global(.tiptap h3) {
+  font-size: 1.75rem;
+  margin: 1.4rem 0 0.6rem;
+  font-weight: 600;
+}
+
+:global(.tiptap h4) {
+  font-size: 1.6rem;
+  margin: 1.2rem 0 0.5rem;
+  font-weight: 600;
+}
+
 :global(.tiptap h5),
 :global(.tiptap h6) {
-  margin: 1.6rem 0 1rem;
+  font-size: 1.5rem;
+  margin: 1rem 0 0.4rem;
   font-weight: 600;
 }
 
@@ -150,17 +177,25 @@
 :global(.tiptap ol) {
   padding-left: 2.4rem;
   margin: 1.2rem 0;
+  font-size: 1.65rem;
+  line-height: 1.7;
+}
+
+:global(.tiptap li) {
+  font-size: 1.65rem;
+  line-height: 1.7;
 }
 
 /* Blockquote */
 :global(.tiptap blockquote) {
-  border-left: 0.4rem solid #e5e7eb;
+  border-left: 0.4rem solid #00c1e8;
   padding: 1rem 1.6rem;
-  background: #f9fafb;
+  background: #f8fafc;
   color: #374151;
   border-radius: 0.6rem;
   margin: 1.6rem 0;
   font-style: italic;
+  font-size: 1.65rem;
 }
 
 /* Inline Code */
