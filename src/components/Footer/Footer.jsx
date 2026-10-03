@@ -189,10 +189,30 @@ const Footer = () => {
               fontSize: "var(--font-vsmall)",
             }}
           >
-            By signing up, you agree to the <span>Terms of Use</span> and{" "}
-            <span>Privacy Policy</span> & to receive electronic communications
-            from BLIMP, which may include marketing promotions,
-            advertisements and sponsored content.
+            By signing up, you agree to the{" "}
+            <span
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+              onClick={() =>
+                window.dispatchEvent(
+                  new CustomEvent("open-privacy-policy", { detail: { type: "terms" } })
+                )
+              }
+            >
+              Terms of Use
+            </span>{" "}
+            and{" "}
+            <span
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+              onClick={() =>
+                window.dispatchEvent(
+                  new CustomEvent("open-privacy-policy", { detail: { type: "privacy" } })
+                )
+              }
+            >
+              Privacy Policy
+            </span>{" "}
+            & to receive electronic communications from BLIMP, which may include
+            marketing promotions, advertisements and sponsored content.
           </i>
 
           <div>
@@ -201,6 +221,24 @@ const Footer = () => {
 
           <div className={styles.menuContainer}>
             {menus.map((item) => {
+              const isPrivacy = item.name.toLowerCase().includes("privacy");
+              const isTerms = item.name.toLowerCase().includes("terms");
+              if (isPrivacy || isTerms) {
+                return (
+                  <span
+                    key={item.name}
+                    onClick={() =>
+                      window.dispatchEvent(
+                        new CustomEvent("open-privacy-policy", {
+                          detail: { type: isTerms ? "terms" : "privacy" },
+                        })
+                      )
+                    }
+                  >
+                    {item.name}
+                  </span>
+                );
+              }
               return (
                 <a href={item?.link} key={item.name}>
                   {item.name}

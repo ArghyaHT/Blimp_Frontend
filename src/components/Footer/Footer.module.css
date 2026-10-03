@@ -167,10 +167,22 @@
       gap: 2rem;
       margin-inline: auto;
 
-      & > a {
+      & > a,
+      & > button,
+      & > span {
         color: rgba(255, 255, 255, 0.6);
         font-size: var(--font-vsmall);
         text-decoration: none;
+        background: none;
+        border: none;
+        font-family: inherit;
+        cursor: pointer;
+        padding: 0;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #ffffff;
+        }
       }
     }
   }

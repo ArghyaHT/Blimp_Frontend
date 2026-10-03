@@ -66,6 +66,20 @@ const FeatureDetail = () => {
   const campaignUpdates = featureItemDetail?.data?.data?.campaignUpdates || [];
   const rawSupportersList = totalSupporters?.data?.data?.campaign?.donationInfo || featureItemDetail?.data?.data?.donationInfo || [];
 
+  const formatCompactNumber = (num) => {
+    const n = Number(num) || 0;
+    if (n >= 1_000_000_000) {
+      return `${(n / 1_000_000_000).toFixed(1).replace(/\.0$/, "")}B`;
+    }
+    if (n >= 1_000_000) {
+      return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`;
+    }
+    if (n >= 1_000) {
+      return `${(n / 1_000).toFixed(1).replace(/\.0$/, "")}K`;
+    }
+    return n.toLocaleString();
+  };
+
   const getSupporterAmount = (item) => {
     if (!item) return 0;
     const val = item.display_amount ?? item.original_amount ?? item.total_amount ?? 0;
@@ -678,12 +692,88 @@ const FeatureDetail = () => {
 
       {showStickyDonate && (
         <div className={style.stickyDonateWrapper}>
-          <button
-            className={`${style.stickyDonateButton} glossy-btn`}
-            onClick={() => navigate("/checkout", { state: campaign })}
-          >
-            Donate Now
-          </button>
+          <div className={style.stickyDonateCard}>
+            {/* Top Row: Progress Ring & Raised Text */}
+            <div className={style.stickyInfoRow}>
+              <div className={style.stickyProgressRingWrapper}>
+                <svg className={style.stickyProgressSvg} viewBox="0 0 44 44">
+                  <circle
+                    cx="22"
+                    cy="22"
+                    r="18"
+                    className={style.stickyProgressBg}
+                  />
+                  <circle
+                    cx="22"
+                    cy="22"
+                    r="18"
+                    className={style.stickyProgressFg}
+                    style={{
+                      strokeDasharray: 113.1,
+                      strokeDashoffset:
+                        113.1 -
+                        (Math.min(
+                          100,
+                          Math.max(
+                            0,
+                            Math.round(
+                              campaign?.percentageAchieved ||
+                                ((campaign?.raisedAmount / campaign?.targetAmount) *
+                                  100 ||
+                                  0)
+                            )
+                          )
+                        ) /
+                          100) *
+                          113.1,
+                    }}
+                  />
+                </svg>
+                <span className={style.stickyProgressText}>
+                  {Math.min(
+                    100,
+                    Math.max(
+                      0,
+                      Math.round(
+                        campaign?.percentageAchieved ||
+                          ((campaign?.raisedAmount / campaign?.targetAmount) *
+                            100 ||
+                            0)
+                      )
+                    )
+                  )}
+                  %
+                </span>
+              </div>
+
+              <div className={style.stickyTextGroup}>
+                <div className={style.stickyRaisedText}>
+                  <strong>
+                    {campaign?.country?.symbol || "₹"}
+                    {formatCompactNumber(campaign?.raisedAmount)} raised
+                  </strong>{" "}
+                  of {campaign?.country?.symbol || "₹"}
+                  {formatCompactNumber(campaign?.targetAmount)}
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Row: Donate & Share Buttons */}
+            <div className={style.stickyActionsRow}>
+              <button
+                className={`${style.stickyDonateBtn} glossy-btn`}
+                onClick={() => navigate("/checkout", { state: campaign })}
+              >
+                Donate
+              </button>
+              <button
+                className={style.stickyShareBtn}
+                onClick={handleShareUpdate}
+              >
+                Share
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

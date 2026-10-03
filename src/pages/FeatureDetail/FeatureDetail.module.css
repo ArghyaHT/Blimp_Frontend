@@ -1011,17 +1011,151 @@
   position: fixed;
   bottom: 0;
   left: 0;
+  right: 0;
   width: 100%;
-  padding: 1rem;
-  background: #fff;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.12);
+  padding: 1.2rem 1.4rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 30%, #ffffff 100%);
   z-index: 999;
+  pointer-events: none;
 }
 
-.stickyDonateButton {
+.stickyDonateCard {
+  pointer-events: auto;
+  background: #ffffff;
+  border-radius: 2rem;
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 480px;
+  margin: 0 auto;
+  animation: slideUpStickyCard 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpStickyCard {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.stickyInfoRow {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.stickyProgressRingWrapper {
+  position: relative;
+  width: 4.6rem;
+  height: 4.6rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stickyProgressSvg {
   width: 100%;
-  padding: 1.4rem;
-  font-size: 1.6rem;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.stickyProgressBg {
+  fill: none;
+  stroke: #e2e8f0;
+  stroke-width: 3.8;
+}
+
+.stickyProgressFg {
+  fill: none;
+  stroke: #00c1e8;
+  stroke-width: 3.8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.stickyProgressText {
+  position: absolute;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.stickyTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.stickyRaisedText {
+  font-size: 1.35rem;
+  color: #475569;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stickyRaisedText strong {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.stickySubText {
+  font-size: 1.2rem;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+}
+
+.stickySubText .chevron {
+  font-size: 1.4rem;
+  color: #94a3b8;
+  margin-left: 0.2rem;
+}
+
+.stickyActionsRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stickyDonateBtn {
+  flex: 1;
+  height: 4.4rem;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  border-radius: 3rem !important;
+}
+
+.stickyShareBtn {
+  flex: 1;
+  height: 4.4rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: 3rem;
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stickyShareBtn:hover {
+  background: #1e293b;
+  transform: translateY(-1px);
 }
 
 /* Desktop: disable sticky */
