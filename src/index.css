@@ -102,7 +102,11 @@ body[data-theme="dark"] {
 } */
 
 .react-international-phone-country-selector-dropdown {
-  display: block !important;
+  z-index: 99;
+  max-height: 220px;
+  overflow-y: auto;
+  border-radius: 0.8rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .input-error-message {
