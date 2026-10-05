@@ -60,18 +60,15 @@ const Profile = () => {
 
   const handlePhoneChange = (phone, meta) => {
     setPhonenumberError("");
-    const { country } = meta;
+    setPhonenumber(phone);
+
+    if (meta?.country) {
+      setCountryCode(meta.country.dialCode);
+      setCountryFlag(meta.country.iso2);
+    }
 
     const isValid = isPhoneValid(phone);
-
-    if (isValid) {
-      setPhonenumber(phone);
-      setCountryCode(country?.dialCode);
-      setCountryFlag(country?.iso2);
-      setInvalidNumber(false);
-    } else {
-      setInvalidNumber(true);
-    }
+    setInvalidNumber(!isValid);
   };
 
   const [profileLoader, setProfileLoader] = useState(false)

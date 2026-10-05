@@ -60,18 +60,15 @@ const LoginSignup = () => {
 
   const handlePhoneChange = (phone, meta) => {
     setSignupPhoneNumberError("");
-    const { country } = meta;
+    setSignupPhoneNumber(phone);
+
+    if (meta?.country) {
+      setCountryCode(meta.country.dialCode);
+      setCountryFlag(meta.country.iso2);
+    }
 
     const isValid = isPhoneValid(phone);
-
-    if (isValid) {
-      setSignupPhoneNumber(phone);
-      setCountryCode(country?.dialCode);
-      setCountryFlag(country?.iso2);
-      setInvalidNumber(false);
-    } else {
-      setInvalidNumber(true);
-    }
+    setInvalidNumber(!isValid);
   };
 
   const validateEmail = (email) => {
