@@ -11,6 +11,8 @@
 
     .content {
       flex: 1;
+      display: flex;
+      flex-direction: column;
       padding: 2rem;
       background: rgba(242, 245, 248, 1);
       border-radius: var(--button-radius);
@@ -26,6 +28,7 @@
 @media screen and (min-width:0px) and (max-width:768px) {
   .container {
     padding: 1rem;
+
     &>div {
       .content {
         padding: 1rem;
