@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar/Navbar";
 import MobileNavbar from "../components/MobileNavbar/MobileNavbar";
 import Footer from "../components/Footer/Footer";
 import PrivacyModal from "../components/PrivacyModal/PrivacyModal";
+// import Chatbot from "../components/Chatbot/Chatbot";
 import { Outlet } from "react-router-dom";
 import { useGlobalContext } from "../context/GlobalContext";
 
@@ -16,6 +17,7 @@ const Layout = () => {
       <Outlet /> {/* Dynamic page content */}
       <Footer />
       <PrivacyModal />
+      {/* <Chatbot /> */}
     </>
   );
 };
