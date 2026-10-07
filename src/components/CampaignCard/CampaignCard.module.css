@@ -35,22 +35,44 @@
     }
 
     &>button {
-        height: 4rem;
+        height: 3.8rem;
         width: max-content;
-        display: flex;
+        padding-inline: 1.6rem 1.2rem;
+        display: inline-flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: 1rem;
+        gap: 1.6rem;
         font-size: var(--font-medium);
-        border: none;
+        font-weight: 600;
+        border: 1px solid rgba(255, 255, 255, 0.3);
         outline: none;
-        background-color: transparent;
+        background-color: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(8px);
+        border-radius: 3rem;
         cursor: pointer;
-        color: #fff;
+        color: #ffffff;
+        transition: all 0.25s ease;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+
+            svg {
+                transform: translateX(6px);
+            }
+        }
 
         &>span {
             font-size: var(--font-medium);
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        svg {
+            transition: transform 0.25s ease;
         }
     }
 }

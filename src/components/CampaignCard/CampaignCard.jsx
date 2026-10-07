@@ -25,7 +25,7 @@ const CampaignCard = ({ bannerImage, description, campaignName, campaignItem }) 
       </div>
       <h2>{campaignName}</h2>
       <button>
-        <span>View More</span>
+        <span>Support</span>
         <RightIcon />
       </button>
     </div>

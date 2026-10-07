@@ -148,20 +148,47 @@
           &>button:nth-child(1) {
             height: 4rem;
             width: max-content;
-            display: flex;
+            padding-inline: 1.8rem 1.4rem;
+            display: inline-flex;
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
+            gap: 1.6rem;
             font-size: var(--font-medium);
-            border: none;
+            font-weight: 600;
+            border: 1px solid rgba(0, 193, 232, 0.35);
             outline: none;
-            background-color: transparent;
+            background-color: rgba(0, 193, 232, 0.08);
+            border-radius: 3rem;
             cursor: pointer;
             color: var(--text-primary);
+            transition: all 0.25s ease;
+
+            &:hover {
+              background-color: var(--btn-hover-color, #00c1e8);
+              border-color: var(--btn-hover-color, #00c1e8);
+              color: #ffffff;
+              transform: translateY(-1px);
+              box-shadow: 0 4px 14px rgba(0, 193, 232, 0.35);
+
+              &>span {
+                color: #ffffff;
+              }
+
+              svg {
+                transform: translateX(6px);
+              }
+            }
 
             &>span {
               font-size: var(--font-medium);
+              font-weight: 600;
+              color: var(--text-primary);
+              transition: color 0.2s ease;
+            }
+
+            svg {
+              transition: transform 0.25s ease;
             }
           }
 

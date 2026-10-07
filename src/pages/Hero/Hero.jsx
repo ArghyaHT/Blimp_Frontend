@@ -273,7 +273,7 @@ const Hero = () => {
           </h1>
 
           <p className={style.seedHeroSubtitle}>
-            INDIA’s most powerful legal and fundraising platform
+            INDIA’s most powerful fundraising platform
           </p>
 
           <div className={style.seedHeroBtnGroup}>
@@ -455,7 +455,7 @@ const Hero = () => {
                         });
                       }}
                     >
-                      <span>View More</span>
+                      <span>Support</span>
                       <RightIcon />
                     </button>
 
@@ -489,7 +489,7 @@ const Hero = () => {
                   });
                 }}
               >
-                <span>View More</span>
+                <span>Support</span>
                 <RightIcon />
               </button>
               <button
@@ -513,7 +513,7 @@ const Hero = () => {
                 });
               }}
             >
-              <span>View More</span>
+              <span>Support</span>
               <RightIcon />
             </button>
           </div>

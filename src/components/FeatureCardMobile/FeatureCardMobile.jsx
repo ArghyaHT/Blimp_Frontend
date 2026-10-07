@@ -76,7 +76,7 @@ const FeatureCardMobile = ({ featureItem }) => {
         </div>
 
         <button>
-          <span>View More</span>
+          <span>Support</span>
           <div>
             <RightIcon />
           </div>
