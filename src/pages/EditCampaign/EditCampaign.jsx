@@ -170,6 +170,31 @@ const EditCampaign = () => {
     }
   }, [countries?.data?.data, edit_campaign_item?.country_id]);
 
+  const [topCampaigns, setTopCampaigns] = useState({
+    loading: false,
+    error: null,
+    data: [],
+  });
+
+  useEffect(() => {
+    const fetchTopCampaigns = async () => {
+      setTopCampaigns((prev) => ({ ...prev, loading: true, error: null }));
+      try {
+        const { data } = await api.post("/get-top-campaigns");
+        if (data.code === 200) {
+          const campaigns = data?.data?.latestCampaigns || [];
+          setTopCampaigns({ loading: false, error: null, data: campaigns });
+        } else {
+          setTopCampaigns({ loading: false, error: data.message, data: [] });
+        }
+      } catch (error) {
+        setTopCampaigns({ loading: false, error: error.message, data: [] });
+      }
+    };
+
+    fetchTopCampaigns();
+  }, []);
+
   const [selectedCategoryOpen, setSelectedCategoryOpen] = useState(false);
   const [selectedCountryOpen, setSelectedCountryOpen] = useState(false);
 
@@ -559,7 +584,7 @@ const EditCampaign = () => {
           </h2>
           <p>
             {selectedStep === 1 &&
-              "Libero dictum ut purus ut vel sit egestas. Ut ac mattis senectus ac suspendisse vitae vel nulla eleifend. Est eros facilisi aenean nisl a. Vitae et fusce purus consectetur."}
+              "Select the category that best describes your campaign or cause to help donors find you."}
 
             {selectedStep === 2 &&
               "Donations can be received globally, but to accept them, you'll need a bank account and valid ID from one of the eligible countries."}
@@ -568,16 +593,16 @@ const EditCampaign = () => {
               "Your campaign goal will be set in the local currency of the country you select. You can update your target at any time."}
 
             {selectedStep === 4 &&
-              "No worries—you can always change this later."}
+              "Choose a clear, catchy title that explains your goal. You can always change this later."}
 
             {selectedStep === 5 &&
-              "No worries—you'll be able to upload more images and videos later. Just ensure your image is a .jpg or .png file and smaller than 5MB."}
+              "Upload a compelling banner image to represent your campaign. Recommended size is 1200x560px (max 5MB)."}
 
             {selectedStep === 6 &&
-              "Libero dictum ut purus ut vel sit egestas. Ut ac mattis senectus ac suspendisse vitae vel nulla eleifend. Est eros facilisi aenean nisl a. Vitae et fusce purus consectetur."}
+              "Provide your personal or organization details so donors know who is behind this campaign."}
 
             {selectedStep === 7 &&
-              "Share the story behind your campaign. Include details like the background of the issue, who you are, what you're working on, and why it matters to you. Let donors know how the funds will be used.Aim for about 500 words (roughly 2,500 characters) for the most effective description. And don't worry—you can update it anytime."}
+              "Share the story behind your campaign. Include details like the background of the issue, who you are, what you're working on, and why it matters to you. Let donors know how the funds will be used. Aim for about 500 words (roughly 2,500 characters) for the most effective description. And don't worry—you can update it anytime."}
 
             {selectedStep === 8 &&
               "No worries if it's not perfect yet—you can keep editing it before or after you launch."}
@@ -696,30 +721,40 @@ const EditCampaign = () => {
             </div>
 
             <div>
-              <div>
-                <img
-                  src="https://www.aljazeera.com/wp-content/uploads/2024/08/AFP__20240823__36EM9XC__v1__HighRes__BangladeshWeatherFlood-1724392248.jpg"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://www.aljazeera.com/wp-content/uploads/2024/08/AFP__20240823__36EM9XC__v1__HighRes__BangladeshWeatherFlood-1724392248.jpg"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://www.aljazeera.com/wp-content/uploads/2024/08/AFP__20240823__36EM9XC__v1__HighRes__BangladeshWeatherFlood-1724392248.jpg"
-                  alt=""
-                />
-              </div>
-              <div>
-                <img
-                  src="https://www.aljazeera.com/wp-content/uploads/2024/08/AFP__20240823__36EM9XC__v1__HighRes__BangladeshWeatherFlood-1724392248.jpg"
-                  alt=""
-                />
-              </div>
+              {topCampaigns.loading ? (
+                [1, 2, 3, 4].map((item) => (
+                  <div key={item}>
+                    <Skeleton
+                      variant="rectangular"
+                      width="100%"
+                      height="100%"
+                      sx={{ borderRadius: "1rem" }}
+                    />
+                  </div>
+                ))
+              ) : topCampaigns.data?.length > 0 ? (
+                topCampaigns.data.slice(0, 4).map((item, index) => (
+                  <div key={item.id || index}>
+                    <img
+                      src={
+                        item.banner_image ||
+                        "https://www.aljazeera.com/wp-content/uploads/2024/08/AFP__20240823__36EM9XC__v1__HighRes__BangladeshWeatherFlood-1724392248.jpg"
+                      }
+                      alt={item.campaign_name || `Top campaign ${index + 1}`}
+                      style={{ objectFit: "cover", width: "100%", height: "100%", borderRadius: "1rem" }}
+                    />
+                  </div>
+                ))
+              ) : (
+                [1, 2, 3, 4].map((item) => (
+                  <div key={item}>
+                    <img
+                      src="https://www.aljazeera.com/wp-content/uploads/2024/08/AFP__20240823__36EM9XC__v1__HighRes__BangladeshWeatherFlood-1724392248.jpg"
+                      alt=""
+                    />
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}
