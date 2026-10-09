@@ -342,7 +342,14 @@ const Hero = () => {
 
               <button
                 onClick={() => {
-                  navigate("/start-campaign");
+                  window.scrollTo(0, 0);
+                  if (supportCampaigns?.data?.data) {
+                    navigate("/feature-detail", {
+                      state: supportCampaigns.data.data,
+                    });
+                  } else {
+                    navigate("/start-campaign");
+                  }
                 }}
               >
                 Get Funding
@@ -397,7 +404,7 @@ const Hero = () => {
                   ) && <VerifiedBadge />}
                 </div>
 
-                <div>
+                <div className={style.latestDesktopDetails}>
                   <h2>
                     {
                       latestCampaigns?.data?.data?.latestCampaigns?.[0]
@@ -481,41 +488,31 @@ const Hero = () => {
                     ?.campaign_name
                 }
               </h3>
-              <button
-                onClick={() => {
-                  window.scrollTo(0, 0);
-                  navigate("/feature-detail", {
-                    state: latestCampaigns?.data?.data?.latestCampaigns?.[0],
-                  });
-                }}
-              >
-                <span>Support</span>
-                <RightIcon />
-              </button>
-              <button
-                className="glossy-btn"
-                onClick={() => {
-                  window.scrollTo(0, 0);
-                  navigate("/checkout", {
-                    state: latestCampaigns?.data?.data?.latestCampaigns?.[0],
-                  });
-                }}
-              >
-                Donate
-              </button>
+              <div className={style.impactMobileButtons}>
+                <button
+                  onClick={() => {
+                    window.scrollTo(0, 0);
+                    navigate("/feature-detail", {
+                      state: latestCampaigns?.data?.data?.latestCampaigns?.[0],
+                    });
+                  }}
+                >
+                  <span>Support</span>
+                  <RightIcon />
+                </button>
+                <button
+                  className="glossy-btn"
+                  onClick={() => {
+                    window.scrollTo(0, 0);
+                    navigate("/checkout", {
+                      state: latestCampaigns?.data?.data?.latestCampaigns?.[0],
+                    });
+                  }}
+                >
+                  Donate
+                </button>
+              </div>
             </div>
-
-            <button
-              onClick={() => {
-                window.scrollTo(0, 0);
-                navigate("/feature-detail", {
-                  state: latestCampaigns?.data?.data?.latestCampaigns?.[0],
-                });
-              }}
-            >
-              <span>Support</span>
-              <RightIcon />
-            </button>
           </div>
         </div>
       </section>

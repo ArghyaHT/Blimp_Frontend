@@ -24,6 +24,8 @@ const AboutUs = () => {
     data: {},
   });
 
+  const [topDonatedCampaign, setTopDonatedCampaign] = useState(null);
+
   useEffect(() => {
     const fetchUserCampaign = async () => {
       if (userId) {
@@ -57,8 +59,28 @@ const AboutUs = () => {
       }
     };
 
+    const fetchTopCampaign = async () => {
+      try {
+        const { data } = await api.post("/get-top-campaigns");
+        if (data.code === 200 && data.data?.latestCampaigns) {
+          const allCampaigns = [
+            ...(data.data.latestCampaigns || []),
+            ...(data.data.nextCampaigns || []),
+            ...(data.data.thirdCampaigns || []),
+          ];
+          const sorted = allCampaigns.sort(
+            (a, b) => (b.raisedAmount || 0) - (a.raisedAmount || 0)
+          );
+          setTopDonatedCampaign(sorted[0] || null);
+        }
+      } catch (err) {
+        console.error("Error fetching top campaign:", err);
+      }
+    };
+
     fetchUserCampaign();
     fetchLatestArticles();
+    fetchTopCampaign();
   }, [userId]);
 
   // console.log(latestArticles)
@@ -139,7 +161,14 @@ const AboutUs = () => {
 
               <button
                 onClick={() => {
-                  navigate("/feature-detail");
+                  window.scrollTo(0, 0);
+                  if (topDonatedCampaign) {
+                    navigate("/feature-detail", {
+                      state: topDonatedCampaign,
+                    });
+                  } else {
+                    navigate("/discover");
+                  }
                 }}
               >
                 <p>learn more</p>

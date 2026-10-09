@@ -1316,13 +1316,13 @@
       }
 
       .stepperCategoryContainer {
-        margin-block: 4rem;
+        margin-block: 2rem;
 
         &>div:nth-child(1) {
           width: 100%;
 
           &>div:nth-child(1) {
-            height: 5.5rem;
+            height: 4.8rem;
 
             &>div {
               height: 100%;
@@ -1330,72 +1330,101 @@
           }
 
           .dropdownContainer {
-            top: 7.5rem;
+            top: 5.8rem;
           }
         }
 
         &>div:nth-child(2) {
           width: 100%;
           grid-template-columns: repeat(1, 1fr);
-          gap: 3rem;
+          gap: 2rem;
         }
       }
 
       .stepperCountryContainer {
-        margin-block: 4rem;
+        margin-block: 2rem;
 
         &>div:nth-child(1) {
           width: 100%;
 
           &>div:nth-child(1) {
-            height: 5.5rem;
+            height: 4.8rem;
           }
 
           .dropdownContainer {
-            top: 7.5rem;
+            top: 5.8rem;
           }
         }
       }
 
       .stepperGoalContainer {
-        margin-block: 4rem;
+        margin-block: 2rem;
 
         &>div:nth-child(1) {
           width: 100%;
 
           &>div:nth-child(1) {
-            height: 5.5rem;
+            height: 4.8rem;
           }
 
           .dropdownContainer {
-            top: 7.5rem;
+            top: 5.8rem;
           }
         }
       }
 
       .stepperTitleContainer {
-        margin-block: 4rem;
+        margin-block: 2rem;
 
         &>div:nth-child(1) {
           width: 100%;
 
           &>input {
-            height: 5.5rem;
+            height: 4.8rem;
+            font-size: 1.5rem;
           }
         }
       }
 
       .stepperImageContainer {
-        margin-block: 4rem;
+        margin-block: 2rem;
+
+        .upload_banner_section {
+          padding: 1.5rem;
+          gap: 1.2rem;
+          border-radius: 1rem;
+        }
+
+        .upload_banner_section .upload_banner_title {
+          font-size: 1.5rem;
+        }
+
+        .upload_banner_section .upload_banner_box {
+          gap: 1.2rem;
+        }
+
+        .upload_banner_section .upload_banner_dropzone {
+          min-height: 12rem;
+          border-radius: 0.8rem;
+        }
+
+        .upload_banner_section .upload_banner_dropzone p {
+          font-size: 1.35rem;
+        }
+
+        .upload_banner_section .upload_note {
+          font-size: 1.25rem;
+          line-height: 1.4;
+        }
       }
 
       .stepperYouContainer {
-        margin-block: 4rem;
+        margin-block: 2rem;
 
         .stepperYouUnFilledUserContainer {
           &>div:nth-child(2) {
             flex-direction: column;
-            gap: 4rem;
+            gap: 2rem;
 
             &>div {
               width: 100%;
@@ -1404,11 +1433,11 @@
 
           &>div:nth-last-child(2) {
             flex-direction: column;
-            gap: 3rem;
+            gap: 2rem;
 
             &>div {
               width: 100%;
-              min-height: 6.5rem;
+              min-height: 5rem;
             }
           }
         }
@@ -1416,10 +1445,10 @@
 
       .stepperStoryContainer {
         width: 100%;
-        margin-block: 4rem;
+        margin-block: 2rem;
 
         &>input {
-          height: 5.5rem;
+          height: 4.8rem;
         }
 
         &>div:nth-child(3) {
@@ -1711,4 +1740,24 @@
 
 .saveDraftBtn:hover {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 640px) {
+  .stepActionButtons {
+    flex-direction: column-reverse;
+    gap: 1.2rem;
+    margin-block: 2.5rem;
+    width: 100%;
+  }
+
+  .saveContinueBtn,
+  .saveDraftBtn {
+    width: 100% !important;
+    max-width: 32rem;
+    height: 4.6rem;
+    font-size: 1.5rem;
+    padding-inline: 1.5rem;
+    white-space: nowrap;
+    margin-inline: auto;
+  }
 }

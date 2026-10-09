@@ -5,17 +5,13 @@ import Stack from "@mui/material/Stack";
 import FeatureCard from "../../components/FeatureCard/FeatureCard";
 import {
   AnimalIcon,
-  CommunityIcon,
   EducationIcon,
-  EmergencyIcon,
   EnvironmentIcon,
-  EventIcon,
   FaithIcon,
-  FamilyIcon,
   FlimIcon,
+  LegalIcon,
   MedicalIcon,
   MemorialIcon,
-  NonProfitIcon,
   SearchIcon,
   SportIcon,
   WishIcon,
@@ -34,7 +30,7 @@ const Discover = () => {
   const sortCardData = [
     { id: 1, icon: <MedicalIcon />, label: "Medical" },
     { id: 2, icon: <SportIcon />, label: "Sports" },
-    { id: 3, icon: <NonProfitIcon />, label: "Non Profit" },
+    { id: 3, icon: <LegalIcon />, label: "Legal" },
     { id: 4, icon: <EducationIcon />, label: "Education" },
     { id: 5, icon: <AnimalIcon />, label: "Animal" },
     { id: 6, icon: <EnvironmentIcon />, label: "Environment" },

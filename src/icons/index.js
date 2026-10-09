@@ -1,19 +1,15 @@
 import { BsCalendar2Event, BsFillCreditCard2BackFill, BsWhatsapp } from "react-icons/bs";
-import { FaArrowLeft, FaCamera, FaChevronLeft, FaFacebookF, FaPen, FaPlus, FaRegStar, FaSortDown } from "react-icons/fa";
+import { FaArrowLeft, FaCamera, FaFacebookF, FaPen, FaPlus, FaRegStar } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiArrowRight, FiSearch } from "react-icons/fi";
-import { GiHamburgerMenu, GiProgression, GiSprout } from "react-icons/gi";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { GoCalendar } from "react-icons/go";
 import { IoIosArrowDown, IoIosArrowUp, IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { LuClock, LuDog, LuHandHeart, LuHeartHandshake, LuTrees } from "react-icons/lu";
-import { MdAccountCircle, MdEmergency, MdFilterAlt, MdOutlineEmail, MdOutlineFamilyRestroom, MdOutlinePets, MdOutlinePhone, MdOutlineSportsCricket } from "react-icons/md";
+import { LuClock, LuDog, LuHandHeart, LuHeartHandshake, LuScale, LuTrees } from "react-icons/lu";
+import { MdAccountCircle, MdEmergency, MdFilterAlt, MdOutlineEmail, MdOutlineFamilyRestroom, MdOutlinePhone } from "react-icons/md";
 import { RiAccountCircleLine, RiAlignCenter, RiAlignLeft, RiAlignRight, RiInstagramFill, RiUserCommunityFill } from "react-icons/ri";
-import { RxCross2 } from "react-icons/rx";
-import { IoAmericanFootballOutline, IoLocationOutline, IoSchoolOutline, IoSchoolSharp } from "react-icons/io5";
+import { IoAmericanFootballOutline, IoLocationOutline } from "react-icons/io5";
 import { TbGrave2, TbReportMedical, TbSchool } from "react-icons/tb";
-import { MdMedicalServices } from "react-icons/md";
-import { VscAccount } from "react-icons/vsc";
-import { PiDogLight } from "react-icons/pi";
 import { BiCameraMovie } from "react-icons/bi";
 import { ImCross } from "react-icons/im";
 import { AiOutlineClose } from "react-icons/ai";
@@ -47,6 +43,7 @@ export const EmergencyIcon = MdEmergency
 export const AnimalIcon = LuDog
 export const EducationIcon = TbSchool
 export const NonProfitIcon = LuHeartHandshake
+export const LegalIcon = LuScale
 export const EnvironmentIcon = LuTrees
 export const CommunityIcon = RiUserCommunityFill
 export const EventIcon = BsCalendar2Event
