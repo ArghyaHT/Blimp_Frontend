@@ -124,38 +124,40 @@ const MobileNavbar = () => {
 
   return (
     <header className={style.mobileHeader}>
-      <>
-        <div className={style.logoContainer}>
-          <a href="/" aria-label="Go to Home">
-            <img
-              src={blimpLogoBlack}
-              alt="Blimp Company Logo"
-              className={style.logo}
-            />
-          </a>
-        </div>
+      <div className={style.logoContainer}>
+        <a href="/" aria-label="Go to Home">
+          <img
+            src={blimpLogoBlack}
+            alt="Blimp Company Logo"
+            className={style.logo}
+          />
+        </a>
+      </div>
 
-        <div>
-          {location.pathname !== "/discover" ? (
-            <button
-              onClick={() => {
-                navigate("/discover");
-                setOpenMobileMenu(false);
-              }}
-            >
-              <SearchIcon />
-            </button>
-          ) : null}
-
+      <div className={style.navActions}>
+        {location.pathname !== "/discover" ? (
           <button
+            className={style.iconButton}
+            aria-label="Search campaigns"
             onClick={() => {
-              setOpenMobileMenu((prev) => !prev);
+              navigate("/discover");
+              setOpenMobileMenu(false);
             }}
           >
-            {openMobileMenu ? <CrossIcon /> : <MenuIcon />}
+            <SearchIcon />
           </button>
-        </div>
-      </>
+        ) : null}
+
+        <button
+          className={style.iconButton}
+          aria-label="Toggle navigation menu"
+          onClick={() => {
+            setOpenMobileMenu((prev) => !prev);
+          }}
+        >
+          {openMobileMenu ? <CrossIcon /> : <MenuIcon />}
+        </button>
+      </div>
 
       {openMobileMenu && (
         <div className={style.mobileMenuContainer}>
@@ -190,11 +192,10 @@ const MobileNavbar = () => {
                   return (
                     <button
                       key={item.name}
-                      className={`${style.navLink} ${
-                        location.pathname === item.url
+                      className={`${style.navLink} ${location.pathname === item.url
                           ? style.navLinkActive
                           : ""
-                      }`}
+                        }`}
                       onClick={() => {
                         navigate(item.url);
                         setOpenMobileMenu(false);
@@ -221,7 +222,7 @@ const MobileNavbar = () => {
                 {isAuthenticated && (
                   <button
                     onClick={logout_handler}
-                    // className={styles.logoutButton}
+                  // className={styles.logoutButton}
                   >
                     Logout
                   </button>

@@ -188,35 +188,39 @@ const FeatureCardMobile = ({ featureItem }) => {
       <div className={style.imageWrapper}>
         <img src={featureItem?.banner_image || campaignDummy} alt="" />
       </div>
-      <div>
-        <h2>{renderCampaignTitle()}</h2>
-        <div>
-          <PlaceIcon />
-          <p>{featureItem?.country?.name}</p>
+      <div className={style.detailsWrapper}>
+        <div className={style.headerSection}>
+          <h2>{renderCampaignTitle()}</h2>
+          <div className={style.location}>
+            <PlaceIcon />
+            <p>{featureItem?.country?.name}</p>
+          </div>
         </div>
 
-        <div className={style.ProgressBar}>
-          <div
-            style={{
-              width: `${Math.min(100, Math.max(0, displayPercentage))}%`,
-            }}
-          ></div>
+        <div className={style.progressSection}>
+          <div className={style.ProgressBar}>
+            <div
+              style={{
+                width: `${Math.min(100, Math.max(0, displayPercentage))}%`,
+              }}
+            ></div>
+          </div>
+
+          <div className={style.ProgressBarText}>
+            <p>
+              {featureItem?.country?.symbol || (featureItem?.country?.currency ? "" : "₹")}
+              {formatNumber(displayRaised, animProgress >= 1)}
+              {!featureItem?.country?.symbol && featureItem?.country?.currency ? ` ${featureItem.country.currency}` : ""} raised
+            </p>
+            <p>
+              {featureItem?.country?.symbol || "₹"}
+              {formatNumber(featureItem?.targetAmount, true)} goal -{" "}
+              {Number(featureItem?.donationInfo?.length || 0).toLocaleString()} donations
+            </p>
+          </div>
         </div>
 
-        <div className={style.ProgressBarText}>
-          <p>
-            {featureItem?.country?.symbol || (featureItem?.country?.currency ? "" : "₹")}
-            {formatNumber(displayRaised, animProgress >= 1)}
-            {!featureItem?.country?.symbol && featureItem?.country?.currency ? ` ${featureItem.country.currency}` : ""} raised
-          </p>
-          <p>
-            {featureItem?.country?.symbol || "₹"}
-            {formatNumber(featureItem?.targetAmount, true)} goal -{" "}
-            {Number(featureItem?.donationInfo?.length || 0).toLocaleString()} donations
-          </p>
-        </div>
-
-        <button>
+        <button className={style.supportButton}>
           <span>Support</span>
         </button>
       </div>

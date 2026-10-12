@@ -18,18 +18,36 @@
     }
   }
 
+  .navActions,
   & > div:nth-child(2) {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.6rem;
 
+    .iconButton,
     & > button {
-      font-size: var(--font-large);
+      font-size: var(--icon-size, 2.2rem);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       background-color: transparent;
       border: none;
       outline: none;
       cursor: pointer;
       color: var(--text-primary);
+      padding: 0.5rem;
+      border-radius: 50%;
+      line-height: 1;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &:active {
+        transform: scale(0.92);
+        opacity: 0.6;
+      }
     }
   }
 

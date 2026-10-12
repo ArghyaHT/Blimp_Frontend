@@ -79,15 +79,18 @@ const Discover = () => {
         campaign_name: query,
       });
       if (data.code === 200) {
-        setCampaignHistoryList(data?.data);
-        setCampaignHistoryCopyList(data?.data);
-        setTotalPages(data?.pagination?.totalPages);
-      } else if (data.code === 400) {
+        setCampaignHistoryList(data?.data || []);
+        setCampaignHistoryCopyList(data?.data || []);
+        setTotalPages(data?.pagination?.totalPages || 0);
+      } else {
         setCampaignHistoryList([]);
         setCampaignHistoryCopyList([]);
+        setTotalPages(0);
       }
     } catch (error) {
       setCampaignHistoryList([]);
+      setCampaignHistoryCopyList([]);
+      setTotalPages(0);
     } finally {
       setCampaignHistoryLoading(false);
     }
@@ -95,7 +98,7 @@ const Discover = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (user?.id && page) {
+    if (page) {
       fetchCampaignHistory(page, selectedCategory, query);
     }
   }, [user, page, selectedCategory, query]);
