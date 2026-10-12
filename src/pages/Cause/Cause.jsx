@@ -186,6 +186,42 @@ const Cause = () => {
     // ...
   };
 
+  const getCampaignDescription = () => {
+    const raw =
+      featureItemDetail?.data?.data?.description ??
+      featureItemDetail?.data?.data?.campaign_details ??
+      featureItemDetail?.data?.data?.rasing_funds_decription ??
+      featureItem?.description ??
+      featureItem?.campaign_details ??
+      "";
+
+    if (!raw) return "";
+
+    let cleaned = raw;
+    if (typeof cleaned === "string") {
+      cleaned = cleaned.trim();
+      if (
+        (cleaned.startsWith('"') && cleaned.endsWith('"')) ||
+        (cleaned.startsWith("'") && cleaned.endsWith("'"))
+      ) {
+        try {
+          cleaned = JSON.parse(cleaned);
+        } catch (e) {
+          cleaned = cleaned.slice(1, -1);
+        }
+      }
+      if (typeof cleaned === "string") {
+        cleaned = cleaned.replace(/\\n/g, "\n").replace(/\\"/g, '"');
+      }
+    }
+    return typeof cleaned === "string" ? cleaned : "";
+  };
+
+  const campaignDescription = getCampaignDescription();
+  const isHtmlDescription =
+    typeof campaignDescription === "string" &&
+    /<[a-z][\s\S]*>/i.test(campaignDescription);
+
   return (
     <main>
       <section className={style.featureDetailContainer}>
@@ -341,14 +377,18 @@ const Cause = () => {
             ) : (
               <>
                 <h2>Raising fund description</h2>
-                <p style={{ whiteSpace: "pre-wrap" }}>
-                  {convert(
-                    (featureItemDetail?.data?.data?.description || "")
-                      ?.replace(/\\n/g, "")
-                      ?.replace(/^"(.*)"$/, "$1"),
-                    options
-                  )}
-                </p>
+                {isHtmlDescription ? (
+                  <div
+                    className={style.descriptionHtmlContent}
+                    dangerouslySetInnerHTML={{ __html: campaignDescription }}
+                  />
+                ) : (
+                  <p style={{ whiteSpace: "pre-wrap" }}>
+                    {campaignDescription
+                      ? convert(campaignDescription, options) || campaignDescription
+                      : "No description provided."}
+                  </p>
+                )}
               </>
             )}
           </div>

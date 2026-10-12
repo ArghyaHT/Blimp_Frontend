@@ -659,3 +659,49 @@
     }
   }
 }
+
+.descriptionHtmlContent {
+  font-size: var(--font-medium);
+  line-height: 1.75;
+  color: var(--text-secondary);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.descriptionHtmlContent p {
+  margin-bottom: 1.4rem;
+  font-size: var(--font-medium);
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+.descriptionHtmlContent h1,
+.descriptionHtmlContent h2,
+.descriptionHtmlContent h3,
+.descriptionHtmlContent h4 {
+  color: var(--text-primary);
+  margin: 1.8rem 0 0.8rem;
+  font-weight: 700;
+}
+
+.descriptionHtmlContent h3 {
+  font-size: 1.8rem;
+}
+
+.descriptionHtmlContent ul,
+.descriptionHtmlContent ol {
+  padding-left: 2.2rem;
+  margin: 1.2rem 0;
+}
+
+.descriptionHtmlContent li {
+  margin-bottom: 0.5rem;
+  font-size: var(--font-medium);
+  color: var(--text-secondary);
+}
+
+.descriptionHtmlContent strong,
+.descriptionHtmlContent b {
+  color: var(--text-primary);
+  font-weight: 700;
+}

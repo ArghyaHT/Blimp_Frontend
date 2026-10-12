@@ -1554,6 +1554,11 @@ const StartCampaign = () => {
               <TiptapEditor
                 selectedCampaingDescription={selectedCampaingDescription}
                 setSelectedCampaignDescription={setSelectedCampaignDescription}
+                campaignTitle={campaignTitle}
+                categoryName={selectedCategory?.name}
+                targetAmount={targetedAmount}
+                organizerName={selectedName}
+                selectedCountry={selectedCountry}
               />
             </div>
 

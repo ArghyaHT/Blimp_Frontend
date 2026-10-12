@@ -26,8 +26,10 @@ import {
   FaTable,
   FaPalette,
 } from "react-icons/fa";
-import { LuUndo, LuRedo } from "react-icons/lu";
+import { LuUndo, LuRedo, LuSparkles } from "react-icons/lu";
 import { MdHorizontalRule, MdFormatClear } from "react-icons/md";
+import GrammarlyAIModal from "./GrammarlyAIModal";
+import { countWords } from "./aiEngine";
 
 function Dropdown({ label, icon, isOpen, onToggle, onClose, children }) {
   const dropdownRef = useRef(null);
@@ -98,7 +100,7 @@ const extensions = [
   }),
 ];
 
-function MenuBar({ editor }) {
+function MenuBar({ editor, onOpenAiModal }) {
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const toggleDropdown = (label) => {
@@ -195,6 +197,22 @@ function MenuBar({ editor }) {
   return (
     <div className={style.control_group}>
       <div className={style.button_group}>
+        {/* ✨ Grammarly AI Button */}
+        <button
+          type="button"
+          onClick={onOpenAiModal}
+          className={style.grammarly_ai_btn}
+          title="Grammarly AI: Auto-Complete ~500 Words Description"
+        >
+          <span className={style.grammarly_icon_pulse}>
+            <LuSparkles />
+          </span>
+          <span className={style.grammarly_btn_text}>Grammarly AI</span>
+          <span className={style.ai_pill_badge}>Auto-Complete ✨</span>
+        </button>
+
+        <div className={style.toolbar_divider} />
+
         {/* 🎨 Text Style Dropdown */}
         <Dropdown
           label="Text Style"
@@ -484,20 +502,99 @@ function MenuBar({ editor }) {
 const TiptapEditor = ({
   selectedCampaingDescription,
   setSelectedCampaignDescription,
+  campaignTitle,
+  categoryName,
+  targetAmount,
+  organizerName,
+  selectedCountry,
 }) => {
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+
   const editor = useEditor({
     extensions,
-    content: selectedCampaingDescription,
+    content: selectedCampaingDescription || "",
     onUpdate({ editor }) {
       const html = editor.getHTML();
       setSelectedCampaignDescription(html);
     },
   });
 
+  // Keep editor synchronized with external description updates
+  useEffect(() => {
+    if (editor && selectedCampaingDescription !== undefined) {
+      const current = editor.getHTML();
+      if (current !== selectedCampaingDescription && selectedCampaingDescription !== "") {
+        editor.commands.setContent(selectedCampaingDescription);
+      }
+    }
+  }, [selectedCampaingDescription, editor]);
+
+  const rawHtml = editor ? editor.getHTML() : selectedCampaingDescription || "";
+  const wordCount = countWords(rawHtml);
+
+  const handleApplyAiContent = (newHtml, mode = "replace") => {
+    if (!editor) return;
+    if (mode === "replace") {
+      editor.commands.setContent(newHtml);
+      setSelectedCampaignDescription(newHtml);
+    } else {
+      const current = editor.getHTML();
+      const combined = `${current}<p></p>${newHtml}`;
+      editor.commands.setContent(combined);
+      setSelectedCampaignDescription(combined);
+    }
+  };
+
   return (
     <div>
-      <MenuBar editor={editor} />
+      <MenuBar
+        editor={editor}
+        onOpenAiModal={() => setIsAiModalOpen(true)}
+      />
       <EditorContent editor={editor} />
+
+      {/* 📊 Bottom Status Bar & Quick AI Assist Pill */}
+      <div className={style.editor_footer_bar}>
+        <div className={style.footer_stats}>
+          <span className={style.word_counter}>
+            Story Length: <strong>{wordCount}</strong> / 500 words
+          </span>
+          {wordCount < 80 ? (
+            <span className={style.word_warning}>
+              ⚠️ Too short ({wordCount} words) — donors expect ~500 words
+            </span>
+          ) : (
+            <span style={{ color: "#10b981", fontWeight: 600 }}>
+              ✅ Optimal length ({wordCount} words)
+            </span>
+          )}
+        </div>
+
+        <button
+          type="button"
+          className={style.quick_ai_pill}
+          onClick={() => setIsAiModalOpen(true)}
+          title="Click to auto-complete this description with Grammarly AI"
+        >
+          <LuSparkles />
+          {wordCount < 80
+            ? "✨ Expand to 500 words with Grammarly AI"
+            : "✨ Grammarly AI Auto-Complete & Polish"}
+        </button>
+      </div>
+
+      {/* 🪄 Grammarly AI Assistant Modal */}
+      <GrammarlyAIModal
+        isOpen={isAiModalOpen}
+        onClose={() => setIsAiModalOpen(false)}
+        currentContent={rawHtml}
+        onApply={handleApplyAiContent}
+        campaignTitle={campaignTitle}
+        categoryName={categoryName}
+        targetAmount={targetAmount}
+        organizerName={organizerName}
+        selectedCountry={selectedCountry}
+      />
     </div>
   );
 };
