@@ -8,11 +8,15 @@
     flex-direction: column;
     gap: 2rem;
 
-    & > h2 {
-      font-size: var(--header-semi-large);
+    & > h2,
+    .campaignHeading {
+      font-size: clamp(4.2rem, 3.5vw, 4.8rem);
       font-weight: 700;
-      line-height: 1.35;
+      line-height: 1.25;
+      letter-spacing: -0.04rem;
       color: var(--text-primary);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     .mainBannerWrapper {
@@ -1104,10 +1108,24 @@
   text-overflow: ellipsis;
 }
 
+@media (max-width: 380px) {
+  .stickyRaisedText {
+    font-size: 1.2rem;
+    white-space: normal;
+    line-height: 1.25;
+  }
+}
+
 .stickyRaisedText strong {
   font-size: 1.5rem;
   font-weight: 800;
   color: #0f172a;
+}
+
+@media (max-width: 380px) {
+  .stickyRaisedText strong {
+    font-size: 1.35rem;
+  }
 }
 
 .stickySubText {
@@ -1171,6 +1189,16 @@
 
     & > div {
       gap: 2rem;
+
+      & > h2,
+      .campaignHeading {
+        font-size: clamp(3.0rem, 7.8vw, 3.4rem);
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: -0.02rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
 
       .mainBannerWrapper {
         height: 20rem;
@@ -1342,6 +1370,16 @@
 
     & > div {
       gap: 2rem;
+
+      & > h2,
+      .campaignHeading {
+        font-size: clamp(3.6rem, 4.5vw, 4.2rem);
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: -0.03rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
 
       .mainBannerWrapper {
         height: 30rem;

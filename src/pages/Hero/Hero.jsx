@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import style from "./Hero.module.css";
 import crowdImageOne from "../../assets/crowdImageOne.jpg";
-import { FilterIcon, RightIcon } from "../../icons";
+import { FilterIcon } from "../../icons";
 import FeatureCard from "../../components/FeatureCard/FeatureCard";
 import RegionMapContainer from "../../components/RegionMap/RegionMap";
 import NewsCard from "../../components/NewsCard/NewsCard";
@@ -362,7 +362,19 @@ const Hero = () => {
       <section className={style.impactContainer}>
         <div>
           <h2>the latest</h2>
-          <div>
+          <div
+            className={style.latestCardContainer}
+            onClick={() => {
+              if (latestCampaigns?.data?.data?.latestCampaigns?.[0]) {
+                window.scrollTo(0, 0);
+                navigate("/feature-detail", {
+                  state: latestCampaigns.data.data.latestCampaigns[0],
+                });
+              }
+            }}
+            role="button"
+            tabIndex={0}
+          >
             {latestCampaigns?.loading ? (
               <>
                 <Skeleton
@@ -391,13 +403,29 @@ const Hero = () => {
               </>
             ) : (
               <>
-                <div className={style.latestImageWrapper}>
+                <div
+                  className={style.latestImageWrapper}
+                  onClick={() => {
+                    if (latestCampaigns?.data?.data?.latestCampaigns?.[0]) {
+                      window.scrollTo(0, 0);
+                      navigate("/feature-detail", {
+                        state:
+                          latestCampaigns.data.data.latestCampaigns[0],
+                      });
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                >
                   <img
                     src={
                       latestCampaigns?.data?.data?.latestCampaigns?.[0]
                         ?.banner_image || campaignDummy
                     }
-                    alt=""
+                    alt={
+                      latestCampaigns?.data?.data?.latestCampaigns?.[0]
+                        ?.campaign_name || ""
+                    }
                   />
                   {isVerifiedCampaign(
                     latestCampaigns?.data?.data?.latestCampaigns?.[0]
@@ -454,6 +482,7 @@ const Hero = () => {
 
                   <div>
                     <button
+                      className={style.latestSupportBtn}
                       onClick={() => {
                         window.scrollTo(0, 0);
                         navigate("/feature-detail", {
@@ -463,18 +492,6 @@ const Hero = () => {
                       }}
                     >
                       <span>Support</span>
-                      <RightIcon />
-                    </button>
-
-                    <button
-                      className="glossy-btn"
-                      onClick={() => {
-
-                        window.scrollTo(0, 0);
-                        navigate("/checkout", { state: latestCampaigns?.data?.data?.latestCampaigns?.[0] });
-                      }}
-                    >
-                      Donate
                     </button>
                   </div>
                 </div>
@@ -490,6 +507,7 @@ const Hero = () => {
               </h3>
               <div className={style.impactMobileButtons}>
                 <button
+                  className={style.latestSupportBtn}
                   onClick={() => {
                     window.scrollTo(0, 0);
                     navigate("/feature-detail", {
@@ -498,19 +516,37 @@ const Hero = () => {
                   }}
                 >
                   <span>Support</span>
-                  <RightIcon />
                 </button>
-                <button
-                  className="glossy-btn"
-                  onClick={() => {
-                    window.scrollTo(0, 0);
-                    navigate("/checkout", {
-                      state: latestCampaigns?.data?.data?.latestCampaigns?.[0],
-                    });
-                  }}
-                >
-                  Donate
-                </button>
+                <div className={style.mobileProgressWrapper}>
+                  <ProgressBar
+                    raisedAmount={
+                      latestCampaigns?.data?.data?.latestCampaigns?.[0]
+                        ?.raisedAmount
+                    }
+                    targetAmount={
+                      latestCampaigns?.data?.data?.latestCampaigns?.[0]
+                        ?.targetAmount
+                    }
+                    percentageAchieved={
+                      latestCampaigns?.data?.data?.latestCampaigns?.[0]
+                        ?.percentageAchieved
+                    }
+                    donationCount={
+                      latestCampaigns?.data?.data?.latestCampaigns?.[0]
+                        ?.donationInfo?.length
+                    }
+                    currency={
+                      latestCampaigns?.data?.data?.latestCampaigns?.[0]?.country
+                        ?.currency
+                    }
+                    symbol={
+                      latestCampaigns?.data?.data?.latestCampaigns?.[0]?.country
+                        ?.symbol
+                    }
+                    theme="dark"
+                    compact={true}
+                  />
+                </div>
               </div>
             </div>
           </div>

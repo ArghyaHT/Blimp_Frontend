@@ -79,7 +79,7 @@
     &>button {
       height: 3.6rem;
       width: max-content;
-      padding-inline: 1.4rem 1.1rem;
+      padding-inline: 1.8rem;
       display: inline-flex;
       flex-direction: row;
       align-items: center;

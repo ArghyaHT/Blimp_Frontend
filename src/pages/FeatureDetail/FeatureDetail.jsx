@@ -66,18 +66,23 @@ const FeatureDetail = () => {
   const campaignUpdates = featureItemDetail?.data?.data?.campaignUpdates || [];
   const rawSupportersList = totalSupporters?.data?.data?.campaign?.donationInfo || featureItemDetail?.data?.data?.donationInfo || [];
 
-  const formatCompactNumber = (num) => {
-    const n = Number(num) || 0;
-    if (n >= 1_000_000_000) {
-      return `${(n / 1_000_000_000).toFixed(1).replace(/\.0$/, "")}B`;
-    }
-    if (n >= 1_000_000) {
-      return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`;
-    }
-    if (n >= 1_000) {
-      return `${(n / 1_000).toFixed(1).replace(/\.0$/, "")}K`;
-    }
-    return n.toLocaleString();
+  const formatFullNumber = (num) => {
+    if (num == null || num === "") return "0";
+    const cleanStr = String(num).replace(/[^0-9.]/g, "");
+    if (!cleanStr) return "0";
+    const numericVal = Number(cleanStr);
+    if (isNaN(numericVal)) return "0";
+
+    const isINR =
+      (campaign?.country?.currency &&
+        String(campaign?.country?.currency).toUpperCase() === "INR") ||
+      campaign?.country?.symbol === "₹" ||
+      campaign?.country?.symbol === "Rs" ||
+      campaign?.country?.symbol === "Rs.";
+
+    return numericVal.toLocaleString(isINR ? "en-IN" : "en-US", {
+      maximumFractionDigits: 2,
+    });
   };
 
   const getSupporterAmount = (item) => {
@@ -336,9 +341,9 @@ const FeatureDetail = () => {
       <section className={style.featureDetailContainer}>
         <div>
           {featureItemDetail?.loading ? (
-            <Skeleton variant="rectangular" width={"100%"} height={"4rem"} />
+            <Skeleton variant="rectangular" width={"100%"} height={"4.5rem"} />
           ) : (
-            <h2>{featureItemDetail?.data?.data?.campaign_name}</h2>
+            <h2 className={style.campaignHeading}>{featureItemDetail?.data?.data?.campaign_name}</h2>
           )}
 
           {featureItemDetail?.loading ? (
@@ -736,67 +741,64 @@ const FeatureDetail = () => {
           <div className={style.stickyDonateCard}>
             {/* Top Row: Progress Ring & Raised Text */}
             <div className={style.stickyInfoRow}>
-              <div className={style.stickyProgressRingWrapper}>
-                <svg className={style.stickyProgressSvg} viewBox="0 0 44 44">
-                  <circle
-                    cx="22"
-                    cy="22"
-                    r="18"
-                    className={style.stickyProgressBg}
-                  />
-                  <circle
-                    cx="22"
-                    cy="22"
-                    r="18"
-                    className={style.stickyProgressFg}
-                    style={{
-                      strokeDasharray: 113.1,
-                      strokeDashoffset:
-                        113.1 -
-                        (Math.min(
-                          100,
-                          Math.max(
-                            0,
-                            Math.round(
-                              campaign?.percentageAchieved ||
-                                ((campaign?.raisedAmount / campaign?.targetAmount) *
-                                  100 ||
-                                  0)
-                            )
-                          )
-                        ) /
-                          100) *
-                          113.1,
-                    }}
-                  />
-                </svg>
-                <span className={style.stickyProgressText}>
-                  {Math.min(
-                    100,
-                    Math.max(
-                      0,
-                      Math.round(
-                        campaign?.percentageAchieved ||
-                          ((campaign?.raisedAmount / campaign?.targetAmount) *
-                            100 ||
-                            0)
-                      )
-                    )
-                  )}
-                  %
-                </span>
-              </div>
+              {(() => {
+                const stickyTarget = Number(
+                  (typeof campaign?.targetAmount === "string"
+                    ? campaign.targetAmount.replace(/[^0-9.]/g, "")
+                    : campaign?.targetAmount ?? campaign?.target_amount) || 0
+                );
+                const stickyRaised = Number(
+                  (typeof campaign?.raisedAmount === "string"
+                    ? campaign.raisedAmount.replace(/[^0-9.]/g, "")
+                    : campaign?.raisedAmount ?? campaign?.raised_amount) || 0
+                );
+                const stickyPercentage =
+                  stickyTarget > 0
+                    ? Math.round((stickyRaised / stickyTarget) * 100)
+                    : Math.round(Number(campaign?.percentageAchieved || 0));
 
-              <div className={style.stickyTextGroup}>
-                <div className={style.stickyRaisedText}>
-                  <strong>
-                    {campaign?.country?.symbol || "₹"}
-                    {formatCompactNumber(campaign?.raisedAmount)} raised
-                  </strong>{" "}
-                  of {campaign?.country?.symbol || "₹"}
-                  {formatCompactNumber(campaign?.targetAmount)}
-                </div>
-              </div>
+                return (
+                  <>
+                    <div className={style.stickyProgressRingWrapper}>
+                      <svg className={style.stickyProgressSvg} viewBox="0 0 44 44">
+                        <circle
+                          cx="22"
+                          cy="22"
+                          r="18"
+                          className={style.stickyProgressBg}
+                        />
+                        <circle
+                          cx="22"
+                          cy="22"
+                          r="18"
+                          className={style.stickyProgressFg}
+                          style={{
+                            strokeDasharray: 113.1,
+                            strokeDashoffset:
+                              113.1 -
+                              (Math.min(100, Math.max(0, stickyPercentage)) / 100) *
+                                113.1,
+                          }}
+                        />
+                      </svg>
+                      <span className={style.stickyProgressText}>
+                        {stickyPercentage}%
+                      </span>
+                    </div>
+
+                    <div className={style.stickyTextGroup}>
+                      <div className={style.stickyRaisedText}>
+                        <strong>
+                          {campaign?.country?.symbol || "₹"}
+                          {formatFullNumber(campaign?.raisedAmount)} raised
+                        </strong>{" "}
+                        of {campaign?.country?.symbol || "₹"}
+                        {formatFullNumber(campaign?.targetAmount)}
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
             </div>
 
             {/* Bottom Row: Donate & Share Buttons */}

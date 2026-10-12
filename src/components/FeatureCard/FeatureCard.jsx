@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./FeatureCard.module.css";
 import { useNavigate } from "react-router-dom";
-import { PlaceIcon, RightIcon } from "../../icons";
+import { PlaceIcon } from "../../icons";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { isVerifiedCampaign } from "../../utils/campaignUtils";
 import campaignDummy from "../../assets/campaign_dummy.jpeg";
@@ -54,9 +54,6 @@ const FeatureCard = ({ featureItem }) => {
 
         <button>
           <span>Support</span>
-          <div>
-            <RightIcon />
-          </div>
         </button>
       </div>
     </div>

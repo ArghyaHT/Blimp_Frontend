@@ -1,27 +1,182 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import style from "./FeatureCardMobile.module.css";
 import { useNavigate } from "react-router-dom";
-import { PlaceIcon, RightIcon } from "../../icons";
-import ProgressBar from "../ProgressBar/ProgressBar";
+import { PlaceIcon } from "../../icons";
 import { isVerifiedCampaign } from "../../utils/campaignUtils";
 import campaignDummy from "../../assets/campaign_dummy.jpeg";
 
 const FeatureCardMobile = ({ featureItem }) => {
   const navigate = useNavigate();
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [animProgress, setAnimProgress] = useState(0);
 
-  const formatNumber = (num) => {
-    if (num == null || isNaN(num)) return "0";
+  const formatNumber = (num, isExact = false) => {
+    if (num == null || num === "") return "0";
+    const cleanStr = String(num).replace(/[^0-9.]/g, "");
+    if (!cleanStr) return "0";
+    const numericVal = Number(cleanStr);
+    if (isNaN(numericVal)) return "0";
 
-    if (num >= 1_000_000_000)
-      return (num / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + "B";
-    if (num >= 1_000_000)
-      return (num / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
-    if (num >= 1_000) return (num / 1_000).toFixed(1).replace(/\.0$/, "") + "K";
-    return num.toString();
+    const curr = featureItem?.country?.currency;
+    const sym = featureItem?.country?.symbol;
+    const isINR =
+      (curr && String(curr).toUpperCase() === "INR") ||
+      sym === "₹" ||
+      sym === "Rs" ||
+      sym === "Rs.";
+
+    return numericVal.toLocaleString(isINR ? "en-IN" : "en-US", {
+      maximumFractionDigits: isExact ? 2 : 0,
+    });
+  };
+
+  const mobileTarget = Number(
+    (typeof featureItem?.targetAmount === "string"
+      ? featureItem.targetAmount.replace(/[^0-9.]/g, "")
+      : featureItem?.targetAmount ?? featureItem?.target_amount) || 0
+  );
+  const mobileRaised = Number(
+    (typeof featureItem?.raisedAmount === "string"
+      ? featureItem.raisedAmount.replace(/[^0-9.]/g, "")
+      : featureItem?.raisedAmount ?? featureItem?.raised_amount) || 0
+  );
+  const dynamicPercentage =
+    mobileTarget > 0
+      ? Math.round((mobileRaised / mobileTarget) * 100)
+      : Math.round(Number(featureItem?.percentageAchieved || 0));
+
+  // Trigger when card enters viewport
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // Smooth animation from 0 to price & percentage
+  useEffect(() => {
+    if (!isVisible) return;
+
+    let animId;
+    const duration = 1200;
+    const startTime = performance.now();
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    const step = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOutCubic(progress);
+
+      setAnimProgress(eased);
+
+      if (progress < 1) {
+        animId = requestAnimationFrame(step);
+      } else {
+        setAnimProgress(1);
+      }
+    };
+
+    animId = requestAnimationFrame(step);
+    return () => {
+      if (animId) cancelAnimationFrame(animId);
+    };
+  }, [isVisible, mobileRaised, dynamicPercentage]);
+
+  const displayPercentage = Math.round(dynamicPercentage * animProgress);
+  const displayRaised =
+    animProgress >= 1
+      ? featureItem?.raisedAmount
+      : Math.round(mobileRaised * animProgress);
+  const renderCampaignTitle = () => {
+    const title = featureItem?.campaign_name || "";
+    const isVerified = isVerifiedCampaign(featureItem);
+    if (!isVerified || !title) {
+      return title;
+    }
+    const words = title.trim().split(" ");
+    if (words.length <= 1) {
+      return (
+        <span className={style.titleWrap}>
+          {title}
+          <span
+            className={style.verifiedTick}
+            title="Verified Campaign"
+            aria-label="Verified"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="10" cy="10" r="9" fill="#10b981" />
+              <path
+                d="M6 10.2L8.6 12.8L14 7.4"
+                stroke="#ffffff"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+        </span>
+      );
+    }
+    const lastWord = words.pop();
+    const rest = words.join(" ");
+    return (
+      <>
+        {rest}{" "}
+        <span className={style.titleWrap}>
+          {lastWord}
+          <span
+            className={style.verifiedTick}
+            title="Verified Campaign"
+            aria-label="Verified"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="10" cy="10" r="9" fill="#10b981" />
+              <path
+                d="M6 10.2L8.6 12.8L14 7.4"
+                stroke="#ffffff"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+        </span>
+      </>
+    );
   };
 
   return (
     <div
+      ref={containerRef}
       onClick={() => {
         window.scrollTo(0, 0);
         navigate("/feature-detail", {
@@ -32,23 +187,9 @@ const FeatureCardMobile = ({ featureItem }) => {
     >
       <div className={style.imageWrapper}>
         <img src={featureItem?.banner_image || campaignDummy} alt="" />
-        {isVerifiedCampaign(featureItem) && (
-          <span className={style.featureVerifiedBadge}>
-            <svg
-              width="10"
-              height="10"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-            </svg>
-            <span>Verified</span>
-          </span>
-        )}
       </div>
       <div>
-        <h2>{featureItem?.campaign_name}</h2>
+        <h2>{renderCampaignTitle()}</h2>
         <div>
           <PlaceIcon />
           <p>{featureItem?.country?.name}</p>
@@ -57,29 +198,26 @@ const FeatureCardMobile = ({ featureItem }) => {
         <div className={style.ProgressBar}>
           <div
             style={{
-              width: `${featureItem?.percentageAchieved}%`,
+              width: `${Math.min(100, Math.max(0, displayPercentage))}%`,
             }}
           ></div>
         </div>
 
         <div className={style.ProgressBarText}>
           <p>
-            {featureItem?.country?.symbol}{" "}
-            {formatNumber(featureItem?.raisedAmount)}{" "}
-            {featureItem?.country?.currency} raised
+            {featureItem?.country?.symbol || (featureItem?.country?.currency ? "" : "₹")}
+            {formatNumber(displayRaised, animProgress >= 1)}
+            {!featureItem?.country?.symbol && featureItem?.country?.currency ? ` ${featureItem.country.currency}` : ""} raised
           </p>
           <p>
-            {featureItem?.country?.symbol}
-            {formatNumber(featureItem?.targetAmount)} goal -{" "}
-            {formatNumber(featureItem?.donationInfo?.length)} donations
+            {featureItem?.country?.symbol || "₹"}
+            {formatNumber(featureItem?.targetAmount, true)} goal -{" "}
+            {Number(featureItem?.donationInfo?.length || 0).toLocaleString()} donations
           </p>
         </div>
 
         <button>
           <span>Support</span>
-          <div>
-            <RightIcon />
-          </div>
         </button>
       </div>
     </div>

@@ -234,7 +234,7 @@ const Cause = () => {
               // sx={{ bgcolor: "black" }}
             />
           ) : (
-            <h2>{featureItemDetail?.data?.data?.campaign_name}</h2>
+            <h2 className={style.campaignHeading}>{featureItemDetail?.data?.data?.campaign_name}</h2>
           )}
 
           {featureItemDetail?.loading ? (
