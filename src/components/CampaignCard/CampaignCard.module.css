@@ -91,7 +91,7 @@
         width: 100% !important;
         align-items: flex-start;
         gap: 0 !important;
-        padding-bottom: 4rem;
+        padding-bottom: 1.8rem !important;
         background-color: var(--text-primary);
     }
 
@@ -99,7 +99,7 @@
         width: 100% !important;
         height: 22rem !important;
         border-radius: 0rem !important;
-        margin-bottom: 2rem;
+        margin-bottom: 1.6rem;
     }
 
     .imageWrapper>img {
@@ -115,7 +115,7 @@
         font-size: 2rem;
         line-height: 1.35;
         padding-inline: 1.5rem;
-        margin: 0 0 1.6rem 0;
+        margin: 0 0 1.4rem 0;
         color: #fff;
     }
 
@@ -131,8 +131,8 @@
     .actionRow>button {
         margin-inline: 0 !important;
         flex-shrink: 0 !important;
-        height: 3.8rem !important;
-        padding-inline: 2rem !important;
+        height: 4.2rem !important;
+        padding-inline: 2.2rem !important;
         border-radius: 3rem !important;
     }
 
@@ -146,18 +146,18 @@
 
 @media screen and (min-width: 431px) and (max-width: 1024px) {
     .campaignCardContainer {
-        padding-bottom: 4.5rem;
+        padding-bottom: 2.2rem !important;
     }
 
     .imageWrapper {
         height: 26rem !important;
-        margin-bottom: 2.5rem;
+        margin-bottom: 2rem;
     }
 
     .campaignCardContainer>h2 {
         font-size: 2.6rem;
         padding-inline: 2rem;
-        margin: 0 0 2rem 0;
+        margin: 0 0 1.6rem 0;
     }
 
     .actionRow {
@@ -166,7 +166,7 @@
     }
 
     .actionRow>button {
-        height: 4rem !important;
+        height: 4.2rem !important;
         padding-inline: 2.2rem !important;
     }
 }

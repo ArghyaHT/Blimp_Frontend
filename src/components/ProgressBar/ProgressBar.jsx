@@ -37,8 +37,8 @@ const ProgressBar = ({
       : percentageAchieved !== undefined &&
         percentageAchieved !== null &&
         !isNaN(percentageAchieved)
-      ? Math.round(Number(percentageAchieved))
-      : 0;
+        ? Math.round(Number(percentageAchieved))
+        : 0;
 
   const hasSymbol = Boolean(symbol && symbol.trim());
   const displayCurrency = !hasSymbol && currency ? currency.toUpperCase() : "";
@@ -127,9 +127,8 @@ const ProgressBar = ({
   return (
     <div
       ref={containerRef}
-      className={`${styles.progressContainer} ${isDark ? styles.darkProgress : ""} ${
-        compact ? styles.compact : ""
-      } ${className}`.trim()}
+      className={`${styles.progressContainer} ${isDark ? styles.darkProgress : ""} ${compact ? styles.compact : ""
+        } ${className}`.trim()}
       style={{ height }}
     >
       <div className={styles.circularWrapper}>
@@ -151,41 +150,69 @@ const ProgressBar = ({
 
       <div className={styles.textWrapper}>
         <p
-          className={`${styles.raisedText} ${
-            isDark ? styles.darkRaisedText : ""
-          }`}
+          className={`${styles.raisedText} ${isDark ? styles.darkRaisedText : ""
+            }`}
         >
           {symbol}
           {formatNumber(displayRaised, animProgress >= 1)}
           {displayCurrency ? ` ${displayCurrency}` : ""}{" "}
           <span
-            className={`${styles.raisedLabel} ${
-              isDark ? styles.darkRaisedLabel : ""
-            }`}
+            className={`${styles.raisedLabel} ${isDark ? styles.darkRaisedLabel : ""
+              }`}
           >
             raised
           </span>
         </p>
 
-        {cleanTarget > 0 && (
-          <p
-            className={`${styles.targetText} ${
-              isDark ? styles.darkTargetText : ""
-            }`}
-          >
-            of {symbol}
-            {formatNumber(targetAmount, true)}
-          </p>
-        )}
+        {compact ? (
+          <div className={styles.compactMetaRow}>
+            {cleanTarget > 0 && (
+              <span
+                className={`${styles.targetText} ${isDark ? styles.darkTargetText : ""
+                  }`}
+              >
+                of {symbol}
+                {formatNumber(targetAmount, true)}
+              </span>
+            )}
+            {/* {cleanTarget > 0 && donationCount != null && (
+              <span
+                className={`${styles.compactDot} ${isDark ? styles.darkCompactDot : ""
+                  }`}
+              >
+                •
+              </span>
+            )} */}
+            {/* {donationCount != null && (
+              <span
+                className={`${styles.donationsText} ${isDark ? styles.darkDonationsText : ""
+                  }`}
+              >
+                {formatNumber(donationCount, true)} donations
+              </span>
+            )} */}
+          </div>
+        ) : (
+          <>
+            {cleanTarget > 0 && (
+              <p
+                className={`${styles.targetText} ${isDark ? styles.darkTargetText : ""
+                  }`}
+              >
+                of {symbol}
+                {formatNumber(targetAmount, true)}
+              </p>
+            )}
 
-        {donationCount != null && (
-          <p
-            className={`${styles.donationsText} ${
-              isDark ? styles.darkDonationsText : ""
-            }`}
-          >
-            {formatNumber(donationCount, true)} donations
-          </p>
+            {donationCount != null && (
+              <p
+                className={`${styles.donationsText} ${isDark ? styles.darkDonationsText : ""
+                  }`}
+              >
+                {formatNumber(donationCount, true)} donations
+              </p>
+            )}
+          </>
         )}
       </div>
     </div>
