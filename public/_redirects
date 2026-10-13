@@ -1,2 +1,3 @@
-	/campaign/*  /.netlify/functions/campaign-meta?id=:splat  200!
+	/campaign/:id/poster.png  /.netlify/functions/campaign-poster?id=:id  200!
+	/campaign/:id  /.netlify/functions/campaign-meta?id=:id  200!
 /*  /index.html 200

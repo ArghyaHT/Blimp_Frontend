@@ -11,7 +11,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import styles from "./CampaignShareModal.module.css";
 import toast from "react-hot-toast";
 import { toastStyle } from "../../utils/toastStyles";
-import blimpLogo from "../../assets/BlimpLogo.svg";
+import blimpLogo from "../../assets/BlimpLogoBlack.svg";
 
 const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
   const [activeTemplate, setActiveTemplate] = useState(0);
@@ -107,6 +107,20 @@ const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
 
   const getPosterBlob = async () => {
     if (!posterRef.current) throw new Error("Poster is not ready yet.");
+    await document.fonts?.ready;
+    await Promise.all(
+      Array.from(posterRef.current.querySelectorAll("img")).map((posterImage) => {
+        if (posterImage.complete) {
+          return posterImage.naturalWidth > 0
+            ? Promise.resolve()
+            : Promise.reject(new Error("A poster image could not be loaded."));
+        }
+        return new Promise((resolve, reject) => {
+          posterImage.addEventListener("load", resolve, { once: true });
+          posterImage.addEventListener("error", () => reject(new Error("A poster image could not be loaded.")), { once: true });
+        });
+      }),
+    );
     return toBlob(posterRef.current, {
       pixelRatio: 2,
       cacheBust: true,
@@ -121,10 +135,11 @@ const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
       if (!blob) throw new Error("Could not create the poster image.");
       const link = document.createElement("a");
       link.download = `${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "campaign"}-share.png`;
-      link.href = URL.createObjectURL(blob);
+      const objectUrl = URL.createObjectURL(blob);
+      link.href = objectUrl;
       link.click();
-      URL.revokeObjectURL(link.href);
-      toast.success("Poster downloaded!", { style: toastStyle });
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+      toast.success("Poster downloaded. You can attach it to your post or message.", { style: toastStyle });
     } catch {
       toast.error("Poster export failed. Try another image or copy the campaign link.", { style: toastStyle });
     } finally {
@@ -132,28 +147,17 @@ const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
     }
   };
 
-  const sharePoster = async () => {
-    if (!navigator.share) {
-      await downloadPoster();
-      return;
-    }
-    setIsExporting(true);
+  const shareCampaignLink = async () => {
     try {
-      const blob = await getPosterBlob();
-      if (!blob) throw new Error("Could not create the poster image.");
-      const file = new File([blob], "blimp-campaign.png", { type: "image/png" });
-      const shareData = { title, text: `Please support ${title}`, url: shareUrl, files: [file] };
-      if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share(shareData);
-      } else {
+      if (navigator.share) {
         await navigator.share({ title, text: `Please support ${title}`, url: shareUrl });
+      } else {
+        await copyLink("Campaign link copied. Share it to show the campaign preview.");
       }
     } catch (error) {
       if (error.name !== "AbortError") {
-        toast.error("Could not share the poster. You can download it instead.", { style: toastStyle });
+        toast.error("Could not share the campaign link. Copy it and share it manually.", { style: toastStyle });
       }
-    } finally {
-      setIsExporting(false);
     }
   };
 
@@ -186,7 +190,7 @@ const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
             <span>Your campaign link</span>
             <input aria-label="Campaign share link" readOnly value={shareUrl} onFocus={(event) => event.target.select()} />
           </label>
-          <button type="button" className={styles.copyButton} onClick={copyLink}>
+          <button type="button" className={styles.copyButton} onClick={() => copyLink()}>
             <span aria-hidden="true">▢</span> Copy link
           </button>
         </div>
@@ -211,9 +215,9 @@ const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
                 <span className={`${styles.serviceIcon} ${styles.qrIcon}`} aria-hidden="true">▦</span>
                 <span>QR code</span>
               </button>
-              <button type="button" className={styles.service} onClick={sharePoster}>
+              <button type="button" className={styles.service} onClick={shareCampaignLink}>
                 <span className={`${styles.serviceIcon} ${styles.nativeIcon}`} aria-hidden="true">↗</span>
-                <span>Share poster</span>
+                <span>Share campaign link</span>
               </button>
             </div>
             <div className={`${styles.qrPanel} ${showQr ? styles.qrVisible : ""}`} ref={qrPanelRef}>
@@ -227,8 +231,12 @@ const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
 
           <div className={styles.posterColumn}>
             <div className={styles.posterHeading}>
-              <div><h3>Shareable graphics</h3><p>Choose a poster to download or share.</p></div>
+              <div><h3>Shareable graphics</h3><p>Share from a phone, or download the poster on a computer.</p></div>
               <span>{activeTemplate + 1} / 2</span>
+            </div>
+            <div className={styles.posterActions}>
+              <button type="button" className={styles.downloadButton} onClick={downloadPoster} disabled={isExporting}>{isExporting ? "Preparing…" : "Download"}</button>
+              <button type="button" className={styles.posterShareButton} onClick={shareCampaignLink}>Share campaign</button>
             </div>
             <div className={`${styles.poster} ${activeTemplate === 1 ? styles.posterAlternate : ""}`} ref={posterRef}>
               <div className={styles.posterTopline}><img src={blimpLogo} alt="BLIMP" /></div>
@@ -251,10 +259,6 @@ const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
                 {[0, 1].map((index) => <button key={index} type="button" aria-label={`Show poster ${index + 1}`} className={index === activeTemplate ? styles.activeDot : ""} onClick={() => setActiveTemplate(index)} />)}
               </div>
               <button type="button" aria-label="Next poster" onClick={() => setActiveTemplate((activeTemplate + 1) % 2)}>›</button>
-            </div>
-            <div className={styles.posterActions}>
-              <button type="button" className={styles.downloadButton} onClick={downloadPoster} disabled={isExporting}>{isExporting ? "Preparing…" : "Download poster"}</button>
-              <button type="button" className={styles.mobileShareButton} onClick={sharePoster} disabled={isExporting}>Share</button>
             </div>
           </div>
         </div>

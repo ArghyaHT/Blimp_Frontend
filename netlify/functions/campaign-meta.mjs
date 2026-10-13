@@ -7,15 +7,6 @@ const escapeHtml = (value = "") => String(value)
   .replaceAll('"', "&quot;")
   .replaceAll("'", "&#39;");
 
-const toAbsoluteUrl = (value, origin) => {
-  if (!value || typeof value !== "string") return "";
-  try {
-    return new URL(value, origin).href;
-  } catch {
-    return "";
-  }
-};
-
 const plainText = (value = "") => String(value)
   .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
   .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
@@ -62,7 +53,7 @@ export const handler = async (event) => {
         description = plainText(
           campaign.description || campaign.campaign_details || campaign.rasing_funds_decription || ""
         ).slice(0, 280) || `Read the story and support ${title} on BLIMP.`;
-        image = toAbsoluteUrl(campaign.banner_image || campaign.image, origin);
+        image = `${origin}/campaign/${encodeURIComponent(id)}/poster.png`;
       }
     } catch (error) {
       console.error("Could not load campaign metadata:", error.message);
@@ -99,6 +90,10 @@ export const handler = async (event) => {
   if (imageSafe) {
     metadata.push(
       `<meta property="og:image" content="${imageSafe}" />`,
+      '<meta property="og:image:type" content="image/png" />',
+      '<meta property="og:image:width" content="1200" />',
+      '<meta property="og:image:height" content="630" />',
+      `<meta property="og:image:alt" content="${titleSafe}" />`,
       `<meta name="twitter:image" content="${imageSafe}" />`
     );
   }

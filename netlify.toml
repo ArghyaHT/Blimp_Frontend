@@ -4,8 +4,14 @@
   SECRETS_SCAN_OMIT_PATHS = ".env"
 
 [[redirects]]
-  from = "/campaign/*"
-  to = "/.netlify/functions/campaign-meta?id=:splat"
+  from = "/campaign/:id/poster.png"
+  to = "/.netlify/functions/campaign-poster?id=:id"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/campaign/:id"
+  to = "/.netlify/functions/campaign-meta?id=:id"
   status = 200
   force = true
 
