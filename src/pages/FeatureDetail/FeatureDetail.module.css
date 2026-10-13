@@ -1,14 +1,14 @@
 .featureDetailContainer {
   padding: 0rem 7.5rem 7.5rem 7.5rem;
 
-  & > div {
+  &>div {
     width: min(100%, var(--maximum-screen-width));
     margin-inline: auto;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 
-    & > h2,
+    &>h2,
     .campaignHeading {
       font-size: clamp(4.2rem, 3.5vw, 4.8rem);
       font-weight: 700;
@@ -30,7 +30,7 @@
       -o-border-radius: var(--button-radius);
       overflow: hidden;
 
-      & > img {
+      &>img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -43,13 +43,13 @@
       align-items: center;
       justify-content: space-between;
 
-      & > div {
+      &>div:first-child {
         display: flex;
         align-items: center;
         gap: 1rem;
         width: max-content;
 
-        & > button {
+        &>button {
           width: 4rem;
           height: 4rem;
           border-radius: 50%;
@@ -68,7 +68,23 @@
         }
       }
 
-      & > button {
+      /* Wrapper: Share + Donate side by side */
+      .donateShareGroup {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+
+        /* Ensure every button inside (Share + Donate) keeps its height/size */
+        &>button {
+          height: 4.4rem;
+          font-size: var(--font-medium);
+          padding-inline: 4rem;
+          width: fit-content;
+        }
+      }
+
+      &>button {
         width: fit-content;
         height: 4.4rem;
         font-size: var(--font-medium);
@@ -76,35 +92,60 @@
       }
     }
 
-    & > div {
+    /* Black variant override — applied alongside glossy-btn */
+    .shareBtn {
+      background: linear-gradient(180deg, #2d2d2d 0%, #000000 100%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.12),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.4) !important;
+      text-shadow: none !important;
+
+      &:hover {
+        background: linear-gradient(180deg, #3a3a3a 0%, #111111 100%) !important;
+        box-shadow:
+          inset 0 2px 6px rgba(255, 255, 255, 0.18),
+          inset 0 -3px 8px rgba(0, 0, 0, 0.3) !important;
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%) !important;
+        box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.6) !important;
+        transform: translateY(1px);
+      }
+    }
+
+    &>div {
+
       display: flex;
       flex-direction: column;
       gap: 2rem;
 
-      & > h2 {
+      &>h2 {
         font-size: var(--subheader-small);
         font-weight: 700;
         color: var(--text-primary);
       }
 
-      & > p {
+      &>p {
         font-size: var(--font-medium);
         line-height: 1.7;
         color: var(--text-secondary);
       }
     }
 
-    & > ul {
+    &>ul {
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
       padding-inline: 1.5rem;
 
-      & > li {
+      &>li {
         font-size: var(--font-medium);
         color: var(--text-secondary);
 
-        & > b {
+        &>b {
           color: var(--text-primary);
         }
       }
@@ -116,7 +157,7 @@
       gap: 2rem;
       width: 100%;
 
-      & > img {
+      &>img {
         width: 100%;
         height: 20rem;
         object-fit: cover;
@@ -144,11 +185,11 @@
       flex-direction: column;
       gap: 2rem;
 
-      & > h2 {
+      &>h2 {
         text-align: center;
       }
 
-      & > div {
+      &>div {
         margin-inline: auto;
         display: flex;
         flex-direction: column;
@@ -165,25 +206,25 @@
       padding: 1rem 0.4rem;
       border-bottom: 1px solid #f1f5f9;
 
-      & > div:nth-child(1) {
+      &>div:nth-child(1) {
         display: flex;
         align-items: center;
         gap: 0.8rem;
         flex-shrink: 0;
 
-        & > img {
+        &>img {
           width: 2.8rem;
           height: 2.8rem;
           object-fit: contain;
         }
 
-        & > span {
+        &>span {
           width: 2.8rem;
           height: 2.8rem;
           display: inline-block;
         }
 
-        & > div {
+        &>div {
           width: 4.4rem;
           height: 4.4rem;
           border-radius: 50%;
@@ -192,7 +233,7 @@
           align-items: center;
           background-color: rgba(217, 217, 217, 1);
 
-          & > h2 {
+          &>h2 {
             font-size: 1.8rem;
             text-transform: uppercase;
             margin: 0;
@@ -201,13 +242,13 @@
         }
       }
 
-      & > div:nth-child(2) {
+      &>div:nth-child(2) {
         display: flex;
         flex-direction: column;
         gap: 0.4rem;
         flex: 1;
 
-        & > h3 {
+        &>h3 {
           font-size: 1.5rem;
           font-weight: 600;
           text-transform: capitalize;
@@ -215,7 +256,7 @@
           color: #0f172a;
         }
 
-        & > p {
+        &>p {
           padding: 0.3rem 0.8rem;
           background-color: var(--text-primary);
           color: #ffffff;
@@ -229,20 +270,20 @@
         }
       }
 
-      & > div:nth-child(3) {
+      &>div:nth-child(3) {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
         gap: 0.3rem;
 
-        & > h3 {
+        &>h3 {
           font-size: 1.5rem;
           font-weight: 700;
           color: #0f172a;
           margin: 0;
         }
 
-        & > p {
+        &>p {
           font-size: 1.2rem;
           color: #64748b;
           margin: 0;
@@ -303,12 +344,29 @@
   padding: 0.2rem 0.8rem;
   border-radius: 1rem;
   margin-left: 0.6rem;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 .activeTabBtn .tabCountBadge {
   background: var(--btn-base-color, #000);
   color: #fff;
 }
+
+/* ── Red / unread state ───────────────────────────────────────────────────── */
+/* Applied when: user is NOT logged in (always)
+                 OR logged-in user has unseen updates                        */
+.tabCountBadgeRed {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+/* Keep red even when the Updates tab itself is active */
+.activeTabBtn .tabCountBadgeRed {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
 
 /* Updates Grid Layout */
 .updatesTabContainer {
@@ -361,12 +419,10 @@
 .updateCardOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.35) 0%,
-    rgba(0, 0, 0, 0) 35%,
-    rgba(0, 0, 0, 0.85) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.35) 0%,
+      rgba(0, 0, 0, 0) 35%,
+      rgba(0, 0, 0, 0.85) 100%);
   pointer-events: none;
 }
 
@@ -501,6 +557,7 @@
     opacity: 0;
     transform: scale(0.96) translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -940,7 +997,7 @@
   gap: 1rem;
   margin-inline: auto;
 
-  & > button {
+  &>button {
     height: 1rem;
     width: 2rem;
     background-color: rgba(217, 217, 217, 1);
@@ -958,23 +1015,23 @@
 .blogsContainer {
   background-color: var(--bg-primary);
 
-  & > div {
+  &>div {
     padding-inline: 7.5rem;
     padding-block: 6rem;
 
-    & > div {
+    &>div {
       width: min(100%, var(--maximum-screen-width));
       margin-inline: auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      & > h2 {
+      &>h2 {
         font-size: var(--header-large);
         text-transform: capitalize;
       }
 
-      & > button {
+      &>button {
         width: 19.3rem;
         height: 4rem;
         background-color: #ffffff;
@@ -990,14 +1047,14 @@
         justify-content: center;
         gap: 1rem;
 
-        & > span {
+        &>span {
           font-size: var(--font-medium);
           font-weight: 600;
         }
       }
     }
 
-    & > button:nth-child(3) {
+    &>button:nth-child(3) {
       display: none;
     }
   }
@@ -1043,6 +1100,7 @@
     transform: translateY(100%);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -1187,10 +1245,10 @@
   .featureDetailContainer {
     padding: 1.5rem;
 
-    & > div {
+    &>div {
       gap: 2rem;
 
-      & > h2,
+      &>h2,
       .campaignHeading {
         font-size: clamp(3.0rem, 7.8vw, 3.4rem);
         font-weight: 700;
@@ -1205,11 +1263,11 @@
       }
 
       .supporterContainer {
-        & > h2 {
+        &>h2 {
           text-align: start;
         }
 
-        & > div {
+        &>div {
           margin-inline: initial;
 
           .supporterItem {
@@ -1222,25 +1280,25 @@
             gap: 1rem;
             border-bottom: 1px solid #f1f5f9;
 
-            & > div:nth-child(1) {
+            &>div:nth-child(1) {
               display: flex;
               align-items: center;
               gap: 0.8rem;
               flex-shrink: 0;
 
-              & > img {
+              &>img {
                 width: 2.8rem;
                 height: 2.8rem;
                 object-fit: contain;
               }
 
-              & > span {
+              &>span {
                 width: 2.8rem;
                 height: 2.8rem;
                 display: inline-block;
               }
 
-              & > div {
+              &>div {
                 width: 4.4rem;
                 height: 4.4rem;
                 border-radius: 50%;
@@ -1249,7 +1307,7 @@
                 align-items: center;
                 justify-content: center;
 
-                & > h2 {
+                &>h2 {
                   font-size: 1.8rem;
                   font-weight: 700;
                   margin: 0;
@@ -1257,7 +1315,7 @@
               }
             }
 
-            & > div:nth-child(2) {
+            &>div:nth-child(2) {
               display: flex;
               flex-direction: column;
               align-items: flex-start;
@@ -1266,7 +1324,7 @@
               flex: 1;
               min-width: 0;
 
-              & > h3 {
+              &>h3 {
                 font-size: 1.4rem;
                 font-weight: 700;
                 text-align: left;
@@ -1276,7 +1334,7 @@
                 text-overflow: ellipsis;
               }
 
-              & > p {
+              &>p {
                 padding: 0.2rem 0.8rem;
                 background-color: var(--text-primary);
                 color: #ffffff;
@@ -1287,12 +1345,12 @@
                 display: inline-block;
               }
 
-              & > span {
+              &>span {
                 display: none;
               }
             }
 
-            & > div:nth-child(3) {
+            &>div:nth-child(3) {
               display: flex;
               flex-direction: column;
               align-items: flex-end;
@@ -1300,14 +1358,14 @@
               gap: 0.2rem;
               flex-shrink: 0;
 
-              & > h3 {
+              &>h3 {
                 font-size: 1.5rem;
                 font-weight: 700;
                 text-align: right;
                 margin: 0;
               }
 
-              & > p {
+              &>p {
                 font-size: 1.1rem;
                 color: var(--text-secondary);
                 text-align: right;
@@ -1326,24 +1384,24 @@
     align-items: flex-start !important;
     gap: 2rem;
 
-    & > button {
+    &>button {
       width: 100%;
     }
   }
 
   .blogsContainer {
-    & > div {
+    &>div {
       padding-inline: 1.5rem;
 
-      & > div {
+      &>div {
         display: block;
 
-        & > button {
+        &>button {
           display: none;
         }
       }
 
-      & > button:nth-child(3) {
+      &>button:nth-child(3) {
         display: block;
         margin-inline: auto;
         margin-top: 2rem;
@@ -1368,10 +1426,10 @@
   .featureDetailContainer {
     padding: 1.5rem;
 
-    & > div {
+    &>div {
       gap: 2rem;
 
-      & > h2,
+      &>h2,
       .campaignHeading {
         font-size: clamp(3.6rem, 4.5vw, 4.2rem);
         font-weight: 700;
@@ -1386,11 +1444,11 @@
       }
 
       .supporterContainer {
-        & > h2 {
+        &>h2 {
           text-align: start;
         }
 
-        & > div {
+        &>div {
           margin-inline: initial;
 
           .supporterItem {
@@ -1399,41 +1457,41 @@
             gap: 1rem;
             justify-content: space-evenly;
 
-            & > div:nth-child(1) {
-              & > img {
+            &>div:nth-child(1) {
+              &>img {
                 width: 3rem;
                 height: 3rem;
               }
 
-              & > div {
+              &>div {
                 width: 5.5rem;
                 height: 5.5rem;
               }
 
-              & > span {
+              &>span {
                 width: 3rem;
                 height: 3rem;
               }
             }
 
-            & > div:nth-child(2) {
-              & > h3 {
+            &>div:nth-child(2) {
+              &>h3 {
                 font-size: var(--font-small);
                 text-align: center;
               }
             }
 
-            & > div:nth-child(3) {
+            &>div:nth-child(3) {
               display: flex;
               flex-direction: column;
               gap: 1rem;
 
-              & > p {
+              &>p {
                 font-size: var(--font-medium);
                 color: var(--text-secondary);
               }
 
-              & > h3 {
+              &>h3 {
                 text-align: center;
                 font-size: var(--font-large);
               }
@@ -1449,22 +1507,22 @@
     align-items: flex-start !important;
     gap: 2rem;
 
-    & > button {
+    &>button {
       width: 100%;
     }
   }
 
   .blogsContainer {
-    & > div {
+    &>div {
       padding-inline: 1.5rem;
 
-      & > div {
-        & > button {
+      &>div {
+        &>button {
           display: none;
         }
       }
 
-      & > button:nth-child(3) {
+      &>button:nth-child(3) {
         display: block;
         margin-inline: auto;
         margin-block: 2rem;

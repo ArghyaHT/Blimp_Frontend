@@ -23,12 +23,17 @@ import { convert } from "html-to-text";
 import campaignDummy from "../../assets/campaign_dummy.jpeg";
 import VerifiedBadge from "../../components/VerifiedBadge/VerifiedBadge";
 import { isVerifiedCampaign } from "../../utils/campaignUtils";
+import { useAuth } from "../../context/AuthContext";
+import { getSeenCount, markUpdatesSeen } from "../../utils/updatesBadge";
 
 const FeatureDetail = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
   const featureItem = location.state;
+
+  // Auth state — used to decide badge colour
+  const { isAuthenticated } = useAuth();
 
   const [featureItemDetail, setFeatureItemDetail] = useState({
     loading: false,
@@ -61,6 +66,9 @@ const FeatureDetail = () => {
   const [updateComments, setUpdateComments] = useState({});
   const [commentText, setCommentText] = useState("");
   const [visibleUpdatesCount, setVisibleUpdatesCount] = useState(3);
+
+  // Track unseen update count refresh — incremented when seen state is written
+  const [seenVersion, setSeenVersion] = useState(0);
 
   const campaign = featureItemDetail?.data?.data || featureItem;
   const campaignUpdates = featureItemDetail?.data?.data?.campaignUpdates || [];
@@ -176,6 +184,27 @@ const FeatureDetail = () => {
 
   const campaignId = featureItem?.id || featureItemDetail?.data?.data?.id || location.state?.id;
 
+  // ── Badge logic ──────────────────────────────────────────────────────────
+  // Number of updates the logged-in user has already seen (from localStorage).
+  // Non-logged-in users always have seenCount = 0 so the badge is always red.
+  const seenCount = isAuthenticated ? getSeenCount(campaignId) : 0;
+  const newUpdatesCount = campaignUpdates.length - seenCount;
+  const hasNewUpdates = newUpdatesCount > 0;
+
+  // Badge is red when: user is not logged in  OR  there are unseen updates
+  const badgeIsRed = !isAuthenticated || hasNewUpdates;
+
+  // Handler for the Updates tab click — switches tab AND marks updates as seen
+  const handleUpdatesTabClick = () => {
+    setActiveTab("updates");
+    if (isAuthenticated && campaignId && campaignUpdates.length > 0) {
+      markUpdatesSeen(campaignId, campaignUpdates.length);
+      // Trigger a re-render so badgeIsRed re-evaluates
+      setSeenVersion((v) => v + 1);
+    }
+  };
+  // ─────────────────────────────────────────────────────────────────────────
+
   useEffect(() => {
     window.scrollTo(0, 0);
     const idToUse = featureItem?.id || location.state?.id;
@@ -230,6 +259,20 @@ const FeatureDetail = () => {
       fetchLatestArticles();
     }
   }, [featureItem?.id, location.state?.id]);
+
+  // If the user is already on the Updates tab when data loads, mark as seen
+  useEffect(() => {
+    if (
+      isAuthenticated &&
+      activeTab === "updates" &&
+      campaignUpdates.length > 0 &&
+      campaignId
+    ) {
+      markUpdatesSeen(campaignId, campaignUpdates.length);
+      setSeenVersion((v) => v + 1);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [campaignUpdates.length, activeTab, isAuthenticated, campaignId]);
 
   useEffect(() => {
     if (campaignId) {
@@ -398,15 +441,24 @@ const FeatureDetail = () => {
                     </button>
                   </div>
 
-                  <button
-                    onClick={() => {
-                      navigate("/checkout", { state: campaign });
-                    }}
-                    ref={donateTriggerRef}
-                    className="glossy-btn"
-                  >
-                    Donate
-                  </button>
+                  <div className={style.donateShareGroup}>
+                    <button
+                      className={`glossy-btn ${style.shareBtn}`}
+                      onClick={handleShareUpdate}
+                    >
+                      Share
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        navigate("/checkout", { state: campaign });
+                      }}
+                      ref={donateTriggerRef}
+                      className="glossy-btn"
+                    >
+                      Donate
+                    </button>
+                  </div>
                 </div>
               </>
             )}
@@ -422,9 +474,16 @@ const FeatureDetail = () => {
             </button>
             <button
               className={activeTab === "updates" ? style.activeTabBtn : style.tabBtn}
-              onClick={() => setActiveTab("updates")}
+              onClick={handleUpdatesTabClick}
             >
-              Updates {campaignUpdates.length > 0 && <span className={style.tabCountBadge}>{campaignUpdates.length}</span>}
+              Updates{" "}
+              {campaignUpdates.length > 0 && (
+                <span
+                  className={`${style.tabCountBadge} ${badgeIsRed ? style.tabCountBadgeRed : ""}`}
+                >
+                  {campaignUpdates.length}
+                </span>
+              )}
             </button>
             <button
               className={activeTab === "supporters" ? style.activeTabBtn : style.tabBtn}
