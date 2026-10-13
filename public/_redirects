@@ -1,1 +1,2 @@
+	/campaign/*  /.netlify/functions/campaign-meta?id=:splat  200!
 /*  /index.html 200
