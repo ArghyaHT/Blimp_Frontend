@@ -13,7 +13,7 @@ const FeatureCard = ({ featureItem }) => {
     <div
       onClick={() => {
         window.scrollTo(0, 0);
-        navigate("/feature-detail", {
+        navigate(`/campaign/${featureItem?.id}`, {
           state: featureItem,
         });
       }}

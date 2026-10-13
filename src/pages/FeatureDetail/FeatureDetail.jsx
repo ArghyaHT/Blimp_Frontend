@@ -15,7 +15,7 @@ import SecondMedal from "../../assets/medal2nd.png";
 import ThirdMedal from "../../assets/medal3rd.png";
 import BlogCard from "../../components/BlogCard/BlogCard";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 import api from "../../api/api";
 import Pagination from "@mui/material/Pagination";
@@ -25,11 +25,13 @@ import VerifiedBadge from "../../components/VerifiedBadge/VerifiedBadge";
 import { isVerifiedCampaign } from "../../utils/campaignUtils";
 import { useAuth } from "../../context/AuthContext";
 import { getSeenCount, markUpdatesSeen } from "../../utils/updatesBadge";
+import CampaignShareModal from "../../components/CampaignShareModal/CampaignShareModal";
 
 const FeatureDetail = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
+  const { campaignId: routeCampaignId } = useParams();
   const featureItem = location.state;
 
   // Auth state — used to decide badge colour
@@ -66,6 +68,7 @@ const FeatureDetail = () => {
   const [updateComments, setUpdateComments] = useState({});
   const [commentText, setCommentText] = useState("");
   const [visibleUpdatesCount, setVisibleUpdatesCount] = useState(3);
+  const [showCampaignShare, setShowCampaignShare] = useState(false);
 
   // Track unseen update count refresh — incremented when seen state is written
   const [seenVersion, setSeenVersion] = useState(0);
@@ -144,12 +147,13 @@ const FeatureDetail = () => {
       navigator
         .share({
           title: selectedUpdateModal?.title || "Campaign Update",
-          url: window.location.href,
+          url: campaignShareUrl,
         })
         .catch(() => { });
     } else {
-      navigator.clipboard.writeText(window.location.href);
-      toast.success("Link copied to clipboard!", { style: toastStyle });
+      navigator.clipboard?.writeText(campaignShareUrl)
+        .then(() => toast.success("Link copied to clipboard!", { style: toastStyle }))
+        .catch(() => toast.error("Could not copy the link.", { style: toastStyle }));
     }
   };
 
@@ -182,7 +186,50 @@ const FeatureDetail = () => {
     return update?.media?.some((m) => isMediaVideo(m));
   };
 
-  const campaignId = featureItem?.id || featureItemDetail?.data?.data?.id || location.state?.id;
+  const campaignId = routeCampaignId || featureItem?.id || featureItemDetail?.data?.data?.id || location.state?.id;
+  const campaignShareUrl = campaignId
+    ? `${window.location.origin}/campaign/${campaignId}`
+    : window.location.href;
+
+  const shareCampaignOn = (platform) => {
+    const encodedUrl = encodeURIComponent(campaignShareUrl);
+    const encodedTitle = encodeURIComponent(`Support: ${campaign?.campaign_name || "this campaign"}`);
+    const encodedMessage = encodeURIComponent(`Please take a look at this campaign: ${campaign?.campaign_name || ""}`);
+    const shareTargets = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      whatsapp: `https://wa.me/?text=${encodedMessage}%20${encodedUrl}`,
+      x: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+    };
+
+    if (platform === "instagram") {
+      window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+      const copyCampaignLink = async () => {
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(campaignShareUrl);
+          } else {
+            const input = document.createElement("textarea");
+            input.value = campaignShareUrl;
+            input.setAttribute("readonly", "");
+            input.style.position = "fixed";
+            input.style.opacity = "0";
+            document.body.appendChild(input);
+            input.select();
+            const copied = document.execCommand("copy");
+            input.remove();
+            if (!copied) throw new Error("Copy failed");
+          }
+          toast.success("Campaign link copied. Paste it into Instagram to share.", { style: toastStyle });
+        } catch {
+          toast.error("Could not copy the campaign link.", { style: toastStyle });
+        }
+      };
+      copyCampaignLink();
+      return;
+    }
+
+    window.open(shareTargets[platform], "_blank", "noopener,noreferrer,width=640,height=640");
+  };
 
   // ── Badge logic ──────────────────────────────────────────────────────────
   // Number of updates the logged-in user has already seen (from localStorage).
@@ -207,7 +254,7 @@ const FeatureDetail = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const idToUse = featureItem?.id || location.state?.id;
+    const idToUse = routeCampaignId || featureItem?.id || location.state?.id;
     if (idToUse) {
       const fetchCampaignDetails = async () => {
         try {
@@ -258,7 +305,7 @@ const FeatureDetail = () => {
       fetchCampaignDetails();
       fetchLatestArticles();
     }
-  }, [featureItem?.id, location.state?.id]);
+  }, [featureItem?.id, location.state?.id, routeCampaignId]);
 
   // If the user is already on the Updates tab when data loads, mark as seen
   useEffect(() => {
@@ -427,16 +474,16 @@ const FeatureDetail = () => {
 
                 <div className={style.linkContainer}>
                   <div>
-                    <button>
+                    <button aria-label="Share on Instagram" onClick={() => shareCampaignOn("instagram")}>
                       <InstagramIcon />
                     </button>
-                    <button>
+                    <button aria-label="Share on Facebook" onClick={() => shareCampaignOn("facebook")}>
                       <FacebookIcon />
                     </button>
-                    <button>
+                    <button aria-label="Share on X" onClick={() => shareCampaignOn("x")}>
                       <TwitterXIcon />
                     </button>
-                    <button>
+                    <button aria-label="Share on WhatsApp" onClick={() => shareCampaignOn("whatsapp")}>
                       <WhatsappIcon />
                     </button>
                   </div>
@@ -444,7 +491,7 @@ const FeatureDetail = () => {
                   <div className={style.donateShareGroup}>
                     <button
                       className={`glossy-btn ${style.shareBtn}`}
-                      onClick={handleShareUpdate}
+                      onClick={() => setShowCampaignShare(true)}
                     >
                       Share
                     </button>
@@ -870,13 +917,21 @@ const FeatureDetail = () => {
               </button>
               <button
                 className={style.stickyShareBtn}
-                onClick={handleShareUpdate}
+                onClick={() => setShowCampaignShare(true)}
               >
                 Share
               </button>
             </div>
           </div>
         </div>
+      )}
+
+      {showCampaignShare && campaign && (
+        <CampaignShareModal
+          campaign={campaign}
+          shareUrl={campaignShareUrl}
+          onClose={() => setShowCampaignShare(false)}
+        />
       )}
 
       {/* Lightbox / Update Detail Modal */}
