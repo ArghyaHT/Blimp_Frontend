@@ -98,7 +98,10 @@ export const handler = async (event) => {
     );
   }
 
-  html = html.replace(/<title>[\s\S]*?<\/title>/i, "");
+  html = html
+    .replace(/<title>[\s\S]*?<\/title>/i, "")
+    .replace(/<meta\b(?=[^>]*(?:property|name)\s*=\s*["'](?:og:[^"']+|twitter:[^"']+|description)["'])[^>]*>/gi, "")
+    .replace(/<link\b(?=[^>]*rel\s*=\s*["']canonical["'])[^>]*>/gi, "");
   html = html.replace("</head>", `    ${metadata.join("\n    ")}\n  </head>`);
 
   return {

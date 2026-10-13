@@ -188,7 +188,7 @@ const FeatureDetail = () => {
 
   const campaignId = routeCampaignId || featureItem?.id || featureItemDetail?.data?.data?.id || location.state?.id;
   const campaignShareUrl = campaignId
-    ? `${window.location.origin}/campaign/${campaignId}`
+    ? `${window.location.origin}/campaign/${campaignId}?id=${campaignId}`
     : window.location.href;
 
   const shareCampaignOn = (platform) => {
