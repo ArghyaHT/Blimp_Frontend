@@ -98,6 +98,8 @@ const CheckOutPage = () => {
 
   const totalAmount =
     Number(donationAmount) + Number(tipAmount);
+  const campaignAmount = Number(donationAmount) || 0;
+  const blimpTipAmount = Number(tipAmount) || 0;
 
   // ------------------------------------
   // FORMAT CURRENCY
@@ -573,12 +575,12 @@ const CheckOutPage = () => {
               </div>
 
               <div>
-                <p>Tip Blimp Services</p>
+                <p>How your payment is distributed</p>
                 <p>
-                  Blimp believes in empowering every organizer — with{" "}
-                  <strong>0% platform fees.</strong> We run on kindness, not
-                  fees. Your optional donation helps us keep this mission alive
-                  and continue supporting those who create positive change.{" "}
+                  Your card is charged {formatCurrency(totalAmount)}. From that,
+                  the campaigner receives the campaign donation after Razorpay's
+                  processing fee is deducted. The optional Blimp tip is excluded
+                  from the campaign payout.
                 </p>
               </div>
 
@@ -858,6 +860,33 @@ const CheckOutPage = () => {
                 <div>
                   <p>Blimp tip</p>
                   <p>{formatCurrency(tipAmount)}</p>
+                </div>
+
+                <div className={style.distributionBreakdown}>
+                  <p className={style.distributionTitle}>Estimated distribution</p>
+                  <div>
+                    <span>Amount charged to you</span>
+                    <span>{formatCurrency(totalAmount)}</span>
+                  </div>
+                  <div>
+                    <span>Optional Blimp tip (not paid to campaign)</span>
+                    <span>−{formatCurrency(blimpTipAmount)}</span>
+                  </div>
+                  <div>
+                    <span>Razorpay processing fee</span>
+                    <span>Deducted from campaign settlement</span>
+                  </div>
+                  <div className={style.estimatedNetRow}>
+                    <span>Campaigner receives</span>
+                    <span>{formatCurrency(campaignAmount)} less Razorpay fee</span>
+                  </div>
+                  <p className={style.distributionNote}>
+                    Razorpay's actual fee (including any applicable tax) depends
+                    on the payment method and Blimp's Razorpay account pricing.
+                    The backend records the actual fee after payment; it is not
+                    charged on top of your total. The campaign payout is calculated
+                    as total amount − Blimp tip − Razorpay fee.
+                  </p>
                 </div>
 
                 <div className={style.separator} />

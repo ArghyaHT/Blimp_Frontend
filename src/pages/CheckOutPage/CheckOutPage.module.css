@@ -473,6 +473,65 @@
             background-color: var(--text-primary);
           }
 
+          .distributionBreakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            padding: 1.4rem;
+            border: 1px solid #dbe3ec;
+            border-radius: 0.8rem;
+            background: #f8fafc;
+
+            & > p {
+              margin: 0;
+              color: #536172;
+              font-size: 1.2rem;
+              line-height: 1.5;
+            }
+
+            & > .distributionTitle {
+              color: #172033;
+              font-size: 1.4rem;
+              font-weight: 700;
+            }
+
+            & > div {
+              display: flex;
+              align-items: flex-start;
+              justify-content: space-between;
+              gap: 1rem;
+
+              & > span {
+                color: #536172;
+                font-size: 1.3rem;
+                line-height: 1.4;
+              }
+
+              & > span:last-child {
+                flex-shrink: 0;
+                color: #172033;
+                font-weight: 600;
+                text-align: right;
+              }
+            }
+
+            & > .estimatedNetRow {
+              margin-top: 0.3rem;
+              padding-top: 0.8rem;
+              border-top: 1px solid #cbd5e1;
+
+              & > span {
+                color: #172033;
+                font-weight: 700;
+              }
+            }
+
+            & > .distributionNote {
+              color: #64748b;
+              font-size: 1.15rem;
+            }
+          }
+
           & > div:nth-last-child(2) {
             & > p {
               color: var(--text-primary);
