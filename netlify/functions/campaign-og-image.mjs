@@ -7,13 +7,14 @@ const H = 630;
 
 // Netlify's Lambda runtime ships with no system fonts, so SVG text renders as
 // empty boxes. Point fontconfig at our bundled font BEFORE sharp is loaded.
+const findAssetDir = () => [
+  path.join(process.env.LAMBDA_TASK_ROOT || "", "netlify/functions/fonts"),
+  path.join(process.cwd(), "netlify/functions/fonts"),
+  path.join(process.cwd(), "fonts"),
+].find((dir) => fs.existsSync(path.join(dir, "Inter.ttf")));
+
 const setupFonts = () => {
-  const candidates = [
-    path.join(process.env.LAMBDA_TASK_ROOT || "", "netlify/functions/fonts"),
-    path.join(process.cwd(), "netlify/functions/fonts"),
-    path.join(process.cwd(), "fonts"),
-  ];
-  const fontDir = candidates.find((dir) => fs.existsSync(path.join(dir, "Inter.ttf")));
+  const fontDir = findAssetDir();
   if (!fontDir) {
     console.warn("Bundled font not found; text may not render.");
     return;
@@ -142,9 +143,6 @@ const createSvg = (campaign) => {
   ${category ? `<rect x="${BANNER.x + 18}" y="${BANNER.y + 18}" width="${category.length * 13 + 36}" height="40" rx="20" fill="#08714d"/>
   <text x="${BANNER.x + 36}" y="${BANNER.y + 45}" font-family="${font}" font-size="20" font-weight="700" fill="#fff">${escapeXml(category)}</text>` : ""}
 
-  <!-- logo -->
-  <text x="630" y="282" font-family="Georgia, serif" font-size="50" font-style="italic" font-weight="900" fill="#08714d">blimp</text>
-  <path d="M815 236 Q828 260 851 263 Q828 267 815 291 Q808 268 785 264 Q808 260 815 236 Z" fill="none" stroke="#08714d" stroke-width="4"/>
 
   <!-- stats panel -->
   <rect x="610" y="305" width="530" height="200" rx="26" fill="url(#mint)" stroke="#65d7cf" stroke-width="3"/>
@@ -177,6 +175,18 @@ const renderBanner = async (sharp, buffer) => {
   }
 };
 
+// Official BLIMP logo (green, with sparkle), bundled next to the font.
+const renderLogo = async (sharp) => {
+  const dir = findAssetDir();
+  if (!dir) return null;
+  try {
+    return await sharp(fs.readFileSync(path.join(dir, "BlimpLogo.png"))).resize({ width: 220 }).png().toBuffer();
+  } catch (error) {
+    console.error("Logo render failed:", error.message);
+    return null;
+  }
+};
+
 const extractId = (event) =>
   event.queryStringParameters?.id || String(event.rawUrl || event.path || "").match(/\/campaign\/(\d+)/)?.[1];
 
@@ -200,6 +210,8 @@ export const handler = async (event) => {
     ]);
 
     const layers = [];
+    const logo = await renderLogo(sharp);
+    if (logo) layers.push({ input: logo, left: 615, top: 192 });
     if (banner) layers.push({ input: banner, left: BANNER.x, top: BANNER.y });
     // Re-draw category pill on top of the banner so it stays visible.
     const category = campaign.categories?.name;

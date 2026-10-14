@@ -187,8 +187,13 @@ const FeatureDetail = () => {
   };
 
   const campaignId = routeCampaignId || featureItem?.id || featureItemDetail?.data?.data?.id || location.state?.id;
+  // Social apps (WhatsApp, Facebook, X, LinkedIn) fetch the preview card from the
+  // shared URL, so it must be the public site — never localhost.
+  const isLocalHost = /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/.test(window.location.hostname);
+  const publicOrigin = import.meta.env.VITE_PUBLIC_SITE_URL
+    || (isLocalHost ? "https://blimpweb.netlify.app" : window.location.origin);
   const campaignShareUrl = campaignId
-    ? `${window.location.origin}/campaign/${campaignId}?id=${campaignId}`
+    ? `${publicOrigin}/campaign/${campaignId}`
     : window.location.href;
 
   const shareCampaignOn = (platform) => {
