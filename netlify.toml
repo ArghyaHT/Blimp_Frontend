@@ -4,8 +4,8 @@
   SECRETS_SCAN_OMIT_PATHS = ".env"
 
 [[redirects]]
-  from = "/campaign/:id/poster.png"
-  to = "/.netlify/functions/campaign-poster?id=:id"
+  from = "/campaign/:id/og-image.png"
+  to = "/.netlify/functions/campaign-og-image?id=:id"
   status = 200
   force = true
 
@@ -19,3 +19,7 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["sharp"]

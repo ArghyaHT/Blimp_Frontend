@@ -34,7 +34,7 @@ const getCampaign = async (id) => {
 };
 
 export const handler = async (event) => {
-  const id = event.queryStringParameters?.id;
+  const id = event.queryStringParameters?.id || String(event.rawUrl || event.path || "").match(/\/campaign\/(\d+)/)?.[1];
   const headers = event.headers || {};
   const forwardedHost = headers["x-forwarded-host"] || headers.host;
   const protocol = headers["x-forwarded-proto"] || "https";
@@ -53,7 +53,7 @@ export const handler = async (event) => {
         description = plainText(
           campaign.description || campaign.campaign_details || campaign.rasing_funds_decription || ""
         ).slice(0, 280) || `Read the story and support ${title} on BLIMP.`;
-        image = `${origin}/campaign/${encodeURIComponent(id)}/poster.png`;
+        image = `${origin}/campaign/${encodeURIComponent(id)}/og-image.png`;
       }
     } catch (error) {
       console.error("Could not load campaign metadata:", error.message);
