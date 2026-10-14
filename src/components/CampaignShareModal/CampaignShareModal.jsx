@@ -12,6 +12,7 @@ import styles from "./CampaignShareModal.module.css";
 import toast from "react-hot-toast";
 import { toastStyle } from "../../utils/toastStyles";
 import blimpLogo from "../../assets/BlimpLogo1.png";
+import { buildShareMessage } from "../../utils/shareMessage";
 
 const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
   const [activeTemplate, setActiveTemplate] = useState(0);
@@ -77,24 +78,75 @@ const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
     }
   };
 
+  const shareMessage = buildShareMessage(campaign, shareUrl);
+
+  const copyText = async (text) => {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    const input = document.createElement("textarea");
+    input.value = text;
+    input.setAttribute("readonly", "");
+    input.style.position = "fixed";
+    input.style.opacity = "0";
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand("copy");
+    input.remove();
+  };
+
   const socialUrl = (platform) => {
     const encodedUrl = encodeURIComponent(shareUrl);
     const encodedTitle = encodeURIComponent(`Support: ${title}`);
-    const messages = encodeURIComponent(`Please take a look at this campaign: ${title}`);
+    const messages = encodeURIComponent(shareMessage);
     const targets = {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-      whatsapp: `https://wa.me/?text=${messages}%20${encodedUrl}`,
-      x: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+      whatsapp: `https://wa.me/?text=${messages}`,
+      x: `https://twitter.com/intent/tweet?text=${encodeURIComponent(buildShareMessage(campaign, shareUrl, { includeUrl: false }).slice(0, 230))}&url=${encodedUrl}`,
       linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-      email: `mailto:?subject=${encodedTitle}&body=${messages}%0A%0A${encodedUrl}`,
+      email: `mailto:?subject=${encodedTitle}&body=${messages}`,
     };
     return targets[platform];
   };
 
+  // Instagram has no link previews or web share URL. Share the campaign card image
+  // (same one used for link previews) and copy the caption + link for a Story link sticker.
+  const shareToInstagram = async () => {
+    const cardUrl = shareUrl.replace(/\/?(\?.*)?$/, "") + "/og-image.png";
+    try {
+      await copyText(shareMessage);
+    } catch { /* clipboard may be blocked; continue */ }
+    try {
+      const response = await fetch(cardUrl);
+      if (!response.ok) throw new Error("Card unavailable");
+      const blob = await response.blob();
+      const file = new File([blob], `blimp-campaign-${campaign?.id || "card"}.png`, { type: "image/png" });
+
+      if (navigator.canShare?.({ files: [file] })) {
+        toast.success("Caption & link copied. Pick Instagram, then paste it or add a link sticker.", { style: toastStyle });
+        await navigator.share({ files: [file], title, text: shareMessage });
+        return;
+      }
+
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = file.name;
+      link.click();
+      URL.revokeObjectURL(objectUrl);
+      window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+      toast.success("Campaign card downloaded and caption copied. Upload it to Instagram.", { style: toastStyle });
+    } catch (error) {
+      if (error?.name === "AbortError") return;
+      window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+      toast.success("Caption & link copied. Paste it into Instagram to share.", { style: toastStyle });
+    }
+  };
+
   const shareTo = (platform) => {
     if (platform === "instagram") {
-      window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
-      copyLink("Campaign link copied. Paste it into Instagram to share.");
+      shareToInstagram();
       return;
     }
     const target = socialUrl(platform);
@@ -150,7 +202,7 @@ const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
   const shareCampaignLink = async () => {
     try {
       if (navigator.share) {
-        await navigator.share({ title, text: `Please support ${title}`, url: shareUrl });
+        await navigator.share({ title, text: buildShareMessage(campaign, shareUrl, { includeUrl: false }), url: shareUrl });
       } else {
         await copyLink("Campaign link copied. Share it to show the campaign preview.");
       }

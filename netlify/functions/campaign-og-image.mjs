@@ -223,7 +223,21 @@ export const handler = async (event) => {
       layers.push({ input: Buffer.from(pill), left: 0, top: 0 });
     }
 
-    const png = await sharp(base).composite(layers).png({ compressionLevel: 8 }).toBuffer();
+    const card = await sharp(base).composite(layers).png().toBuffer();
+
+    // Facebook (and some other apps) crop the edges of link previews. Shrink the
+    // card into a centred "safe zone" on the same background so nothing is cut.
+    const SAFE = 0.86;
+    const innerW = Math.round(W * SAFE);
+    const innerH = Math.round(H * SAFE);
+    const scaled = await sharp(card).resize(innerW, innerH).png().toBuffer();
+    const bg = Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
+      <defs><linearGradient id="p" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbf9ef"/><stop offset="1" stop-color="#f3efdf"/></linearGradient></defs>
+      <rect width="${W}" height="${H}" fill="url(#p)"/></svg>`);
+    const png = await sharp(bg)
+      .composite([{ input: scaled, left: Math.round((W - innerW) / 2), top: Math.round((H - innerH) / 2) }])
+      .png({ compressionLevel: 8 })
+      .toBuffer();
     return {
       statusCode: 200,
       headers: {

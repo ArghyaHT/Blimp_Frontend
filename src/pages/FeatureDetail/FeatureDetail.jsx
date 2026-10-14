@@ -26,6 +26,7 @@ import { isVerifiedCampaign } from "../../utils/campaignUtils";
 import { useAuth } from "../../context/AuthContext";
 import { getSeenCount, markUpdatesSeen } from "../../utils/updatesBadge";
 import CampaignShareModal from "../../components/CampaignShareModal/CampaignShareModal";
+import { buildShareMessage } from "../../utils/shareMessage";
 
 const FeatureDetail = () => {
   const navigate = useNavigate();
@@ -198,12 +199,11 @@ const FeatureDetail = () => {
 
   const shareCampaignOn = (platform) => {
     const encodedUrl = encodeURIComponent(campaignShareUrl);
-    const encodedTitle = encodeURIComponent(`Support: ${campaign?.campaign_name || "this campaign"}`);
-    const encodedMessage = encodeURIComponent(`Please take a look at this campaign: ${campaign?.campaign_name || ""}`);
+    const shareMessage = buildShareMessage(campaign, campaignShareUrl);
     const shareTargets = {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-      whatsapp: `https://wa.me/?text=${encodedMessage}%20${encodedUrl}`,
-      x: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(shareMessage)}`,
+      x: `https://twitter.com/intent/tweet?text=${encodeURIComponent(buildShareMessage(campaign, campaignShareUrl, { includeUrl: false }).slice(0, 230))}&url=${encodedUrl}`,
     };
 
     if (platform === "instagram") {
@@ -211,10 +211,10 @@ const FeatureDetail = () => {
       const copyCampaignLink = async () => {
         try {
           if (navigator.clipboard?.writeText) {
-            await navigator.clipboard.writeText(campaignShareUrl);
+            await navigator.clipboard.writeText(shareMessage);
           } else {
             const input = document.createElement("textarea");
-            input.value = campaignShareUrl;
+            input.value = shareMessage;
             input.setAttribute("readonly", "");
             input.style.position = "fixed";
             input.style.opacity = "0";
@@ -224,7 +224,7 @@ const FeatureDetail = () => {
             input.remove();
             if (!copied) throw new Error("Copy failed");
           }
-          toast.success("Campaign link copied. Paste it into Instagram to share.", { style: toastStyle });
+          toast.success("Campaign story & link copied. Paste it into Instagram to share.", { style: toastStyle });
         } catch {
           toast.error("Could not copy the campaign link.", { style: toastStyle });
         }
