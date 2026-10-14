@@ -1,6 +1,43 @@
-import sharp from "sharp";
+import fs from "node:fs";
+import path from "node:path";
 
 const API_URL = "https://blimp-final-kk2n.onrender.com/api/v1/auth/view-campaign-history";
+const W = 1200;
+const H = 630;
+
+// Netlify's Lambda runtime ships with no system fonts, so SVG text renders as
+// empty boxes. Point fontconfig at our bundled font BEFORE sharp is loaded.
+const setupFonts = () => {
+  const candidates = [
+    path.join(process.env.LAMBDA_TASK_ROOT || "", "netlify/functions/fonts"),
+    path.join(process.cwd(), "netlify/functions/fonts"),
+    path.join(process.cwd(), "fonts"),
+  ];
+  const fontDir = candidates.find((dir) => fs.existsSync(path.join(dir, "Inter.ttf")));
+  if (!fontDir) {
+    console.warn("Bundled font not found; text may not render.");
+    return;
+  }
+  const confPath = "/tmp/fonts.conf";
+  fs.writeFileSync(confPath, `<?xml version="1.0"?>
+<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
+<fontconfig>
+  <dir>${fontDir}</dir>
+  <cachedir>/tmp/fontconfig-cache</cachedir>
+  <config></config>
+</fontconfig>`);
+  process.env.FONTCONFIG_FILE = confPath;
+  process.env.FONTCONFIG_PATH = path.dirname(confPath);
+};
+
+let sharpPromise;
+const getSharp = () => {
+  if (!sharpPromise) {
+    setupFonts();
+    sharpPromise = import("sharp").then((m) => m.default);
+  }
+  return sharpPromise;
+};
 
 const escapeXml = (value = "") => String(value)
   .replaceAll("&", "&amp;")
@@ -10,15 +47,11 @@ const escapeXml = (value = "") => String(value)
   .replaceAll("'", "&apos;");
 
 const plainText = (value = "") => String(value)
-  .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, " ")
-  .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, " ")
   .replace(/<[^>]*>/g, " ")
   .replace(/&nbsp;/gi, " ")
   .replace(/&amp;/gi, "&")
   .replace(/&quot;/gi, '"')
   .replace(/&#39;|&apos;/gi, "'")
-  .replace(/&lt;/gi, "<")
-  .replace(/&gt;/gi, ">")
   .replace(/\s+/g, " ")
   .trim();
 
@@ -27,7 +60,7 @@ const fetchCampaign = async (id) => {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
     body: JSON.stringify({ id }),
-    signal: AbortSignal.timeout(6000),
+    signal: AbortSignal.timeout(8000),
   });
   if (!response.ok) throw new Error(`Campaign API returned ${response.status}`);
   const payload = await response.json();
@@ -36,97 +69,149 @@ const fetchCampaign = async (id) => {
   return campaign;
 };
 
-const numberText = (value, locale) => {
-  const number = Number(String(value ?? 0).replace(/[^0-9.]/g, "")) || 0;
-  return number.toLocaleString(locale, { maximumFractionDigits: 0 });
+const fetchImage = async (url) => {
+  if (!url) return null;
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(6000) });
+    if (!res.ok) return null;
+    return Buffer.from(await res.arrayBuffer());
+  } catch {
+    return null;
+  }
 };
 
-const wrapTitle = (title, maxChars = 34, maxLines = 3) => {
+const toNumber = (v) => Number(String(v ?? 0).replace(/[^0-9.]/g, "")) || 0;
+
+const wrapTitle = (title, maxChars = 30, maxLines = 2) => {
   const words = title.split(/\s+/).filter(Boolean);
   const lines = [];
   let line = "";
-  for (const word of words) {
-    const next = line ? `${line} ${word}` : word;
+  let i = 0;
+  for (; i < words.length; i++) {
+    const next = line ? `${line} ${words[i]}` : words[i];
     if (next.length > maxChars && line) {
       lines.push(line);
-      line = word;
-      if (lines.length === maxLines - 1) break;
+      line = words[i];
+      if (lines.length === maxLines) break;
     } else {
       line = next;
     }
   }
-  if (lines.length < maxLines && line) lines.push(line);
-  const consumed = lines.join(" ").length;
-  if (consumed < title.length && lines.length) {
-    const last = lines.length - 1;
-    lines[last] = `${lines[last].replace(/[.\s]+$/, "")}…`;
-  }
+  if (lines.length < maxLines && line) { lines.push(line); i = words.length; }
+  if (i < words.length) lines[lines.length - 1] = `${lines[lines.length - 1].replace(/[.,:;\s]+$/, "")}…`;
   return lines;
 };
 
-const createPosterSvg = ({ campaign }) => {
+const BANNER = { x: 60, y: 230, w: 500, h: 340, r: 28 };
+
+const createSvg = (campaign) => {
+  const font = "Inter, sans-serif";
   const title = plainText(campaign.campaign_name || campaign.title || "Support this campaign");
   const country = campaign.country || {};
-  const currency = country.symbol || country.currency || "";
-  const locale = String(country.currency || "").toUpperCase() === "INR" || currency === "₹" ? "en-IN" : "en-US";
-  const raised = campaign.raisedAmount ?? campaign.raised_amount ?? 0;
-  const goal = campaign.targetAmount ?? campaign.target_amount ?? 0;
-  const targetNumber = Number(String(goal).replace(/[^0-9.]/g, "")) || 0;
-  const raisedNumber = Number(String(raised).replace(/[^0-9.]/g, "")) || 0;
-  const fallbackPercentage = targetNumber ? (raisedNumber / targetNumber) * 100 : 0;
-  const percentage = Math.min(100, Math.max(0, Number(campaign.percentageAchieved || fallbackPercentage)));
-  const titleLines = wrapTitle(title);
-  const lines = titleLines.map((line, index) =>
-    `<text x="72" y="${77 + index * 59}" font-family="Arial, Helvetica, sans-serif" font-size="49" font-weight="900" letter-spacing="-1.5" fill="#20191c">${escapeXml(line.toUpperCase())}</text>`
-  ).join("");
-  const panelRaised = `${escapeXml(currency)}${numberText(raised, locale)}`;
-  const panelGoal = `${escapeXml(currency)}${numberText(goal, locale)}`;
+  const symbol = country.symbol || "";
+  const locale = String(country.currency || "").toUpperCase() === "INR" ? "en-IN" : "en-US";
+  const fmt = (n) => `${symbol}${n.toLocaleString(locale, { maximumFractionDigits: 0 })}`;
+  const raised = toNumber(campaign.raisedAmount ?? campaign.total_raised);
+  const goal = toNumber(campaign.targetAmount ?? campaign.target_amount);
+  const pct = Math.min(100, Math.max(0, Math.round(
+    Number(campaign.percentageAchieved) || (goal ? (raised / goal) * 100 : 0)
+  )));
+  const donors = Number(campaign.donation_count || campaign.donationInfo?.length || 0);
+  const category = campaign.categories?.name || "";
+  const organiser = campaign.campaigns?.fullname || "";
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-    <defs>
-      <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbf9ef"/><stop offset="1" stop-color="#f5f2e5"/></linearGradient>
-      <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a7f1e9"/><stop offset="1" stop-color="#79e4db"/></linearGradient>
-      <linearGradient id="green" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#42c978"/><stop offset="1" stop-color="#07843d"/></linearGradient>
-    </defs>
-    <rect width="1200" height="630" fill="url(#paper)"/>
-    ${lines}
-    <!-- Hand-drawn donation box illustration -->
-    <path d="M62 369 L176 324 L302 373 L206 428 Z" fill="#ed202b"/>
-    <path d="M176 324 L278 271 L399 323 L302 373 Z" fill="#e51c28"/>
-    <path d="M206 428 L302 373 L431 422 L431 556 L206 615 Z" fill="#d71925"/>
-    <path d="M62 369 L206 428 L206 615 L75 561 Z" fill="#d81723"/>
-    <path d="M176 324 L302 373 L399 323" fill="none" stroke="#1d1113" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M62 369 L206 428 L431 422" fill="none" stroke="#1d1113" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M206 428 L206 615" fill="none" stroke="#1d1113" stroke-width="8" stroke-linecap="round"/>
-    <path d="M320 484 C298 459 268 474 275 501 C280 520 320 543 320 543 C320 543 362 517 366 496 C372 468 338 459 320 484 Z" fill="#fff"/>
-    <!-- BLIMP mark and campaign progress -->
-    <text x="625" y="340" font-family="Georgia, serif" font-size="47" font-style="italic" font-weight="900" fill="#08714d">blimp</text>
-    <path d="M824 293 Q838 319 863 322 Q838 326 824 352 Q817 329 792 324 Q817 319 824 293 Z" fill="none" stroke="#08714d" stroke-width="4"/>
-    <rect x="590" y="365" width="550" height="174" rx="25" fill="url(#mint)" stroke="#65d7cf" stroke-width="3"/>
-    <text x="620" y="430" font-family="Arial, Helvetica, sans-serif" font-size="49" font-weight="500" letter-spacing="-2" fill="#20191c">${panelRaised}</text>
-    <text x="620" y="489" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="400" letter-spacing="1" fill="#20191c">RAISED</text>
-    <text x="1105" y="485" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="37" font-weight="800" fill="#20191c">${Math.round(percentage)}%</text>
-    <text x="620" y="521" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#47534a">of ${panelGoal}${!country.symbol && country.currency ? ` ${escapeXml(country.currency)}` : ""} goal</text>
-    <rect x="740" y="553" width="390" height="64" rx="32" fill="#08743f"/>
-    <rect x="747" y="558" width="376" height="52" rx="26" fill="url(#green)"/>
-    <text x="935" y="592" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="900" letter-spacing="1" fill="#fff">DONATE NOW</text>
-  </svg>`;
+  const titleLines = wrapTitle(title).map((line, i) =>
+    `<text x="60" y="${105 + i * 64}" font-family="${font}" font-size="54" font-weight="900" letter-spacing="-1" fill="#20191c">${escapeXml(line.toUpperCase())}</text>`
+  ).join("");
+
+  const barW = 470;
+  const fillW = Math.max(pct > 0 ? 14 : 0, Math.round((barW * pct) / 100));
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fbf9ef"/><stop offset="1" stop-color="#f3efdf"/></linearGradient>
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b3f3ec"/><stop offset="1" stop-color="#7fe3d9"/></linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#42c978"/><stop offset="1" stop-color="#07843d"/></linearGradient>
+  </defs>
+  <rect width="${W}" height="${H}" fill="url(#paper)"/>
+  ${titleLines}
+
+  <!-- banner frame (image composited separately) -->
+  <rect x="${BANNER.x - 6}" y="${BANNER.y - 6}" width="${BANNER.w + 12}" height="${BANNER.h + 12}" rx="${BANNER.r + 4}" fill="#ffffff"/>
+  <rect x="${BANNER.x}" y="${BANNER.y}" width="${BANNER.w}" height="${BANNER.h}" rx="${BANNER.r}" fill="#e3e0d2"/>
+  ${category ? `<rect x="${BANNER.x + 18}" y="${BANNER.y + 18}" width="${category.length * 13 + 36}" height="40" rx="20" fill="#08714d"/>
+  <text x="${BANNER.x + 36}" y="${BANNER.y + 45}" font-family="${font}" font-size="20" font-weight="700" fill="#fff">${escapeXml(category)}</text>` : ""}
+
+  <!-- logo -->
+  <text x="630" y="282" font-family="Georgia, serif" font-size="50" font-style="italic" font-weight="900" fill="#08714d">blimp</text>
+  <path d="M815 236 Q828 260 851 263 Q828 267 815 291 Q808 268 785 264 Q808 260 815 236 Z" fill="none" stroke="#08714d" stroke-width="4"/>
+
+  <!-- stats panel -->
+  <rect x="610" y="305" width="530" height="200" rx="26" fill="url(#mint)" stroke="#65d7cf" stroke-width="3"/>
+  <text x="640" y="368" font-family="${font}" font-size="52" font-weight="800" letter-spacing="-1.5" fill="#20191c">${escapeXml(fmt(raised))}</text>
+  <text x="1110" y="368" text-anchor="end" font-family="${font}" font-size="44" font-weight="800" fill="#08714d">${pct}%</text>
+  <text x="640" y="408" font-family="${font}" font-size="24" font-weight="600" fill="#20191c">RAISED of ${escapeXml(fmt(goal))} goal</text>
+  <rect x="640" y="428" width="${barW}" height="16" rx="8" fill="#ffffff" opacity="0.85"/>
+  ${fillW ? `<rect x="640" y="428" width="${fillW}" height="16" rx="8" fill="#08714d"/>` : ""}
+  <text x="640" y="482" font-family="${font}" font-size="21" font-weight="600" fill="#2f4a3f">${donors} ${donors === 1 ? "donation" : "donations"}${organiser ? ` · by ${escapeXml(organiser)}` : ""}</text>
+
+  <!-- CTA -->
+  <rect x="750" y="530" width="390" height="66" rx="33" fill="#08743f"/>
+  <rect x="757" y="535" width="376" height="54" rx="27" fill="url(#green)"/>
+  <text x="945" y="571" text-anchor="middle" font-family="${font}" font-size="25" font-weight="900" letter-spacing="1" fill="#fff">DONATE NOW</text>
+</svg>`;
 };
 
+const renderBanner = async (sharp, buffer) => {
+  if (!buffer) return null;
+  try {
+    const mask = Buffer.from(`<svg width="${BANNER.w}" height="${BANNER.h}"><rect width="${BANNER.w}" height="${BANNER.h}" rx="${BANNER.r}" fill="#fff"/></svg>`);
+    return await sharp(buffer)
+      .resize(BANNER.w, BANNER.h, { fit: "cover", position: "attention" })
+      .composite([{ input: mask, blend: "dest-in" }])
+      .png()
+      .toBuffer();
+  } catch (error) {
+    console.error("Banner render failed:", error.message);
+    return null;
+  }
+};
+
+const extractId = (event) =>
+  event.queryStringParameters?.id || String(event.rawUrl || event.path || "").match(/\/campaign\/(\d+)/)?.[1];
+
 export const handler = async (event) => {
-  const id = event.queryStringParameters?.id || String(event.rawUrl || event.path || "").match(/\/campaign\/(\d+)/)?.[1];
+  const id = extractId(event);
   if (!id || !/^\d+$/.test(String(id))) {
     return { statusCode: 400, headers: { "Content-Type": "text/plain; charset=utf-8" }, body: "A numeric campaign ID is required." };
   }
 
   try {
+    const sharp = await getSharp();
     const campaign = await fetchCampaign(id);
     if (!campaign) {
       return { statusCode: 404, headers: { "Content-Type": "text/plain; charset=utf-8" }, body: "Campaign not found." };
     }
 
-    const svg = createPosterSvg({ campaign });
-    const png = await sharp(Buffer.from(svg)).png({ compressionLevel: 8 }).toBuffer();
+    const bannerUrl = campaign.banner_image || campaign.campaignsImages?.[0]?.image;
+    const [base, banner] = await Promise.all([
+      sharp(Buffer.from(createSvg(campaign))).png().toBuffer(),
+      fetchImage(bannerUrl).then((buf) => renderBanner(sharp, buf)),
+    ]);
+
+    const layers = [];
+    if (banner) layers.push({ input: banner, left: BANNER.x, top: BANNER.y });
+    // Re-draw category pill on top of the banner so it stays visible.
+    const category = campaign.categories?.name;
+    if (banner && category) {
+      const pill = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
+        <rect x="${BANNER.x + 18}" y="${BANNER.y + 18}" width="${category.length * 13 + 36}" height="40" rx="20" fill="#08714d"/>
+        <text x="${BANNER.x + 36}" y="${BANNER.y + 45}" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#fff">${escapeXml(category)}</text>
+      </svg>`;
+      layers.push({ input: Buffer.from(pill), left: 0, top: 0 });
+    }
+
+    const png = await sharp(base).composite(layers).png({ compressionLevel: 8 }).toBuffer();
     return {
       statusCode: 200,
       headers: {
@@ -141,11 +226,11 @@ export const handler = async (event) => {
       isBase64Encoded: true,
     };
   } catch (error) {
-    console.error("Could not generate campaign poster:", error.message);
+    console.error("Could not generate campaign OG image:", error);
     return {
       statusCode: 502,
       headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" },
-      body: "Unable to generate campaign poster.",
+      body: "Unable to generate campaign image.",
     };
   }
 };
