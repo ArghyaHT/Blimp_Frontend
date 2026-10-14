@@ -95,8 +95,8 @@
 .posterHeading > span { color: #777; font-size: 1.2rem; }
 .poster { display: grid; grid-template-rows: auto minmax(7rem, 1fr) auto minmax(2.8em, auto) auto auto auto auto; align-content: stretch; gap: 0.45rem; width: 100%; aspect-ratio: 1.2 / 1; padding: 1.2rem; border-radius: 1.2rem; overflow: hidden; background: #f8f6e9; color: #17201b; box-shadow: 0 0.6rem 1.5rem rgba(0, 0, 0, 0.1); }
 .posterAlternate { background: #e8faf7; }
-.posterTopline { display: flex; justify-content: flex-start; align-items: center; min-height: 1.9rem; }
-.posterTopline img { display: block; width: 8rem; height: 1.9rem; object-fit: contain; object-position: left center; }
+.posterTopline { display: flex; justify-content: flex-start; align-items: center; min-height: 3.6rem; }
+.posterTopline img { display: block; width: 8rem; height: 3.6rem; object-fit: contain; object-position: left center; }
 .posterImageWrap { min-height: 0; overflow: hidden; border-radius: 0.8rem; background: #e3e3e3; }
 .posterImageWrap img { width: 100%; height: 100%; display: block; object-fit: cover; }
 .imagePlaceholder { display: grid; width: 100%; height: 100%; place-items: center; background: linear-gradient(135deg, #b6ece5, #f4d96f); color: #154f42; font-size: 1.9rem; font-weight: 800; text-align: center; }

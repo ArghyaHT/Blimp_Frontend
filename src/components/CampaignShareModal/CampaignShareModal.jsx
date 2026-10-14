@@ -11,7 +11,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import styles from "./CampaignShareModal.module.css";
 import toast from "react-hot-toast";
 import { toastStyle } from "../../utils/toastStyles";
-import blimpLogo from "../../assets/BlimpLogoBlack.svg";
+import blimpLogo from "../../assets/BlimpLogo1.png";
 
 const CampaignShareModal = ({ campaign, shareUrl, onClose }) => {
   const [activeTemplate, setActiveTemplate] = useState(0);
