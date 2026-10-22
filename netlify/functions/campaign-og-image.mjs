@@ -60,13 +60,13 @@ const fetchCampaign = async (id) => {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({ id }),
+    body: JSON.stringify({ slug: id }),
     signal: AbortSignal.timeout(8000),
   });
   if (!response.ok) throw new Error(`Campaign API returned ${response.status}`);
   const payload = await response.json();
   const campaign = payload?.data?.data || payload?.data?.campaign || payload?.data || null;
-  if (!campaign || String(campaign.id) !== String(id)) return null;
+  if (!campaign || String(campaign.id) !== String(id) && String(campaign.slug) !== String(id)) return null;
   return campaign;
 };
 
@@ -188,12 +188,12 @@ const renderLogo = async (sharp) => {
 };
 
 const extractId = (event) =>
-  event.queryStringParameters?.id || String(event.rawUrl || event.path || "").match(/\/campaign\/(\d+)/)?.[1];
+  event.queryStringParameters?.id || String(event.rawUrl || event.path || "").match(/\/campaign\/([^/?#]+)/)?.[1];
 
 export const handler = async (event) => {
   const id = extractId(event);
-  if (!id || !/^\d+$/.test(String(id))) {
-    return { statusCode: 400, headers: { "Content-Type": "text/plain; charset=utf-8" }, body: "A numeric campaign ID is required." };
+  if (!id || !/^[a-z0-9-]+$/i.test(String(id))) {
+    return { statusCode: 400, headers: { "Content-Type": "text/plain; charset=utf-8" }, body: "A campaign slug or ID is required." };
   }
 
   try {

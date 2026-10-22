@@ -344,7 +344,7 @@ const Hero = () => {
                 onClick={() => {
                   window.scrollTo(0, 0);
                   if (supportCampaigns?.data?.data) {
-                    navigate(`/campaign/${supportCampaigns.data.data.id}`, {
+                    navigate(`/campaign/${supportCampaigns.data.data.slug || supportCampaigns.data.data.id}`, {
                       state: supportCampaigns.data.data,
                     });
                   } else {
@@ -367,7 +367,7 @@ const Hero = () => {
             onClick={() => {
               if (latestCampaigns?.data?.data?.latestCampaigns?.[0]) {
                 window.scrollTo(0, 0);
-                navigate(`/campaign/${latestCampaigns.data.data.latestCampaigns[0].id}`, {
+                navigate(`/campaign/${latestCampaigns.data.data.latestCampaigns[0].slug || latestCampaigns.data.data.latestCampaigns[0].id}`, {
                   state: latestCampaigns.data.data.latestCampaigns[0],
                 });
               }
@@ -408,7 +408,7 @@ const Hero = () => {
                   onClick={() => {
                     if (latestCampaigns?.data?.data?.latestCampaigns?.[0]) {
                       window.scrollTo(0, 0);
-                      navigate(`/campaign/${latestCampaigns.data.data.latestCampaigns[0].id}`, {
+                      navigate(`/campaign/${latestCampaigns.data.data.latestCampaigns[0].slug || latestCampaigns.data.data.latestCampaigns[0].id}`, {
                         state:
                           latestCampaigns.data.data.latestCampaigns[0],
                       });
@@ -485,7 +485,7 @@ const Hero = () => {
                       className={style.latestSupportBtn}
                       onClick={() => {
                         window.scrollTo(0, 0);
-                        navigate(`/campaign/${latestCampaigns?.data?.data?.latestCampaigns?.[0]?.id}`, {
+                        navigate(`/campaign/${latestCampaigns?.data?.data?.latestCampaigns?.[0]?.slug || latestCampaigns?.data?.data?.latestCampaigns?.[0]?.id}`, {
                           state:
                             latestCampaigns?.data?.data?.latestCampaigns?.[0],
                         });
@@ -510,7 +510,7 @@ const Hero = () => {
                   className={style.latestSupportBtn}
                   onClick={() => {
                     window.scrollTo(0, 0);
-                    navigate(`/campaign/${latestCampaigns?.data?.data?.latestCampaigns?.[0]?.id}`, {
+                    navigate(`/campaign/${latestCampaigns?.data?.data?.latestCampaigns?.[0]?.slug || latestCampaigns?.data?.data?.latestCampaigns?.[0]?.id}`, {
                       state: latestCampaigns?.data?.data?.latestCampaigns?.[0],
                     });
                   }}

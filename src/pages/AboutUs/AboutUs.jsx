@@ -163,7 +163,7 @@ const AboutUs = () => {
                 onClick={() => {
                   window.scrollTo(0, 0);
                   if (topDonatedCampaign) {
-                    navigate(`/campaign/${topDonatedCampaign.id}`, {
+                    navigate(`/campaign/${topDonatedCampaign.slug || topDonatedCampaign.id}`, {
                       state: topDonatedCampaign,
                     });
                   } else {

@@ -26,13 +26,13 @@ import { isVerifiedCampaign } from "../../utils/campaignUtils";
 import { useAuth } from "../../context/AuthContext";
 import { getSeenCount, markUpdatesSeen } from "../../utils/updatesBadge";
 import CampaignShareModal from "../../components/CampaignShareModal/CampaignShareModal";
-import { buildShareMessage } from "../../utils/shareMessage";
+import { buildShareMessage, shareToInstagram } from "../../utils/shareMessage";
 
 const FeatureDetail = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const { campaignId: routeCampaignId } = useParams();
+  const { campaignSlug: routeCampaignSlug } = useParams();
   const featureItem = location.state;
 
   // Auth state — used to decide badge colour
@@ -187,14 +187,20 @@ const FeatureDetail = () => {
     return update?.media?.some((m) => isMediaVideo(m));
   };
 
-  const campaignId = routeCampaignId || featureItem?.id || featureItemDetail?.data?.data?.id || location.state?.id;
+  // Numeric id (still needed by id-based APIs) and slug (used in URLs).
+  const campaignId =
+    featureItemDetail?.data?.data?.id ||
+    featureItem?.id ||
+    (/^\d+$/.test(String(routeCampaignSlug || "")) ? routeCampaignSlug : undefined);
+  const campaignSlug =
+    featureItemDetail?.data?.data?.slug || featureItem?.slug || routeCampaignSlug;
   // Social apps (WhatsApp, Facebook, X, LinkedIn) fetch the preview card from the
   // shared URL, so it must be the public site — never localhost.
   const isLocalHost = /^(localhost|127\.0\.0\.1|0\.0\.0\.0)$/.test(window.location.hostname);
   const publicOrigin = import.meta.env.VITE_PUBLIC_SITE_URL
     || (isLocalHost ? "https://blimpweb.netlify.app" : window.location.origin);
-  const campaignShareUrl = campaignId
-    ? `${publicOrigin}/campaign/${campaignId}`
+  const campaignShareUrl = campaignSlug
+    ? `${publicOrigin}/campaign/${encodeURIComponent(campaignSlug)}`
     : window.location.href;
 
   const shareCampaignOn = (platform) => {
@@ -207,29 +213,11 @@ const FeatureDetail = () => {
     };
 
     if (platform === "instagram") {
-      window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
-      const copyCampaignLink = async () => {
-        try {
-          if (navigator.clipboard?.writeText) {
-            await navigator.clipboard.writeText(shareMessage);
-          } else {
-            const input = document.createElement("textarea");
-            input.value = shareMessage;
-            input.setAttribute("readonly", "");
-            input.style.position = "fixed";
-            input.style.opacity = "0";
-            document.body.appendChild(input);
-            input.select();
-            const copied = document.execCommand("copy");
-            input.remove();
-            if (!copied) throw new Error("Copy failed");
-          }
-          toast.success("Campaign story & link copied. Paste it into Instagram to share.", { style: toastStyle });
-        } catch {
-          toast.error("Could not copy the campaign link.", { style: toastStyle });
-        }
-      };
-      copyCampaignLink();
+      shareToInstagram({
+        campaign,
+        shareUrl: campaignShareUrl,
+        notify: (type, message) => toast[type](message, { style: toastStyle }),
+      });
       return;
     }
 
@@ -259,7 +247,7 @@ const FeatureDetail = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const idToUse = routeCampaignId || featureItem?.id || location.state?.id;
+    const idToUse = routeCampaignSlug || featureItem?.slug || featureItem?.id;
     if (idToUse) {
       const fetchCampaignDetails = async () => {
         try {
@@ -269,7 +257,7 @@ const FeatureDetail = () => {
             error: null,
           }));
           const { data } = await api.post("/view-campaign-history", {
-            id: idToUse,
+            slug: idToUse,
           });
           if (data.code === 200) {
             setFeatureItemDetail({ loading: false, error: null, data });
@@ -310,7 +298,7 @@ const FeatureDetail = () => {
       fetchCampaignDetails();
       fetchLatestArticles();
     }
-  }, [featureItem?.id, location.state?.id, routeCampaignId]);
+  }, [featureItem?.id, featureItem?.slug, routeCampaignSlug]);
 
   // If the user is already on the Updates tab when data loads, mark as seen
   useEffect(() => {

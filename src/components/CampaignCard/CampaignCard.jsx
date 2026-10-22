@@ -15,7 +15,7 @@ const CampaignCard = ({ bannerImage, description, campaignName, campaignItem }) 
       className={styles.campaignCardContainer}
       onClick={() => {
         window.scrollTo(0, 0);
-        navigate(`/campaign/${campaignItem?.id}`, {
+        navigate(`/campaign/${campaignItem?.slug || campaignItem?.id}`, {
           state: campaignItem
         });
       }}

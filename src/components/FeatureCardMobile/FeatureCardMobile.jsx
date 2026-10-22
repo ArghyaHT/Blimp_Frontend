@@ -179,7 +179,7 @@ const FeatureCardMobile = ({ featureItem }) => {
       ref={containerRef}
       onClick={() => {
         window.scrollTo(0, 0);
-        navigate(`/campaign/${featureItem?.id}`, {
+        navigate(`/campaign/${featureItem?.slug || featureItem?.id}`, {
           state: featureItem,
         });
       }}

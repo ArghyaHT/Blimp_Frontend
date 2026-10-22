@@ -24,17 +24,17 @@ const getCampaign = async (id) => {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({ id }),
+    body: JSON.stringify({ slug: id }),
   });
   if (!response.ok) throw new Error(`Campaign API returned ${response.status}`);
   const payload = await response.json();
   const campaign = payload?.data?.data || payload?.data?.campaign || payload?.data || null;
-  if (campaign && String(campaign.id) !== String(id)) return null;
+  if (campaign && String(campaign.id) !== String(id) && String(campaign.slug) !== String(id)) return null;
   return campaign;
 };
 
 export const handler = async (event) => {
-  const id = event.queryStringParameters?.id || String(event.rawUrl || event.path || "").match(/\/campaign\/(\d+)/)?.[1];
+  const id = event.queryStringParameters?.id || String(event.rawUrl || event.path || "").match(/\/campaign\/([^/?#]+)/)?.[1];
   const headers = event.headers || {};
   const forwardedHost = headers["x-forwarded-host"] || headers.host;
   const protocol = headers["x-forwarded-proto"] || "https";

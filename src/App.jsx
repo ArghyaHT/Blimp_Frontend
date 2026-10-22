@@ -111,7 +111,7 @@ const App = () => {
 
               <Route path="/news-detail" element={<NewsDetail />} />
               <Route path="/feature-detail" element={<FeatureDetail />} />
-              <Route path="/campaign/:campaignId" element={<FeatureDetail />} />
+              <Route path="/campaign/:campaignSlug" element={<FeatureDetail />} />
 
               <Route path="/checkout" element={<CheckOutPage />} />
               <Route path="/news-blog" element={<NewsBlogPage />} />
