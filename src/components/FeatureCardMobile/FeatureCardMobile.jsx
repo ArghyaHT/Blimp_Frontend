@@ -220,7 +220,7 @@ const FeatureCardMobile = ({ featureItem }) => {
           </div>
         </div>
 
-        <button className={style.supportButton}>
+        <button className={`${style.supportButton} btn-3d btn-3d--secondary`}>
           <span>Support</span>
         </button>
       </div>

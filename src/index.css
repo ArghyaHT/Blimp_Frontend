@@ -124,61 +124,145 @@ body[data-theme="dark"] {
   border-radius: 6px;
 }
 
-/* Global Glossy Button Style - Clean Soft Cyan Gloss */
-.glossy-btn {
+/* ───────────────────────────────────────────────────────────────────────
+   Global 3D "press" button
+   A pill face with an outline sitting on a solid offset base. Hover lifts
+   the face; :active sinks it onto the base like a physical key.
+   .btn-3d--primary   → black face / white text / white outlined base
+   .btn-3d--secondary → white face / black text / solid black base
+   .glossy-btn is kept as an alias of the primary variant.
+   Doubled class selectors + !important beat per-module button rules.
+   ─────────────────────────────────────────────────────────────────────── */
+:root {
+  /* BLIMP theme: navy ink (#0f172a), brand cyan (#00c1e8), emerald (#10b981) */
+  --btn3d-ink: #0f172a;
+  --btn3d-paper: #ffffff;
+  --btn3d-cyan: #00c1e8;
+  --btn3d-cyan-hover: #47dfff;
+  --btn3d-green: #10b981;
+  --btn3d-tint: #ecfeff;
+  --btn3d-x: -4px;
+  --btn3d-y: 5px;
+  --btn3d-lift: 2px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --btn3d-x: -3px;
+    --btn3d-y: 4px;
+  }
+}
+
+.btn-3d.btn-3d,
+.glossy-btn.glossy-btn {
   position: relative;
-  overflow: hidden;
-  border-radius: 3rem;
-  border: 1px solid rgba(0, 193, 232, 0.3);
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  min-height: 4.4rem;
+  padding: 1.1rem 2.8rem !important;
+  border-radius: 999px !important;
+  border: 2px solid var(--btn3d-ink) !important;
   outline: none;
   cursor: pointer;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: #ffffff !important;
-  background: linear-gradient(180deg,
-      #47dfff 0%,
-      #00b4d8 100%) !important;
-  text-shadow: 0 1px 2px rgba(0, 120, 160, 0.5) !important;
-  box-shadow:
-    inset 0 2px 4px rgba(255, 255, 255, 0.5),
-    inset 0 -3px 8px rgba(0, 100, 150, 0.3) !important;
-  transition: all 0.2s ease !important;
+  font-weight: 700 !important;
+  font-size: var(--font-semi-large);
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+  text-shadow: none !important;
+  -webkit-text-fill-color: currentColor !important;
+  overflow: visible !important;
+  user-select: none;
+  transform: translate(0, 0);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.12s ease !important;
   z-index: 1;
 }
 
-.glossy-btn::before {
-  content: "";
-  position: absolute;
-  top: 1px;
-  left: 2%;
-  right: 2%;
-  height: 45%;
-  background: linear-gradient(180deg,
-      rgba(255, 255, 255, 0.6) 0%,
-      rgba(255, 255, 255, 0.05) 100%);
-  border-radius: 50rem;
-  pointer-events: none;
+.btn-3d.btn-3d span,
+.glossy-btn.glossy-btn span {
+  color: inherit !important;
+  background: none !important;
 }
 
-.glossy-btn:hover {
-  background: linear-gradient(180deg,
-      #66e5ff 0%,
-      #00c1e8 100%) !important;
+.btn-3d.btn-3d::before,
+.btn-3d.btn-3d::after,
+.glossy-btn.glossy-btn::before,
+.glossy-btn.glossy-btn::after {
+  display: none !important;
+}
+
+/* Secondary — white face, navy text, emerald base outlined in navy */
+.btn-3d--secondary.btn-3d--secondary {
+  background: var(--btn3d-paper) !important;
+  color: var(--btn3d-ink) !important;
   box-shadow:
-    inset 0 2px 6px rgba(255, 255, 255, 0.7),
-    inset 0 -3px 8px rgba(0, 100, 150, 0.2) !important;
-  transform: translateY(-2px);
+    var(--btn3d-x) var(--btn3d-y) 0 0 var(--btn3d-green),
+    var(--btn3d-x) var(--btn3d-y) 0 2px var(--btn3d-ink) !important;
 }
 
-.glossy-btn:active {
-  transform: translateY(1px);
-  background: linear-gradient(180deg,
-      #00b4d8 0%,
-      #009ac2 100%) !important;
-  box-shadow:
-    inset 0 3px 8px rgba(0, 100, 150, 0.5) !important;
+/* Primary — brand cyan face, navy text, solid navy base */
+.btn-3d--primary.btn-3d--primary,
+.glossy-btn.glossy-btn {
+  background: var(--btn3d-cyan) !important;
+  color: var(--btn3d-paper) !important;
+  box-shadow: var(--btn3d-x) var(--btn3d-y) 0 0 var(--btn3d-ink) !important;
 }
 
-.glossy-btn:active::before {
+/* Hover — lift */
+@media (hover: hover) {
+
+  .btn-3d.btn-3d:hover,
+  .glossy-btn.glossy-btn:hover {
+    transform: translate(calc(var(--btn3d-lift) * 0.5), calc(var(--btn3d-lift) * -1));
+  }
+
+  .btn-3d--secondary.btn-3d--secondary:hover {
+    background: var(--btn3d-tint) !important;
+    box-shadow:
+      calc(var(--btn3d-x) - 1px) calc(var(--btn3d-y) + 2px) 0 0 var(--btn3d-green),
+      calc(var(--btn3d-x) - 1px) calc(var(--btn3d-y) + 2px) 0 2px var(--btn3d-ink) !important;
+  }
+
+  .btn-3d--primary.btn-3d--primary:hover,
+  .glossy-btn.glossy-btn:hover {
+    background: var(--btn3d-cyan-hover) !important;
+    box-shadow: calc(var(--btn3d-x) - 1px) calc(var(--btn3d-y) + 2px) 0 0 var(--btn3d-ink) !important;
+  }
+}
+
+/* Active — press down onto the base */
+.btn-3d.btn-3d:active,
+.glossy-btn.glossy-btn:active {
+  transform: translate(var(--btn3d-x), var(--btn3d-y)) !important;
+  box-shadow: 0 0 0 0 var(--btn3d-ink) !important;
+}
+
+.btn-3d.btn-3d:focus-visible,
+.glossy-btn.glossy-btn:focus-visible {
+  outline: 3px solid var(--btn3d-ink);
+  outline-offset: 4px;
+}
+
+.btn-3d.btn-3d:disabled,
+.glossy-btn.glossy-btn:disabled {
   opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+@media (max-width: 768px) {
+
+  .btn-3d.btn-3d,
+  .glossy-btn.glossy-btn {
+    padding: 0.9rem 2.2rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .btn-3d.btn-3d,
+  .glossy-btn.glossy-btn {
+    transition: none !important;
+  }
 }

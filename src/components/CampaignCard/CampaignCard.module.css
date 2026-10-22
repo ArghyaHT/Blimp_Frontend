@@ -123,17 +123,23 @@
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        gap: 1.2rem !important;
+        gap: 0.7rem !important;
         width: 100% !important;
         padding-inline: 1.5rem !important;
     }
 
-    .actionRow>button {
+    .actionRow>button:global(.btn-3d.btn-3d) {
         margin-inline: 0 !important;
         flex-shrink: 0 !important;
         height: 4.2rem !important;
         padding-inline: 2.2rem !important;
         border-radius: 3rem !important;
+        font-size: var(--font-medium, 1.4rem) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+
+        &>span {
+            font-size: var(--font-medium, 1.4rem) !important;
+        }
     }
 
     .mobileProgressWrapper {
@@ -141,6 +147,10 @@
         flex: 1 !important;
         min-width: 0 !important;
         width: 100% !important;
+
+        &>div {
+            padding-left: 0.7rem !important;
+        }
     }
 }
 
@@ -162,11 +172,21 @@
 
     .actionRow {
         padding-inline: 2rem !important;
-        gap: 1.6rem !important;
+        gap: 1rem !important;
     }
 
-    .actionRow>button {
+    .actionRow>button:global(.btn-3d.btn-3d) {
         height: 4.2rem !important;
         padding-inline: 2.2rem !important;
+        font-size: var(--font-medium, 1.6rem) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+
+        &>span {
+            font-size: var(--font-medium, 1.6rem) !important;
+        }
+    }
+
+    .mobileProgressWrapper>div {
+        padding-left: 0.8rem !important;
     }
 }

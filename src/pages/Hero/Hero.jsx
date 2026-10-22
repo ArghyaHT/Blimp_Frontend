@@ -288,7 +288,7 @@ const Hero = () => {
             </button>
 
             <button
-              className={style.seedSecondaryBtn}
+              className={`${style.seedSecondaryBtn} btn-3d btn-3d--secondary`}
               onClick={() => {
                 window.scrollTo(0, 0);
                 navigate("/discover");
@@ -341,6 +341,7 @@ const Hero = () => {
               </h1>
 
               <button
+                className="btn-3d btn-3d--secondary"
                 onClick={() => {
                   window.scrollTo(0, 0);
                   if (supportCampaigns?.data?.data) {
@@ -352,7 +353,7 @@ const Hero = () => {
                   }
                 }}
               >
-                Get Funding
+                Raise
               </button>
             </div>
           </div>
@@ -482,7 +483,7 @@ const Hero = () => {
 
                   <div>
                     <button
-                      className={style.latestSupportBtn}
+                      className={`${style.latestSupportBtn} btn-3d btn-3d--secondary`}
                       onClick={() => {
                         window.scrollTo(0, 0);
                         navigate(`/campaign/${latestCampaigns?.data?.data?.latestCampaigns?.[0]?.slug || latestCampaigns?.data?.data?.latestCampaigns?.[0]?.id}`, {
@@ -507,7 +508,7 @@ const Hero = () => {
               </h3>
               <div className={style.impactMobileButtons}>
                 <button
-                  className={style.latestSupportBtn}
+                  className={`${style.latestSupportBtn} btn-3d btn-3d--secondary`}
                   onClick={() => {
                     window.scrollTo(0, 0);
                     navigate(`/campaign/${latestCampaigns?.data?.data?.latestCampaigns?.[0]?.slug || latestCampaigns?.data?.data?.latestCampaigns?.[0]?.id}`, {

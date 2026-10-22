@@ -483,7 +483,7 @@ const FeatureDetail = () => {
 
                   <div className={style.donateShareGroup}>
                     <button
-                      className={`glossy-btn ${style.shareBtn}`}
+                      className="btn-3d btn-3d--secondary"
                       onClick={() => setShowCampaignShare(true)}
                     >
                       Share
@@ -909,7 +909,7 @@ const FeatureDetail = () => {
                 Donate
               </button>
               <button
-                className={style.stickyShareBtn}
+                className={`${style.stickyShareBtn} btn-3d btn-3d--secondary`}
                 onClick={() => setShowCampaignShare(true)}
               >
                 Share

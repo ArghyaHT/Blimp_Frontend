@@ -52,7 +52,7 @@ const FeatureCard = ({ featureItem }) => {
           symbol={featureItem?.country?.symbol}
         />
 
-        <button>
+        <button className="btn-3d btn-3d--secondary">
           <span>Support</span>
         </button>
       </div>

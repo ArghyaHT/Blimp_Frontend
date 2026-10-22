@@ -26,7 +26,7 @@ const CampaignCard = ({ bannerImage, description, campaignName, campaignItem }) 
       </div>
       <h2>{campaignName}</h2>
       <div className={styles.actionRow}>
-        <button>
+        <button className="btn-3d btn-3d--secondary">
           <span>Support</span>
         </button>
         <div className={styles.mobileProgressWrapper}>

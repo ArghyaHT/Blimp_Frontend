@@ -559,7 +559,7 @@
             flex-direction: row !important;
             align-items: center !important;
             justify-content: flex-start !important;
-            gap: 1.2rem !important;
+            gap: 0.7rem !important;
             width: 100% !important;
             margin-inline: 0 !important;
 
@@ -604,6 +604,10 @@
               flex: 1 !important;
               min-width: 0 !important;
               width: 100% !important;
+
+              &>div {
+                padding-left: 0.7rem !important;
+              }
             }
           }
         }
@@ -833,7 +837,7 @@
             flex-direction: row !important;
             align-items: center !important;
             justify-content: flex-start !important;
-            gap: 1.6rem !important;
+            gap: 1rem !important;
             width: 100% !important;
             margin-inline: 0 !important;
 
@@ -878,6 +882,10 @@
               flex: 1 !important;
               min-width: 0 !important;
               width: 100% !important;
+
+              &>div {
+                padding-left: 0.8rem !important;
+              }
             }
           }
         }
