@@ -657,6 +657,7 @@ const EditCampaign = () => {
               </div>
 
               <button
+                className="btn-3d btn-3d--primary"
                 onClick={() => {
                   if (!selectedCategory) {
                     return toast.error("Category not selected", {
@@ -776,6 +777,7 @@ const EditCampaign = () => {
               </div>
 
               <button
+                className="btn-3d btn-3d--primary"
                 onClick={() => {
                   if (!selectedCountry) {
                     return toast.error("Country not selected", {
@@ -860,6 +862,7 @@ const EditCampaign = () => {
               </div>
 
               <button
+                className="btn-3d btn-3d--primary"
                 onClick={() => {
                   if (!targetedAmount) {
                     return toast.error("Targeted amount is required", {
@@ -893,7 +896,7 @@ const EditCampaign = () => {
                   type="button"
                   onClick={handleSaveDraft}
                   disabled={draftLoading || submitLoading}
-                  className={styles.saveDraftBtn}
+                  className={`${styles.saveDraftBtn} btn-3d btn-3d--secondary`}
                 >
                   {draftLoading ? (
                     <ClipLoader size={"22px"} color="#333" />
@@ -903,7 +906,7 @@ const EditCampaign = () => {
                 </button>
 
                 <button
-                  className={styles.saveContinueBtn}
+                  className={`${styles.saveContinueBtn} btn-3d btn-3d--primary`}
                   onClick={() => {
                     if (!campaignTitle) {
                       return toast.error("Campaign title is required", {
@@ -974,7 +977,7 @@ const EditCampaign = () => {
                 type="button"
                 onClick={handleSaveDraft}
                 disabled={draftLoading || submitLoading}
-                className={styles.saveDraftBtn}
+                className={`${styles.saveDraftBtn} btn-3d btn-3d--secondary`}
               >
                 {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
@@ -984,7 +987,7 @@ const EditCampaign = () => {
               </button>
 
               <button
-                className={styles.saveContinueBtn}
+                className={`${styles.saveContinueBtn} btn-3d btn-3d--primary`}
                 onClick={async () => {
                   if (!bannerImage) {
                     return toast.error("Banner image is required", {
@@ -1060,7 +1063,7 @@ const EditCampaign = () => {
                 type="button"
                 onClick={handleSaveDraft}
                 disabled={draftLoading || submitLoading}
-                className={styles.saveDraftBtn}
+                  className={`${styles.saveDraftBtn} btn-3d btn-3d--secondary`}
               >
                 {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
@@ -1070,7 +1073,7 @@ const EditCampaign = () => {
               </button>
 
               <button
-                className={styles.saveContinueBtn}
+                  className={`${styles.saveContinueBtn} btn-3d btn-3d--primary`}
                 onClick={() => {
                   if (!selectedName || !selectedEmail) {
                     return;
@@ -1221,7 +1224,7 @@ const EditCampaign = () => {
                 type="button"
                 onClick={handleSaveDraft}
                 disabled={draftLoading || submitLoading}
-                className={styles.saveDraftBtn}
+                className={`${styles.saveDraftBtn} btn-3d btn-3d--secondary`}
               >
                 {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
@@ -1231,7 +1234,7 @@ const EditCampaign = () => {
               </button>
 
               <button
-                className={styles.saveContinueBtn}
+                className={`${styles.saveContinueBtn} btn-3d btn-3d--primary`}
                 onClick={() => {
                   if (selectedCampaingDescription === "<p></p>" || !selectedCampaingDescription) {
                     return toast.error("Campaign description is required", {
@@ -1315,7 +1318,7 @@ const EditCampaign = () => {
                 type="button"
                 onClick={handleSaveDraft}
                 disabled={draftLoading || submitLoading}
-                className={styles.saveDraftBtn}
+                className={`${styles.saveDraftBtn} btn-3d btn-3d--secondary`}
               >
                 {draftLoading ? (
                   <ClipLoader size={"22px"} color="#333" />
@@ -1328,7 +1331,7 @@ const EditCampaign = () => {
                 type="button"
                 onClick={() => edit_campaign_handler(false)}
                 disabled={draftLoading || submitLoading}
-                className={styles.submitPaymentBtn}
+                className={`${styles.submitPaymentBtn} btn-3d btn-3d--primary`}
               >
                 {submitLoading ? (
                   <ClipLoader

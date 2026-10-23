@@ -285,10 +285,10 @@ const Cause = () => {
 
                 <div className={style.linkContainer}>
                   <div>
-                    <button>
+                    {/* <button>
                       <InstagramIcon />
-                    </button>
-                    <button>
+                    </button> */}
+                    {/* <button>
                       <FacebookIcon />
                     </button>
                     <button>
@@ -296,7 +296,7 @@ const Cause = () => {
                     </button>
                     <button>
                       <WhatsappIcon />
-                    </button>
+                    </button> */}
                   </div>
 
                   {!featureItemDetail?.loading &&
@@ -304,6 +304,7 @@ const Cause = () => {
                     Object.keys(featureItemDetail.data.data).length > 0 && (
                       <div>
                         <button
+                          className="btn-3d"
                           onClick={() =>
                             navigate("/edit-campaign", {
                               state: {
@@ -316,6 +317,7 @@ const Cause = () => {
                         </button>
 
                         <button
+                          className="btn-3d"
                           onClick={() =>
                             navigate("/edit-campaign", {
                               state: {
@@ -328,7 +330,10 @@ const Cause = () => {
                           Relaunch Campaign
                         </button>
 
-                        <button onClick={stop_campaign_handler}>
+                        <button
+                          className="btn-3d"
+                          onClick={stop_campaign_handler}
+                        >
                           {stopCampaign.loading ? (
                             <ClipLoader
                               size="3rem"

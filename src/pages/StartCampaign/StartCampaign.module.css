@@ -1238,23 +1238,34 @@
 
       .submitPaymentBtn {
         min-width: 14rem;
-        height: 4.8rem;
+        min-height: 3.8rem;
         border-radius: 2.5rem;
         font-size: var(--font-medium);
-        font-weight: 600;
+        font-weight: var(--btn-font-weight);
         cursor: pointer;
-        outline: none;
         border: none;
         display: block;
         margin-inline: auto;
         margin-block: 2rem;
-        padding-inline: 3rem;
+        padding-inline: 2rem;
         background-color: var(--btn-base-color);
-        transition: 0.3s ease-in;
+        transition: background-color 0.2s ease, transform 0.2s ease;
         color: var(--text-primary);
 
         &:hover {
           background-color: var(--btn-hover-color);
+          transform: translateY(-1px);
+        }
+
+        &:focus-visible {
+          outline: 3px solid rgba(0, 193, 232, 0.35);
+          outline-offset: 3px;
+        }
+
+        &:disabled {
+          cursor: not-allowed;
+          opacity: 0.6;
+          transform: none;
         }
       }
     }
@@ -1698,48 +1709,68 @@
   width: 100%;
 }
 
+.stepperCategoryContainer > div > button:global(.btn-3d),
+.stepperCountryContainer > div > button:global(.btn-3d),
+.stepperGoalContainer > div > button:global(.btn-3d) {
+  display: flex !important;
+  margin-inline: auto !important;
+}
+
 .saveContinueBtn {
   width: max-content;
-  height: 4.4rem;
+  min-height: 3.8rem;
   border-radius: 2.5rem;
   font-size: var(--font-medium);
   font-weight: var(--btn-font-weight);
   cursor: pointer;
-  outline: none;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-inline: 2.5rem;
+  padding-inline: 2rem;
   background-color: var(--btn-base-color);
-  transition: 0.3s ease-in;
+  transition: background-color 0.2s ease, transform 0.2s ease;
   color: var(--text-primary);
 }
 
 .saveContinueBtn:hover {
   background-color: var(--btn-hover-color);
+  transform: translateY(-1px);
+}
+
+.saveContinueBtn:focus-visible,
+.saveDraftBtn:focus-visible {
+  outline: 3px solid rgba(0, 193, 232, 0.35);
+  outline-offset: 3px;
+}
+
+.saveContinueBtn:disabled,
+.saveDraftBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
 }
 
 .saveDraftBtn {
   width: max-content;
-  height: 4.4rem;
+  min-height: 3.8rem;
   border-radius: 2.5rem;
   font-size: var(--font-medium);
   font-weight: var(--btn-font-weight);
   cursor: pointer;
-  outline: none;
   border: 2px solid var(--text-primary, #333);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-inline: 2.5rem;
+  padding-inline: 2rem;
   background-color: transparent;
-  transition: 0.3s ease-in;
+  transition: background-color 0.2s ease, transform 0.2s ease;
   color: var(--text-primary, #333);
 }
 
 .saveDraftBtn:hover {
   background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
 }
 
 @media (max-width: 640px) {
@@ -1754,7 +1785,7 @@
   .saveDraftBtn {
     width: 100% !important;
     max-width: 32rem;
-    height: 4.6rem;
+    min-height: 4.2rem;
     font-size: 1.5rem;
     padding-inline: 1.5rem;
     white-space: nowrap;

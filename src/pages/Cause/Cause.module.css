@@ -88,27 +88,38 @@
           font-weight: var(--btn-font-weight);
           /* text-transform: uppercase; */
           padding-inline: 4rem;
+          transition: box-shadow 0.12s ease, background-color 0.12s ease;
         }
 
         &>button:nth-child(1) {
           background-color: var(--btn-base-black-color);
           color: #fff;
-          transition: 0.3s ease-in;
+          box-shadow: var(--btn3d-x) var(--btn3d-y) 0 0 #111827;
           text-transform: capitalize;
 
           &:hover {
-            background-color: var(--text-primary);
+            box-shadow: calc(var(--btn3d-x) - 1px) calc(var(--btn3d-y) + 2px) 0 0 #111827;
           }
         }
 
         &>button:nth-child(2) {
-          background-color: var(--btn-base-color);
-          color: var(--text-primary);
-          transition: 0.3s ease-in;
+          background-color: var(--btn3d-cyan);
+          color: var(--btn3d-tint);
+          box-shadow: var(--btn3d-x) var(--btn3d-y) 0 0 var(--btn3d-ink);
           text-transform: capitalize;
 
           &:hover {
-            background-color: var(--btn-hover-color);
+            box-shadow: calc(var(--btn3d-x) - 1px) calc(var(--btn3d-y) + 2px) 0 0 var(--btn3d-ink);
+          }
+        }
+
+        &>button:nth-child(3) {
+          background-color: #eeeeee;
+          color: var(--text-primary);
+          box-shadow: var(--btn3d-x) var(--btn3d-y) 0 0 #9ca3af;
+
+          &:hover {
+            box-shadow: calc(var(--btn3d-x) - 1px) calc(var(--btn3d-y) + 2px) 0 0 #9ca3af;
           }
         }
       }

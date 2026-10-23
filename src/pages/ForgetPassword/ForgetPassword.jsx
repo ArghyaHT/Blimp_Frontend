@@ -83,7 +83,11 @@ const ForgetPassword = () => {
             {emailError && <p className="input-error-message">{emailError}</p>}
           </div>
 
-          <button disabled={forgetPasswordLoader} onClick={ForgetPassword}>
+          <button
+            className="btn-3d btn-3d--primary"
+            disabled={forgetPasswordLoader}
+            onClick={ForgetPassword}
+          >
             {forgetPasswordLoader ? (
               <ClipLoader
                 color="#fff"

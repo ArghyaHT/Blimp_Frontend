@@ -1557,6 +1557,13 @@
   width: 100%;
 }
 
+.stepperCategoryContainer > div > button:global(.btn-3d),
+.stepperCountryContainer > div > button:global(.btn-3d),
+.stepperGoalContainer > div > button:global(.btn-3d) {
+  display: flex !important;
+  margin-inline: auto !important;
+}
+
 .saveContinueBtn {
   width: max-content;
   height: 4.4rem;

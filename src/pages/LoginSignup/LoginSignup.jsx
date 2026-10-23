@@ -283,7 +283,11 @@ const LoginSignup = () => {
             }}>Forget Password ?</button>
           </div>
 
-          <button onClick={signinHandler} disabled={signinLoader}>
+          <button
+            className="btn-3d btn-3d--primary"
+            onClick={signinHandler}
+            disabled={signinLoader}
+          >
             {signinLoader ? (
               <ClipLoader
                 color="#fff"
