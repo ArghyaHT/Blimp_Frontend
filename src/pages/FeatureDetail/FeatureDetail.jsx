@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { getPublisher } from "../../utils/publisher";
 import style from "./FeatureDetail.module.css";
 import {
   FacebookIcon,
@@ -545,6 +546,14 @@ const FeatureDetail = () => {
                 ) : (
                   <>
                     <h2>Campaign Details</h2>
+                    {getPublisher(featureItemDetail?.data?.data) && (
+                      <p>
+                        Published by{" "}
+                        <strong>{getPublisher(featureItemDetail.data.data).name}</strong>
+                        {" · "}
+                        {getPublisher(featureItemDetail.data.data).type}
+                      </p>
+                    )}
                     <p>
                       {featureItemDetail?.data?.data?.categories?.name} |{" "}
                       {featureItemDetail?.data?.data?.country?.name}

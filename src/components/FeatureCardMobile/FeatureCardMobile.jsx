@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { PlaceIcon } from "../../icons";
 import { isVerifiedCampaign } from "../../utils/campaignUtils";
 import campaignDummy from "../../assets/campaign_dummy.jpeg";
+import { getPublisher } from "../../utils/publisher";
 
 const FeatureCardMobile = ({ featureItem }) => {
   const navigate = useNavigate();
@@ -191,6 +192,14 @@ const FeatureCardMobile = ({ featureItem }) => {
       <div className={style.detailsWrapper}>
         <div className={style.headerSection}>
           <h2>{renderCampaignTitle()}</h2>
+          {getPublisher(featureItem) && (
+            <p
+              onClick={(e) => e.stopPropagation()}
+              style={{ fontSize: "1.2rem", color: "#64748b", margin: "0.2rem 0", cursor: "default", width: "fit-content" }}
+            >
+              Created by <strong style={{ color: "#334155" }}>{getPublisher(featureItem).name}</strong>
+            </p>
+          )}
           <div
             className={style.location}
             style={featureItem?.country?.name ? { cursor: "pointer" } : undefined}

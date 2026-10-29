@@ -5,6 +5,7 @@ import { PlaceIcon } from "../../icons";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { isVerifiedCampaign } from "../../utils/campaignUtils";
 import campaignDummy from "../../assets/campaign_dummy.jpeg";
+import { getPublisher } from "../../utils/publisher";
 
 const FeatureCard = ({ featureItem }) => {
   const navigate = useNavigate();
@@ -38,6 +39,11 @@ const FeatureCard = ({ featureItem }) => {
       </div>
       <div>
         <h2>{featureItem?.campaign_name}</h2>
+        {getPublisher(featureItem) && (
+          <p className={style.publishedBy} onClick={(e) => e.stopPropagation()}>
+            Created by: <strong>{getPublisher(featureItem).name}</strong>
+          </p>
+        )}
         <div
           className={featureItem?.country?.name ? style.countryLink : undefined}
           onClick={(e) => {

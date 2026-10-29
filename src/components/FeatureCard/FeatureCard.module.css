@@ -160,3 +160,16 @@
   color: var(--btn-hover-color, #1aa37a);
   text-decoration: underline;
 }
+
+.publishedBy {
+  cursor: default;
+  width: fit-content;
+  font-size: 1.3rem !important;
+  color: #64748b !important;
+  margin: 0.4rem 0 -0.4rem;
+}
+
+.publishedBy strong {
+  color: #334155;
+  font-weight: 600;
+}
