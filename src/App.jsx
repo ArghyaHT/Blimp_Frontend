@@ -52,6 +52,7 @@ const CampaignUpdates = lazy(() =>
 const StartCampaign = lazy(() => import("./pages/StartCampaign/StartCampaign"));
 const EditCampaign = lazy(() => import("./pages/EditCampaign/EditCampaign"));
 const Cause = lazy(() => import("./pages/Cause/Cause"));
+const CountryCampaigns = lazy(() => import("./pages/CountryCampaigns/CountryCampaigns"));
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -112,6 +113,7 @@ const App = () => {
               <Route path="/news-detail" element={<NewsDetail />} />
               <Route path="/feature-detail" element={<FeatureDetail />} />
               <Route path="/campaign/:campaignSlug" element={<FeatureDetail />} />
+              <Route path="/country/:countrySlug" element={<CountryCampaigns />} />
 
               <Route path="/checkout" element={<CheckOutPage />} />
               <Route path="/news-blog" element={<NewsBlogPage />} />

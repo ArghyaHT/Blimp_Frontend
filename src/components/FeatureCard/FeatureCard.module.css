@@ -150,3 +150,13 @@
     width: calc((100% - 4rem) / 2);
   }
 }
+.countryLink {
+  cursor: pointer;
+  width: fit-content;
+  transition: color 0.2s ease;
+}
+
+.countryLink:hover p {
+  color: var(--btn-hover-color, #1aa37a);
+  text-decoration: underline;
+}

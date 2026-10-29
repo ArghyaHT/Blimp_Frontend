@@ -191,9 +191,27 @@ const FeatureCardMobile = ({ featureItem }) => {
       <div className={style.detailsWrapper}>
         <div className={style.headerSection}>
           <h2>{renderCampaignTitle()}</h2>
-          <div className={style.location}>
+          <div
+            className={style.location}
+            style={featureItem?.country?.name ? { cursor: "pointer" } : undefined}
+            onClick={(e) => {
+              if (!featureItem?.country?.name) return;
+              e.stopPropagation();
+              window.scrollTo(0, 0);
+              const countrySlug = featureItem.country.name
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/(^-|-$)/g, "");
+              navigate(`/country/${countrySlug}`, {
+                state: { country: featureItem.country },
+              });
+            }}
+          >
             <PlaceIcon />
-            <p>{featureItem?.country?.name}</p>
+            <p style={featureItem?.country?.name ? { textDecoration: "underline" } : undefined}>
+              {featureItem?.country?.name}
+            </p>
           </div>
         </div>
 

@@ -38,7 +38,22 @@ const FeatureCard = ({ featureItem }) => {
       </div>
       <div>
         <h2>{featureItem?.campaign_name}</h2>
-        <div>
+        <div
+          className={featureItem?.country?.name ? style.countryLink : undefined}
+          onClick={(e) => {
+            if (!featureItem?.country?.name) return;
+            e.stopPropagation();
+            window.scrollTo(0, 0);
+            const countrySlug = featureItem.country.name
+              .toLowerCase()
+              .trim()
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/(^-|-$)/g, "");
+            navigate(`/country/${countrySlug}`, {
+              state: { country: featureItem.country },
+            });
+          }}
+        >
           <PlaceIcon />
           <p>{featureItem?.country?.name}</p>
         </div>

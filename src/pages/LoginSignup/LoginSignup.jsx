@@ -82,6 +82,25 @@ const LoginSignup = () => {
     return regex.test(password);
   };
 
+  const resetSignupForm = () => {
+    setFirstname("");
+    setLastname("");
+    setSignupEmail("");
+    setSignupPassword("");
+    setSignupConfirmPassword("");
+    setSignupPhoneNumber(countryCode ? `+${countryCode}` : "");
+    setShowSignupPassword(false);
+    setShowSignupConfirmPassword(false);
+    setAccountType("individual");
+    setInvalidNumber(false);
+    setFirstnameError("");
+    setLastnameError("");
+    setSignupEmailError("");
+    setSignupPasswordError("");
+    setSignupConfirmPasswordError("");
+    setSignupPhoneNumberError("");
+  };
+
   const signupHandler = async () => {
     let hasError = false;
 
@@ -92,7 +111,6 @@ const LoginSignup = () => {
     setSignupPasswordError("");
     setSignupConfirmPasswordError("");
     setSignupPhoneNumberError("");
-    setAccountType("individual");
 
     if (!firstname.trim()) {
       setFirstnameError("First name is required");
@@ -161,6 +179,7 @@ const LoginSignup = () => {
           duration: 3000,
           style: toastStyle,
         });
+        resetSignupForm();
       } else {
         toast.error(data.message, { duration: 3000, style: toastStyle });
       }
