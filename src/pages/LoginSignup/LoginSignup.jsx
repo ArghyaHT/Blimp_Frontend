@@ -116,12 +116,10 @@ const LoginSignup = () => {
       setFirstnameError("First name is required");
       hasError = true;
     }
-
     if (!lastname.trim()) {
       setLastnameError("Last name is required");
       hasError = true;
     }
-
     if (!signupEmail.trim()) {
       setSignupEmailError("Email is required");
       hasError = true;

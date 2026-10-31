@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./StartCampaign.module.css";
-import { DownArrow, UpArrow } from "../../icons";
+import { DownArrow, UpArrow, EyeIcon, EyeOffIcon } from "../../icons";
 import api from "../../api/api";
 import Skeleton from "@mui/material/Skeleton";
 import { useAuth } from "../../context/AuthContext";
@@ -597,6 +597,9 @@ const StartCampaign = () => {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
+  const [showSignupConfirmPassword, setShowSignupConfirmPassword] =
+    useState(false);
   const [signupPhoneNumber, setSignupPhoneNumber] = useState("");
   const [accountType, setAccountType] = useState("individual");
 
@@ -1432,13 +1435,22 @@ const StartCampaign = () => {
                   )}
                 </div>
 
-                <div>
+                <div className={styles.passwordField}>
                   <input
-                    type="password"
+                    type={showSignupPassword ? "text" : "password"}
                     placeholder="Enter your password"
                     value={signupPassword}
                     onChange={(e) => setSignupPassword(e.target.value)}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowSignupPassword((prev) => !prev)}
+                    aria-pressed={showSignupPassword}
+                    aria-label={showSignupPassword ? "Hide password" : "Show password"}
+                    className={styles.eyeButton}
+                  >
+                    {showSignupPassword ? <EyeOffIcon aria-hidden="true" /> : <EyeIcon aria-hidden="true" />}
+                  </button>
                   {signupPasswordError && (
                     <p className={styles.input_error_message}>
                       {signupPasswordError}
@@ -1446,13 +1458,22 @@ const StartCampaign = () => {
                   )}
                 </div>
 
-                <div>
+                <div className={styles.passwordField}>
                   <input
-                    type="password"
+                    type={showSignupConfirmPassword ? "text" : "password"}
                     placeholder="Confirm your password"
                     value={signupConfirmPassword}
                     onChange={(e) => setSignupConfirmPassword(e.target.value)}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowSignupConfirmPassword((prev) => !prev)}
+                    aria-pressed={showSignupConfirmPassword}
+                    aria-label={showSignupConfirmPassword ? "Hide password" : "Show password"}
+                    className={styles.eyeButton}
+                  >
+                    {showSignupConfirmPassword ? <EyeOffIcon aria-hidden="true" /> : <EyeIcon aria-hidden="true" />}
+                  </button>
                   {signupConfirmPasswordError && (
                     <p className={styles.input_error_message}>
                       {signupConfirmPasswordError}
